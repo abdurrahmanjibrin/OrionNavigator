@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "680804536634",
+    "project_id": "orion-live-location",
+    "storage_bucket": "orion-live-location.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:680804536634:android:44e46d784553b5c4024003",
+        "android_client_info": {
+          "package_name": "com.orion.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBde_40x3wNuF6x4IxastnGrBfeZ94NwhI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

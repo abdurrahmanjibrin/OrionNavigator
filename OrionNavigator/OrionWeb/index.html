@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Orion — Guiding Your Path to Independent</title>
+  <meta name="description"
+    content="Orion is a smart navigation app for visually impaired users, featuring BLE indoor navigation, AI camera, live location sharing, and voice commands." />
+  <link rel="stylesheet" href="style.css?v=20260223b" />
+  <style>
+    /* Mobile touch essentials - inline to bypass cache */
+    .btn-primary,
+    .btn-secondary,
+    .download-btn,
+    .feature-card,
+    .sponsor-item,
+    .about-highlight-item,
+    .back-to-top,
+    .preview-item,
+    .nav-cta,
+    .lang-btn,
+    .mobile-lang-btn,
+    .mobile-download-btn {
+      -webkit-tap-highlight-color: rgba(25, 118, 210, 0.15);
+      touch-action: manipulation;
+      cursor: pointer;
+    }
+
+    /* Ensure decorative elements never block touch */
+    .hero-bg-orb,
+    .hero-grid,
+    .phone-glow,
+    .features::before,
+    .about-image-card::before,
+    .feature-card::before,
+    .download-orbs {
+      pointer-events: none !important;
+    }
+
+    /* CRITICAL: mobile nav overlay must not block clicks when hidden */
+    .mobile-nav-overlay {
+      pointer-events: none !important;
+    }
+
+    .mobile-nav-overlay.active {
+      pointer-events: auto !important;
+    }
+  </style>
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,5 62,38 50,30 38,38' fill='%231976D2'/><polygon points='50,95 38,62 50,70 62,62' fill='%231976D2'/><polygon points='5,50 38,38 30,50 38,62' fill='%2364B5F6'/><polygon points='95,50 62,62 70,50 62,38' fill='%2364B5F6'/></svg>" />
+</head>
+
+<body>
+
+  <!-- ==================== NAVBAR ==================== -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="#" class="nav-logo">
+        <svg class="logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="50,5 62,38 50,30 38,38" fill="white" />
+          <polygon points="50,95 38,62 50,70 62,62" fill="white" />
+          <polygon points="5,50 38,38 30,50 38,62" fill="rgba(255,255,255,0.7)" />
+          <polygon points="95,50 62,62 70,50 62,38" fill="rgba(255,255,255,0.7)" />
+        </svg>
+        <span class="logo-text">Orion</span>
+      </a>
+
+      <div class="nav-links" id="navLinks">
+        <a href="#about" data-lang-en="About" data-lang-id="Tentang">About</a>
+        <a href="#ypab" data-lang-en="YPAB" data-lang-id="YPAB">YPAB</a>
+        <a href="#features" data-lang-en="Features" data-lang-id="Fitur">Features</a>
+        <a href="#preview" data-lang-en="Preview" data-lang-id="Tampilan">Preview</a>
+        <a href="#download" data-lang-en="Download" data-lang-id="Unduh">Download</a>
+      </div>
+
+      <div class="nav-actions">
+        <div class="lang-toggle">
+          <button class="lang-btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
+          <button class="lang-btn" data-lang="id" onclick="setLanguage('id')">ID</button>
+        </div>
+        <a href="#download" class="nav-cta" data-lang-en="Download" data-lang-id="Unduh">Download</a>
+      </div>
+
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav-overlay" id="mobileOverlay"></div>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#about" data-lang-en="About" data-lang-id="Tentang">About</a>
+    <a href="#ypab" data-lang-en="YPAB" data-lang-id="YPAB">YPAB</a>
+    <a href="#features" data-lang-en="Features" data-lang-id="Fitur">Features</a>
+    <a href="#preview" data-lang-en="Preview" data-lang-id="Tampilan">Preview</a>
+    <a href="#download" data-lang-en="Download" data-lang-id="Unduh">Download</a>
+    <div class="mobile-lang-toggle">
+      <button class="mobile-lang-btn active" data-lang="en" onclick="setLanguage('en')">English</button>
+      <button class="mobile-lang-btn" data-lang="id" onclick="setLanguage('id')">Indonesia</button>
+    </div>
+    <a href="#download" class="mobile-download-btn" data-lang-en="Download App" data-lang-id="Unduh Aplikasi">Download
+      App</a>
+  </div>
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero" id="hero">
+    <div class="hero-bg-orb"></div>
+    <div class="hero-bg-orb"></div>
+    <div class="hero-bg-orb"></div>
+    <div class="hero-grid"></div>
+
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="pulse"></span>
+          <span data-lang-en="Smart Navigation for Visually Impaired"
+            data-lang-id="Navigasi Cerdas untuk Disabilitas Netra">Smart Navigation for Visually Impaired</span>
+        </div>
+
+        <h1 class="hero-title">Orion</h1>
+        <p class="hero-tagline" data-lang-en="Guiding Your Path to Independent"
+          data-lang-id="Memandu Jalanmu Menuju Kemandirian">Guiding Your Path to Independent</p>
+        <p class="hero-description"
+          data-lang-en="An intelligent navigation app empowering visually impaired users with BLE beacon navigation, AI-powered camera, real-time location sharing, and voice commands."
+          data-lang-id="Aplikasi navigasi cerdas yang memberdayakan pengguna Disabilitas Netra dengan navigasi BLE beacon, kamera bertenaga AI, berbagi lokasi real-time, dan perintah suara.">
+          An intelligent navigation app empowering visually impaired users with BLE beacon navigation, AI-powered
+          camera, real-time location sharing, and voice commands.</p>
+
+        <div class="hero-actions">
+          <a href="#download" class="btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            <span data-lang-en="Download App" data-lang-id="Unduh Aplikasi">Download App</span>
+          </a>
+          <a href="#features" class="btn-secondary">
+            <span data-lang-en="Explore Features" data-lang-id="Jelajahi Fitur">Explore Features</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" width="20" height="20">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="stat-number">4+</div>
+            <div class="stat-label" data-lang-en="Key Features" data-lang-id="Fitur Utama">Key Features</div>
+          </div>
+          <div class="hero-stat">
+            <div class="stat-number">AI</div>
+            <div class="stat-label" data-lang-en="Powered Camera" data-lang-id="Kamera Cerdas">Powered Camera</div>
+          </div>
+          <div class="hero-stat">
+            <div class="stat-number">BLE</div>
+            <div class="stat-label" data-lang-en="Beacon Tech" data-lang-id="Teknologi Beacon">Beacon Tech</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="phone-glow"></div>
+        <div class="phone-mockup">
+          <div class="phone-frame">
+            <img src="assets/mockups/Beranda.jpg" alt="Orion Home Screen" />
+          </div>
+        </div>
+        <div class="phone-float phone-float-1">
+          <div class="phone-frame">
+            <img src="assets/mockups/Fitur Kamera AI.jpg" alt="AI Camera Feature" />
+          </div>
+        </div>
+        <div class="phone-float phone-float-2">
+          <div class="phone-frame">
+            <img src="assets/mockups/FItur Live Location.jpg" alt="Live Location Feature" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SPONSORS ==================== -->
+  <section class="sponsors" id="sponsors">
+    <div class="container">
+      <div class="sponsors-inner reveal">
+        <p class="sponsors-label" data-lang-en="Supported By" data-lang-id="Didukung Oleh">Supported By</p>
+        <div class="sponsors-logos">
+          <div class="sponsor-item">
+            <img src="assets/mockups/Sponsor 1.png" alt="Danantara Indonesia" />
+          </div>
+          <div class="sponsor-item">
+            <img src="assets/mockups/Sponsor 2.png" alt="5th INNO" />
+          </div>
+          <div class="sponsor-item">
+            <img src="assets/mockups/Sponsor 3.png" alt="Sponsor" />
+          </div>
+          <div class="sponsor-item">
+            <img src="assets/mockups/Sponsor 4.png" alt="Universitas Telkom" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ABOUT ==================== -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-image reveal-left">
+          <div class="about-image-card">
+            <div class="about-phone">
+              <div class="phone-frame">
+                <img src="assets/mockups/Pemilihan Role.jpg" alt="Orion Role Selection" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-content reveal-right">
+          <div class="section-badge">
+            <span class="badge-dot"></span>
+            <span data-lang-en="About Orion" data-lang-id="Tentang Orion">About Orion</span>
+          </div>
+          <h2>
+            <span data-lang-en="Empowering Independence Through"
+              data-lang-id="Memberdayakan Kemandirian Melalui">Empowering Independence Through</span>
+            <span class="highlight" data-lang-en=" Smart Technology" data-lang-id=" Teknologi Cerdas"> Smart
+              Technology</span>
+          </h2>
+          <p data-lang-en="Orion is a smart navigation application designed specifically for visually impaired users. Combining BLE beacon technology, AI camera, and real-time location sharing, Orion provides a comprehensive solution for safe and independent indoor navigation."
+            data-lang-id="Orion adalah aplikasi navigasi cerdas yang dirancang khusus untuk pengguna Disabilitas Netra. Menggabungkan teknologi BLE beacon, kamera AI, dan berbagi lokasi real-time, Orion menyediakan solusi komprehensif untuk navigasi dalam ruangan yang aman dan mandiri.">
+            Orion is a smart navigation application designed specifically for visually impaired users. Combining BLE
+            beacon technology, AI camera, and real-time location sharing, Orion provides a comprehensive solution for
+            safe and independent indoor navigation.</p>
+
+          <div class="about-highlights stagger-children">
+            <div class="about-highlight-item">
+              <div class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M12 8v8" />
+                  <path d="M8 12h8" />
+                </svg>
+              </div>
+              <span data-lang-en="Accessibility First" data-lang-id="Aksesibilitas Utama">Accessibility First</span>
+            </div>
+            <div class="about-highlight-item">
+              <div class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+              </div>
+              <span data-lang-en="Indoor Navigation" data-lang-id="Navigasi Indoor">Indoor Navigation</span>
+            </div>
+            <div class="about-highlight-item">
+              <div class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </div>
+              <span data-lang-en="AI Vision" data-lang-id="Penglihatan AI">AI Vision</span>
+            </div>
+            <div class="about-highlight-item">
+              <div class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                  <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                  <line x1="12" y1="19" x2="12" y2="23" />
+                  <line x1="8" y1="23" x2="16" y2="23" />
+                </svg>
+              </div>
+              <span data-lang-en="Voice Control" data-lang-id="Kontrol Suara">Voice Control</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== YPAB ==================== -->
+  <section class="ypab" id="ypab">
+    <div class="container">
+      <!-- Section Header -->
+      <div class="section-header reveal">
+        <div class="section-badge">
+          <span class="badge-dot"></span>
+          <span data-lang-en="Where Orion Lives" data-lang-id="Tempat Orion Digunakan">Where Orion Lives</span>
+        </div>
+        <h2 class="section-title">
+          <span data-lang-en="Tested & Deployed at " data-lang-id="Diuji & Diterapkan di ">Tested & Deployed at </span>
+          <span class="highlight" data-lang-en="YPAB Surabaya" data-lang-id="YPAB Surabaya">YPAB Surabaya</span>
+        </h2>
+        <p class="section-subtitle"
+          data-lang-en="Orion's navigation system is designed and calibrated specifically for YPAB Gebang Putih — a school for visually impaired students in Surabaya. Every room, corridor, and pathway has been mapped with BLE beacons."
+          data-lang-id="Sistem navigasi Orion dirancang dan dikalibrasi khusus untuk YPAB Gebang Putih — sebuah sekolah untuk siswa disabilitas netra di Surabaya. Setiap ruangan, koridor, dan jalur telah dipetakan dengan BLE beacon.">
+          Orion's navigation system is designed and calibrated specifically for YPAB Gebang Putih — a school for
+          visually
+          impaired students in Surabaya. Every room, corridor, and pathway has been mapped with BLE beacons.</p>
+      </div>
+
+      <!-- YPAB Profile Card -->
+      <div class="ypab-profile reveal-scale">
+        <div class="ypab-profile-header">
+          <div class="ypab-logo">
+            <img src="assets/mockups/YPAB/Logo YPAB.png" alt="Logo YPAB Surabaya" />
+          </div>
+          <div class="ypab-profile-info">
+            <h3>Yayasan Pendidikan Anak Buta (YPAB)</h3>
+            <p class="ypab-subtitle">SLB-A Gebang Putih Surabaya</p>
+            <p class="ypab-description"
+              data-lang-en="YPAB Gebang Putih is a special school (SLB-A) dedicated to educating visually impaired children in Surabaya. The school provides a supportive learning environment with various programs including academics, music (gamelan), scouting (pramuka), and life skills. Orion was developed and tested here, with all navigation features precisely mapped to every room and facility within the school grounds."
+              data-lang-id="YPAB Gebang Putih adalah Sekolah Luar Biasa (SLB-A) yang didedikasikan untuk mendidik anak-anak disabilitas netra di Surabaya. Sekolah ini menyediakan lingkungan belajar yang suportif dengan berbagai program termasuk akademik, musik (gamelan), pramuka, dan keterampilan hidup. Orion dikembangkan dan diuji di sini, dengan semua fitur navigasi dipetakan secara presisi ke setiap ruangan dan fasilitas di lingkungan sekolah.">
+              YPAB Gebang Putih is a special school (SLB-A) dedicated to educating visually impaired children in
+              Surabaya.
+              The school provides a supportive learning environment with various programs including academics, music
+              (gamelan), scouting (pramuka), and life skills. Orion was developed and tested here, with all navigation
+              features precisely mapped to every room and facility within the school grounds.</p>
+          </div>
+        </div>
+
+        <!-- Location & Links -->
+        <div class="ypab-meta">
+          <div class="ypab-location">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            <span>Jl. Gebang Putih No.5, Gebang Putih, Kec. Sukolilo, Surabaya, Jawa Timur 60117</span>
+          </div>
+          <div class="ypab-links">
+            <a href="http://slbaypabgebangputih.sch.id/" target="_blank" rel="noopener" class="ypab-link-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="2" y1="12" x2="22" y2="12" />
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+              </svg>
+              <span data-lang-en="Website" data-lang-id="Website">Website</span>
+            </a>
+            <a href="https://www.instagram.com/slb_a_ypab_gebang_putih" target="_blank" rel="noopener"
+              class="ypab-link-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+              </svg>
+              <span>Instagram</span>
+            </a>
+            <a href="https://maps.google.com/?q=Jl.+Gebang+Putih+No.5+Surabaya" target="_blank" rel="noopener"
+              class="ypab-link-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              <span data-lang-en="Open Maps" data-lang-id="Buka Peta">Open Maps</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Full-width Photo Marquee (breaks out of container) -->
+      <div class="ypab-marquee-wrapper reveal">
+        <div class="ypab-marquee-row" data-direction="left">
+          <div class="ypab-marquee-track">
+            <div class="ypab-marquee-card">
+              <img src="assets/mockups/YPAB/Tulisan Board YPAB Surabaya.jpg" alt="YPAB Building Sign" />
+              <div class="ypab-marquee-label">
+                <span data-lang-en="SLB-A YPAB Gebang Putih" data-lang-id="SLB-A YPAB Gebang Putih">SLB-A YPAB Gebang
+                  Putih</span>
+              </div>
+            </div>
+            <div class="ypab-marquee-card">
+              <img src="assets/mockups/YPAB/3.jpg" alt="Main Hall" />
+              <div class="ypab-marquee-label">
+                <span data-lang-en="Main Hall" data-lang-id="Aula Utama">Main Hall</span>
+              </div>
+            </div>
+            <div class="ypab-marquee-card">
+              <img src="assets/mockups/YPAB/5.jpg" alt="Taman Braille" />
+              <div class="ypab-marquee-label">
+                <span data-lang-en="Braille Garden" data-lang-id="Taman Braille">Braille Garden</span>
+              </div>
+            </div>
+            <div class="ypab-marquee-card">
+              <img src="assets/mockups/YPAB/2.jpg" alt="Gamelan Music" />
+              <div class="ypab-marquee-label">
+                <span data-lang-en="Gamelan Music" data-lang-id="Musik Gamelan">Gamelan Music</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ypab-marquee-row" data-direction="right">
+          <div class="ypab-marquee-track">
+            <div class="ypab-marquee-card">
+              <img src="assets/mockups/YPAB/Kegiatan Pramuka.jpg" alt="Scout Activities" />
+              <div class="ypab-marquee-label">
+                <span data-lang-en="Scout Activities" data-lang-id="Kegiatan Pramuka">Scout Activities</span>
+              </div>
+            </div>
+            <div class="ypab-marquee-card">
+              <img src="assets/mockups/YPAB/4.jpg" alt="Student Activities" />
+              <div class="ypab-marquee-label">
+                <span data-lang-en="Student Activities" data-lang-id="Aktivitas Siswa">Student Activities</span>
+              </div>
+            </div>
+            <div class="ypab-marquee-card">
+              <img src="assets/mockups/YPAB/6.jpg" alt="School Campus" />
+              <div class="ypab-marquee-label">
+                <span data-lang-en="School Campus" data-lang-id="Lingkungan Sekolah">School Campus</span>
+              </div>
+            </div>
+            <div class="ypab-marquee-card">
+              <img src="assets/mockups/YPAB/7.jpg" alt="Students at YPAB" />
+              <div class="ypab-marquee-label">
+                <span data-lang-en="Students at YPAB" data-lang-id="Siswa di YPAB">Students at YPAB</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <!-- ==================== FEATURES ==================== -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-badge">
+          <span class="badge-dot"></span>
+          <span data-lang-en="Features" data-lang-id="Fitur">Features</span>
+        </div>
+        <h2 class="section-title">
+          <span data-lang-en="Everything You Need," data-lang-id="Semua yang Kamu Butuhkan,">Everything You
+            Need,</span><br />
+          <span class="highlight" data-lang-en="All in One App" data-lang-id="Dalam Satu Aplikasi">All in One App</span>
+        </h2>
+        <p class="section-subtitle"
+          data-lang-en="Orion combines cutting-edge technology to provide a seamless navigation experience for visually impaired users."
+          data-lang-id="Orion menggabungkan teknologi terdepan untuk memberikan pengalaman navigasi yang mulus bagi pengguna Disabilitas Netra.">
+          Orion combines cutting-edge technology to provide a seamless navigation experience for visually impaired
+          users.</p>
+      </div>
+
+      <div class="features-grid stagger-children">
+        <!-- Feature 1: BLE Navigation -->
+        <div class="feature-card">
+          <div class="feature-icon nav-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <polygon points="3 11 22 2 13 21 11 13 3 11" />
+            </svg>
+          </div>
+          <h3 data-lang-en="BLE Beacon Navigation" data-lang-id="Navigasi BLE Beacon">BLE Beacon Navigation</h3>
+          <p data-lang-en="Navigate indoors effortlessly using Bluetooth Low Energy beacons. Get real-time distance estimation and turn-by-turn audio guidance with compass and step counter integration."
+            data-lang-id="Navigasi dalam ruangan dengan mudah menggunakan BLE beacon. Dapatkan estimasi jarak real-time dan panduan audio belok-demi-belok dengan integrasi kompas dan penghitung langkah.">
+            Navigate indoors effortlessly using Bluetooth Low Energy beacons. Get real-time distance estimation and
+            turn-by-turn audio guidance with compass and step counter integration.</p>
+          <span class="feature-tag" data-lang-en="📡 BLE Technology" data-lang-id="📡 Teknologi BLE">📡 BLE
+            Technology</span>
+        </div>
+
+        <!-- Feature 2: AI Camera -->
+        <div class="feature-card">
+          <div class="feature-icon camera-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+              <circle cx="12" cy="13" r="4" />
+            </svg>
+          </div>
+          <h3 data-lang-en="AI Camera" data-lang-id="Kamera AI">AI Camera</h3>
+          <p data-lang-en="Powered by Gemini AI, the camera identifies objects around you and provides descriptive audio feedback. Point your phone and let Orion describe what it sees."
+            data-lang-id="Didukung oleh Gemini AI, kamera mengidentifikasi objek di sekitar Anda dan memberikan umpan balik audio deskriptif. Arahkan ponsel Anda dan biarkan Orion menjelaskan apa yang dilihatnya.">
+            Powered by Gemini AI, the camera identifies objects around you and provides descriptive audio feedback.
+            Point your phone and let Orion describe what it sees.</p>
+          <span class="feature-tag" data-lang-en="🤖 Gemini AI" data-lang-id="🤖 Gemini AI">🤖 Gemini AI</span>
+        </div>
+
+        <!-- Feature 3: Live Location -->
+        <div class="feature-card">
+          <div class="feature-icon location-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+          </div>
+          <h3 data-lang-en="Live Location Sharing" data-lang-id="Berbagi Lokasi Real-time">Live Location Sharing</h3>
+          <p data-lang-en="Share your real-time location securely with caregivers using a simple pairing code. Parents and companions can monitor location on an interactive map for peace of mind."
+            data-lang-id="Bagikan lokasi real-time Anda secara aman dengan pendamping menggunakan kode hubung sederhana. Orang tua dan pendamping dapat memantau lokasi di peta interaktif untuk ketenangan pikiran.">
+            Share your real-time location securely with caregivers using a simple pairing code. Parents and companions
+            can monitor location on an interactive map for peace of mind.</p>
+          <span class="feature-tag" data-lang-en="📍 Real-time GPS" data-lang-id="📍 GPS Real-time">📍 Real-time
+            GPS</span>
+        </div>
+
+        <!-- Feature 4: Voice Command -->
+        <div class="feature-card">
+          <div class="feature-icon voice-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+              <line x1="12" y1="19" x2="12" y2="23" />
+              <line x1="8" y1="23" x2="16" y2="23" />
+            </svg>
+          </div>
+          <h3 data-lang-en="Voice Command" data-lang-id="Perintah Suara">Voice Command</h3>
+          <p data-lang-en='Control the entire app hands-free with voice commands. Just say "Hello Orion" to activate voice control and navigate through all features effortlessly.'
+            data-lang-id='Kontrol seluruh aplikasi tanpa tangan dengan perintah suara. Cukup ucapkan "Hello Orion" untuk mengaktifkan kontrol suara dan menjelajahi semua fitur dengan mudah.'>
+            Control the entire app hands-free with voice commands. Just say "Hello Orion" to activate voice control and
+            navigate through all features effortlessly.</p>
+          <span class="feature-tag" data-lang-en="🎙️ Hands-free" data-lang-id="🎙️ Tanpa Sentuh">🎙️ Hands-free</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== APP PREVIEW ==================== -->
+  <section class="app-preview" id="preview">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-badge">
+          <span class="badge-dot"></span>
+          <span data-lang-en="App Preview" data-lang-id="Tampilan Aplikasi">App Preview</span>
+        </div>
+        <h2 class="section-title">
+          <span data-lang-en="See Orion " data-lang-id="Lihat Orion ">See Orion </span>
+          <span class="highlight" data-lang-en="in Action" data-lang-id="Beraksi">in Action</span>
+        </h2>
+        <p class="section-subtitle" data-lang-en="Explore the beautiful and accessible interface designed for everyone."
+          data-lang-id="Jelajahi antarmuka yang indah dan aksesibel yang dirancang untuk semua orang.">Explore the
+          beautiful and accessible interface designed for everyone.</p>
+      </div>
+    </div>
+
+    <div class="preview-carousel reveal-scale">
+      <div class="preview-track-wrapper">
+        <div class="preview-track" id="previewTrack">
+          <!-- First set -->
+          <div class="preview-item">
+            <div class="preview-phone"><img src="assets/mockups/Splash Screen.jpg" alt="Splash Screen" /></div>
+            <div class="preview-label" data-lang-en="Splash Screen" data-lang-id="Layar Awal">Splash Screen</div>
+          </div>
+          <div class="preview-item">
+            <div class="preview-phone"><img src="assets/mockups/Pemilihan Role.jpg" alt="Role Selection" /></div>
+            <div class="preview-label" data-lang-en="Role Selection" data-lang-id="Pemilihan Peran">Role Selection</div>
+          </div>
+          <div class="preview-item">
+            <div class="preview-phone"><img src="assets/mockups/Beranda.jpg" alt="Home Screen" /></div>
+            <div class="preview-label" data-lang-en="Home Screen" data-lang-id="Beranda">Home Screen</div>
+          </div>
+          <div class="preview-item">
+            <div class="preview-phone"><img src="assets/mockups/Fitur Navigasi.jpg" alt="Navigation" /></div>
+            <div class="preview-label" data-lang-en="Navigation" data-lang-id="Navigasi">Navigation</div>
+          </div>
+          <div class="preview-item">
+            <div class="preview-phone"><img src="assets/mockups/Fitur Navigasi 2.jpg" alt="Nav + Camera" /></div>
+            <div class="preview-label" data-lang-en="Nav + Camera" data-lang-id="Navigasi + Kamera">Nav + Camera</div>
+          </div>
+          <div class="preview-item">
+            <div class="preview-phone"><img src="assets/mockups/Fitur Kamera AI.jpg" alt="AI Camera" /></div>
+            <div class="preview-label" data-lang-en="AI Camera" data-lang-id="Kamera AI">AI Camera</div>
+          </div>
+          <div class="preview-item">
+            <div class="preview-phone"><img src="assets/mockups/FItur Live Location.jpg" alt="Live Location" /></div>
+            <div class="preview-label" data-lang-en="Live Location" data-lang-id="Lokasi Langsung">Live Location</div>
+          </div>
+          <div class="preview-item">
+            <div class="preview-phone"><img src="assets/mockups/Fitur Live Location Pendamping.jpg"
+                alt="Companion View" /></div>
+            <div class="preview-label" data-lang-en="Companion View" data-lang-id="Tampilan Pendamping">Companion View
+            </div>
+          </div>
+          <div class="preview-item">
+            <div class="preview-phone"><img src="assets/mockups/Fitur Voice Command.jpg" alt="Voice Command" /></div>
+            <div class="preview-label" data-lang-en="Voice Command" data-lang-id="Perintah Suara">Voice Command</div>
+          </div>
+          <!-- Duplicate set for seamless loop -->
+          <div class="preview-item">
+            <div class="preview-phone"><img src="assets/mockups/Splash Screen.jpg" alt="Splash Screen" /></div>
+            <div class="preview-label" data-lang-en="Splash Screen" data-lang-id="Layar Awal">Splash Screen</div>
+          </div>
+          <div class="preview-item">
+            <div class="preview-phone"><img src="assets/mockups/Pemilihan Role.jpg" alt="Role Selection" /></div>
+            <div class="preview-label" data-lang-en="Role Selection" data-lang-id="Pemilihan Peran">Role Selection</div>
+          </div>
+          <div class="preview-item">
+            <div class="preview-phone"><img src="assets/mockups/Beranda.jpg" alt="Home Screen" /></div>
+            <div class="preview-label" data-lang-en="Home Screen" data-lang-id="Beranda">Home Screen</div>
+          </div>
+          <div class="preview-item">
+            <div class="preview-phone"><img src="assets/mockups/Fitur Navigasi.jpg" alt="Navigation" /></div>
+            <div class="preview-label" data-lang-en="Navigation" data-lang-id="Navigasi">Navigation</div>
+          </div>
+          <div class="preview-item">
+            <div class="preview-phone"><img src="assets/mockups/Fitur Navigasi 2.jpg" alt="Nav + Camera" /></div>
+            <div class="preview-label" data-lang-en="Nav + Camera" data-lang-id="Navigasi + Kamera">Nav + Camera</div>
+          </div>
+          <div class="preview-item">
+            <div class="preview-phone"><img src="assets/mockups/Fitur Kamera AI.jpg" alt="AI Camera" /></div>
+            <div class="preview-label" data-lang-en="AI Camera" data-lang-id="Kamera AI">AI Camera</div>
+          </div>
+          <div class="preview-item">
+            <div class="preview-phone"><img src="assets/mockups/FItur Live Location.jpg" alt="Live Location" /></div>
+            <div class="preview-label" data-lang-en="Live Location" data-lang-id="Lokasi Langsung">Live Location</div>
+          </div>
+          <div class="preview-item">
+            <div class="preview-phone"><img src="assets/mockups/Fitur Live Location Pendamping.jpg"
+                alt="Companion View" /></div>
+            <div class="preview-label" data-lang-en="Companion View" data-lang-id="Tampilan Pendamping">Companion View
+            </div>
+          </div>
+          <div class="preview-item">
+            <div class="preview-phone"><img src="assets/mockups/Fitur Voice Command.jpg" alt="Voice Command" /></div>
+            <div class="preview-label" data-lang-en="Voice Command" data-lang-id="Perintah Suara">Voice Command</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== DOWNLOAD ==================== -->
+  <section class="download" id="download">
+    <div class="container">
+      <div class="download-card reveal-scale">
+        <div class="download-orbs">
+          <div class="download-orb"></div>
+          <div class="download-orb"></div>
+        </div>
+        <div class="download-content">
+          <div class="download-icon">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="50,5 62,38 50,30 38,38" fill="white" />
+              <polygon points="50,95 38,62 50,70 62,62" fill="white" />
+              <polygon points="5,50 38,38 30,50 38,62" fill="rgba(255,255,255,0.7)" />
+              <polygon points="95,50 62,62 70,50 62,38" fill="rgba(255,255,255,0.7)" />
+            </svg>
+          </div>
+          <h2 data-lang-en="Download Orion Now" data-lang-id="Unduh Orion Sekarang">Download Orion Now</h2>
+          <p data-lang-en="Get started with Orion and experience smart, safe, and independent navigation. Available for Android devices."
+            data-lang-id="Mulai gunakan Orion dan rasakan navigasi yang cerdas, aman, dan mandiri. Tersedia untuk perangkat Android.">
+            Get started with Orion and experience smart, safe, and independent navigation. Available for Android
+            devices.</p>
+          <a href="orion-app.apk" download class="download-btn" id="downloadBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            <span data-lang-en="Download APK" data-lang-id="Unduh APK">Download APK</span>
+          </a>
+          <p class="download-info" data-lang-en="Android 8.0+ required · Free · ~15 MB"
+            data-lang-id="Minimal Android 8.0 · Gratis · ~15 MB">Android 8.0+ required · Free · ~15 MB</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer" id="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <svg class="footer-logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="50,5 62,38 50,30 38,38" fill="#64B5F6" />
+              <polygon points="50,95 38,62 50,70 62,62" fill="#64B5F6" />
+              <polygon points="5,50 38,38 30,50 38,62" fill="#448AFF" />
+              <polygon points="95,50 62,62 70,50 62,38" fill="#448AFF" />
+            </svg>
+            <span class="footer-logo-text">Orion</span>
+          </div>
+          <p data-lang-en="Empowering visually impaired users with smart navigation technology for a safer, more independent life."
+            data-lang-id="Memberdayakan pengguna Disabilitas Netra dengan teknologi navigasi cerdas untuk kehidupan yang lebih aman dan mandiri.">
+            Empowering visually impaired users with smart navigation technology for a safer, more independent life.</p>
+          <div class="footer-social">
+            <a href="https://www.instagram.com/orion.idn_" target="_blank" rel="noopener" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+              </svg>
+            </a>
+            <a href="https://youtube.com/@orion-unesa" target="_blank" rel="noopener" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path
+                  d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.13C5.12 19.56 12 19.56 12 19.56s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.43z" />
+                <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4 data-lang-en="Navigation" data-lang-id="Navigasi">Navigation</h4>
+          <a href="#about" data-lang-en="About" data-lang-id="Tentang">About</a>
+          <a href="#ypab" data-lang-en="YPAB" data-lang-id="YPAB">YPAB</a>
+          <a href="#features" data-lang-en="Features" data-lang-id="Fitur">Features</a>
+          <a href="#preview" data-lang-en="App Preview" data-lang-id="Tampilan Aplikasi">App Preview</a>
+          <a href="#download" data-lang-en="Download" data-lang-id="Unduh">Download</a>
+        </div>
+
+        <div class="footer-col">
+          <h4 data-lang-en="Connect" data-lang-id="Hubungi">Connect</h4>
+          <a href="https://www.instagram.com/orion.idn_" target="_blank">Instagram</a>
+          <a href="https://youtube.com/@orion-unesa" target="_blank">YouTube</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 Orion. <span data-lang-en="All rights reserved." data-lang-id="Hak cipta dilindungi.">All rights
+            reserved.</span></p>
+        <button class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+            stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js?v=20260223b"></script>
+  <script>
+    // Inline interaction handler — works with BOTH mouse AND touch
+    (function () {
+      // iOS Safari fix: enables :active CSS
+      document.addEventListener('touchstart', function () { }, { passive: true });
+
+      function initInteractions() {
+        var selectors = [
+          '.feature-card', '.sponsor-item', '.about-highlight-item',
+          '.download-btn', '.btn-primary', '.btn-secondary',
+          '.back-to-top', '.preview-item'
+        ];
+
+        selectors.forEach(function (sel) {
+          var els = document.querySelectorAll(sel);
+          for (var i = 0; i < els.length; i++) {
+            (function (el) {
+              function activate() {
+                el.classList.add('touch-active');
+              }
+              function deactivate() {
+                setTimeout(function () {
+                  el.classList.remove('touch-active');
+                }, 500);
+              }
+              function deactivateNow() {
+                el.classList.remove('touch-active');
+              }
+
+              // Touch events (real mobile)
+              el.addEventListener('touchstart', activate, { passive: true });
+              el.addEventListener('touchend', deactivate, { passive: true });
+              el.addEventListener('touchcancel', deactivateNow, { passive: true });
+
+              // Mouse events (desktop + Chrome DevTools emulation)
+              el.addEventListener('mousedown', activate);
+              el.addEventListener('mouseup', deactivate);
+              el.addEventListener('mouseleave', deactivateNow);
+            })(els[i]);
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initInteractions);
+      } else {
+        initInteractions();
+      }
+    })();
+  </script>
+</body>
+
+</html>

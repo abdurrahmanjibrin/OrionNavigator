@@ -1,0 +1,12 @@
+[
+  {
+    "to": "lorong",
+    "steps": 10,
+    "direction": "lurus"
+  },
+  {
+    "to": "kamar",
+    "steps": 5,
+    "direction": "belok kanan"
+  }
+]

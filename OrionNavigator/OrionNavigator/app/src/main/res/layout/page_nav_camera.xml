@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    page_nav_camera.xml — Camera AI page (Page 1) di DirectionActivity ViewPager
+    Glassmorphism: bg_beacon_panel untuk overlay kamera, glass badge untuk objek,
+    glass bottom dock untuk action buttons. Semua ID dipertahankan persis.
+-->
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0D1B2A">
+
+    <!-- ============================================================
+         LAYER 1: Camera Preview — full screen
+         ============================================================ -->
+    <androidx.camera.view.PreviewView
+        android:id="@+id/camPreviewView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="Kamera AI aktif"
+        app:scaleType="fillCenter"
+        app:implementationMode="compatible" />
+
+    <!-- ============================================================
+         LAYER 2: Detection Bounding Box Overlay
+         ============================================================ -->
+    <ImageView
+        android:id="@+id/camDetectionOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:importantForAccessibility="no" />
+
+    <!-- ============================================================
+         LAYER 3: Top vignette gradient untuk safe zone header
+         ============================================================ -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_gravity="top"
+        android:background="@drawable/gradient_overlay_top"
+        android:importantForAccessibility="no" />
+
+    <!-- ============================================================
+         LAYER 4: TOP GLASS PANEL — Lokasi + Tujuan + Toggle + Mulai
+         ============================================================ -->
+    <LinearLayout
+        android:id="@+id/camNavOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_beacon_panel"
+        android:padding="14dp"
+        android:layout_gravity="top"
+        android:layout_margin="12dp">
+
+        <!-- Row: Swipe hint (kiri) + Lokasi (tengah) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Swipe back hint -->
+            <TextView
+                android:id="@+id/camSwipeHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="◀"
+                android:textSize="16sp"
+                android:textColor="#66FFFFFF"
+                android:paddingEnd="6dp"
+                android:importantForAccessibility="no" />
+
+            <!-- Pin icon -->
+            <FrameLayout
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:background="@drawable/bg_status_active"
+                android:importantForAccessibility="no">
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_navigation"
+                    app:tint="#FFFFFF"
+                    android:importantForAccessibility="no"
+                    android:contentDescription="" />
+            </FrameLayout>
+
+            <!-- Lokasi saat ini -->
+            <TextView
+                android:id="@+id/camTvCurrentRoom"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="Lokasi: Menunggu beacon..."
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:importantForAccessibility="no" />
+
+        </LinearLayout>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="8dp"
+            android:background="#35FFFFFF"
+            android:importantForAccessibility="no" />
+
+        <!-- Destination Spinner row -->
+        <LinearLayout
+            android:id="@+id/camLlDestination"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_compass_arrow"
+                app:tint="#AAFFFFFF"
+                android:layout_marginEnd="6dp"
+                android:importantForAccessibility="no"
+                android:contentDescription="" />
+
+            <Spinner
+                android:id="@+id/camSpinnerDestination"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_spinner_glass"
+                android:padding="6dp" />
+
+        </LinearLayout>
+
+        <!-- Step Counting Toggle -->
+        <LinearLayout
+            android:id="@+id/camLlStepCountingToggle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="6dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Hitung Langkah Manual"
+                android:textSize="12sp"
+                android:textColor="#CCFFFFFF"
+                android:importantForAccessibility="no" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/camSwitchStepCounting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:contentDescription="Aktifkan hitung langkah manual" />
+
+        </LinearLayout>
+
+        <!-- Start Navigation Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/camBtnStartNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="8dp"
+            android:text="MULAI NAVIGASI"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:hapticFeedbackEnabled="true"
+            android:contentDescription="Tekan untuk memulai navigasi ke tujuan yang dipilih"
+            app:backgroundTint="#CC1565C0"
+            app:cornerRadius="14dp"
+            app:icon="@drawable/ic_navigation"
+            app:iconGravity="textStart"
+            app:iconSize="20dp"
+            app:iconTint="@color/white"
+            app:strokeColor="#55FFFFFF"
+            app:strokeWidth="1dp"
+            app:rippleColor="@color/ripple_color" />
+
+        <!-- Navigation Info Panel (visible during navigation) -->
+        <LinearLayout
+            android:id="@+id/camNavInfoPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="6dp"
+            android:visibility="gone">
+
+            <!-- Step Progress -->
+            <TextView
+                android:id="@+id/camTvStepProgress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Langkah - dari -"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:gravity="center"
+                android:importantForAccessibility="no" />
+
+            <!-- Heading + Target -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="2dp"
+                android:importantForAccessibility="no">
+
+                <TextView
+                    android:id="@+id/camTvHeading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0°"
+                    android:textSize="13sp"
+                    android:textColor="#CCFFFFFF"
+                    android:importantForAccessibility="no" />
+
+                <TextView
+                    android:id="@+id/camTvTargetHeading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="13sp"
+                    android:textColor="#CCFFFFFF"
+                    android:layout_marginStart="12dp"
+                    android:visibility="gone"
+                    android:importantForAccessibility="no" />
+
+            </LinearLayout>
+
+            <!-- Status -->
+            <TextView
+                android:id="@+id/camTvStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Menunggu..."
+                android:textSize="12sp"
+                android:textColor="#AAFFFFFF"
+                android:gravity="center"
+                android:importantForAccessibility="no" />
+
+            <!-- Alignment Progress -->
+            <ProgressBar
+                android:id="@+id/camProgressAlignment"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="4dp"
+                android:max="100"
+                android:progress="0"
+                android:progressTint="@color/primary"
+                android:progressBackgroundTint="#33FFFFFF"
+                android:importantForAccessibility="no" />
+
+            <!-- Step Counter -->
+            <TextView
+                android:id="@+id/camTvStepCounter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Langkah: 0 / 0"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary"
+                android:gravity="center"
+                android:visibility="gone"
+                android:importantForAccessibility="no" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- ============================================================
+         LAYER 5: Detected Object Name Badge — center of screen
+         ============================================================ -->
+    <TextView
+        android:id="@+id/camTvObjectName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="32dp"
+        android:background="@drawable/bg_glass_badge"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:paddingHorizontal="28dp"
+        android:paddingVertical="14dp"
+        android:text=""
+        android:textColor="#FFFFFF"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:importantForAccessibility="no"
+        android:accessibilityLiveRegion="none" />
+
+    <!-- ============================================================
+         LAYER 6: Jelaskan button — di atas bottom dock
+         ============================================================ -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="170dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <!-- Loading ProgressBar -->
+        <ProgressBar
+            android:id="@+id/camProgressDescribe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="#FFFFFF"
+            android:visibility="gone"
+            android:layout_marginBottom="8dp"
+            android:importantForAccessibility="no" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/camBtnDescribe"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="52dp"
+            android:text="Jelaskan"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:hapticFeedbackEnabled="true"
+            android:contentDescription="Jelaskan apa yang terlihat di kamera"
+            app:backgroundTint="#CC1565C0"
+            app:cornerRadius="26dp"
+            app:icon="@drawable/ic_camera_voice"
+            app:iconGravity="textStart"
+            app:iconSize="20dp"
+            app:iconTint="@color/white"
+            app:strokeColor="#55FFFFFF"
+            app:strokeWidth="1dp"
+            app:rippleColor="@color/ripple_color" />
+
+    </LinearLayout>
+
+    <!-- ============================================================
+         LAYER 7: BOTTOM GLASS DOCK — Action buttons (Lanjut / Hentikan)
+         ============================================================ -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="16dp"
+        android:background="@drawable/bg_glass_bottom_panel">
+
+        <!-- Confirm Step / Count Step Button (large, accessible) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/camBtnAction"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:text="LANJUT&#10;Langkah Berikutnya"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:enabled="false"
+            android:visibility="gone"
+            android:gravity="center"
+            android:hapticFeedbackEnabled="true"
+            android:contentDescription="Tekan untuk lanjut ke langkah berikutnya"
+            app:backgroundTint="#CC1565C0"
+            app:cornerRadius="16dp"
+            app:strokeColor="#55FFFFFF"
+            app:strokeWidth="1dp"
+            app:rippleColor="@color/ripple_color" />
+
+        <!-- Stop Navigation Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/camBtnStop"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:text="HENTIKAN NAVIGASI"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            android:hapticFeedbackEnabled="true"
+            android:contentDescription="Tekan untuk menghentikan navigasi"
+            app:backgroundTint="#99B71C1C"
+            app:cornerRadius="12dp"
+            app:strokeColor="#50FFFFFF"
+            app:strokeWidth="1dp" />
+
+    </LinearLayout>
+
+</FrameLayout>

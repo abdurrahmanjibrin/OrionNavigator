@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#0A1628"
+    android:padding="24dp">
+
+    <!-- Title -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🧭 Compass Test"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bandingkan heading Lama vs Baru.\nMiringkan HP dan lihat apakah angka tetap sama."
+        android:textColor="#94A3B8"
+        android:textSize="13sp"
+        android:gravity="center"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Phone Tilt Info -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_compass_dial"
+        android:padding="16dp"
+        android:orientation="vertical"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📱 Posisi HP"
+            android:textColor="#64B5F6"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tvPitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pitch: 0°"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvRoll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Roll: 0°"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvPhonePosition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Status: Rata (Flat)"
+            android:textColor="#4CAF50"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
+
+    <!-- OLD Method -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_compass_dial"
+        android:padding="20dp"
+        android:orientation="vertical"
+        android:layout_marginBottom="12dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🔴 LAMA (Accel + Magneto)"
+            android:textColor="#FF5252"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tvOldHeading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="---°"
+            android:textColor="#FF5252"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/tvOldDirection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="--"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <!-- NEW Method -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_compass_dial"
+        android:padding="20dp"
+        android:orientation="vertical"
+        android:layout_marginBottom="12dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🟢 BARU (Rotation Vector + Remap)"
+            android:textColor="#4CAF50"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tvNewHeading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="---°"
+            android:textColor="#4CAF50"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/tvNewDirection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="--"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <!-- Difference -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_compass_dial"
+        android:padding="16dp"
+        android:orientation="vertical"
+        android:layout_marginBottom="12dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📊 Selisih"
+            android:textColor="#FFD740"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tvDifference"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0°"
+            android:textColor="#FFD740"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/tvVerdict"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Miringkan HP untuk melihat selisih"
+            android:textColor="#94A3B8"
+            android:textSize="13sp"
+            android:gravity="center" />
+    </LinearLayout>
+
+</LinearLayout>

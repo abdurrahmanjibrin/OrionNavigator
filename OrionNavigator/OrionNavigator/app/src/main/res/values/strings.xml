@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Orion Navigator</string>
+    
+    <!-- Mode Selection -->
+    <string name="select_mode">Pilih Mode</string>
+    <string name="beacon_mode">Mode Beacon</string>
+    <string name="navigator_mode">Mode Navigator</string>
+    <string name="beacon_description">Jadikan HP ini sebagai beacon lokasi</string>
+    <string name="navigator_description">Navigasi ke lokasi tujuan</string>
+    
+    <!-- Beacon Mode -->
+    <string name="select_location">Pilih Lokasi Beacon</string>
+    <string name="start_beacon">Mulai Beacon</string>
+    <string name="stop_beacon">Hentikan Beacon</string>
+    <string name="beacon_active">Beacon Aktif</string>
+    <string name="beacon_inactive">Beacon Tidak Aktif</string>
+    
+    <!-- Destination Selection -->
+    <string name="select_destination">Pilih Tujuan</string>
+    <string name="start_navigation">Mulai Navigasi</string>
+    
+    <!-- Navigation Mode -->
+    <string name="navigation_mode">Mode Navigasi</string>
+    <string name="stop_navigation">Berhenti</string>
+    <string name="searching_beacon">Mencari beacon...</string>
+    <string name="destination_reached">Tujuan tercapai!</string>
+    
+    <!-- Audio Guidance -->
+    <string name="audio_beacon_detected">Beacon terdeteksi</string>
+    <string name="audio_move_forward">Maju</string>
+    <string name="audio_slow_down">Berjalan perlahan</string>
+    <string name="audio_getting_closer">Anda semakin dekat</string>
+    <string name="audio_stop_correct">Berhenti, koreksi arah</string>
+    <string name="audio_destination_ahead">Tujuan di depan Anda</string>
+    <string name="audio_destination_reached">Anda telah sampai di tujuan</string>
+    
+    <!-- Distance Categories -->
+    <string name="distance_very_close">Sangat Dekat</string>
+    <string name="distance_close">Dekat</string>
+    <string name="distance_medium">Sedang</string>
+    <string name="distance_far">Jauh</string>
+    
+    <!-- Accessibility -->
+    <string name="content_desc_back">Kembali</string>
+    <string name="content_desc_beacon_status">Status beacon</string>
+    <string name="content_desc_navigation_status">Status navigasi</string>
+    
+    <!-- Errors -->
+    <string name="error_bluetooth_disabled">Bluetooth tidak aktif</string>
+    <string name="error_location_disabled">Lokasi tidak aktif</string>
+    <string name="error_permission_denied">Izin diperlukan</string>
+    
+    <!-- Live Location -->
+    <string name="live_location_mode">Live Location</string>
+    <string name="live_location_description">Pantau lokasi secara real-time</string>
+    <string name="live_location_active">Live Location Aktif</string>
+    <string name="live_location_inactive">Live Location Nonaktif</string>
+    <string name="live_location_toggle">Aktifkan Live Location</string>
+    <string name="stop">Berhenti</string>
+    
+    <!-- Role Selection -->
+    <string name="select_role">Pilih Peran</string>
+    <string name="role_child">Pengguna</string>
+    <string name="role_child_desc">Saya pengguna tunanetra yang akan berbagi lokasi</string>
+    <string name="role_parent">Pendamping</string>
+    <string name="role_parent_desc">Saya orang tua/caregiver yang akan memantau lokasi</string>
+    
+    <!-- Child UI -->
+    <string name="link_parent">Hubungkan Pendamping</string>
+    <string name="your_code">Kode Anda</string>
+    <string name="share_code_instruction">Bagikan kode ini ke pendamping Anda</string>
+    <string name="linked_to">Terhubung dengan pendamping</string>
+    <string name="not_linked">Belum terhubung</string>
+    <string name="disconnect">Putuskan Hubungan</string>
+    <string name="generating_code">Membuat kode...</string>
+    
+    <!-- Parent UI -->
+    <string name="enter_link_code">Masukkan Kode</string>
+    <string name="enter_code_instruction">Masukkan kode 6 digit dari pengguna</string>
+    <string name="connect">Hubungkan</string>
+    <string name="viewing_location">Melihat lokasi</string>
+    <string name="last_updated">Terakhir diperbarui</string>
+    <string name="location_unavailable">Lokasi tidak tersedia</string>
+    <string name="waiting_location">Menunggu lokasi...</string>
+    <string name="child_offline">Pengguna tidak aktif</string>
+    <string name="invalid_code">Kode tidak valid atau sudah kedaluwarsa</string>
+    
+    <!-- TTS -->
+    <string name="tts_live_location_on">Live location aktif</string>
+    <string name="tts_live_location_off">Live location nonaktif</string>
+    <string name="tts_linked_success">Berhasil terhubung dengan pendamping</string>
+    
+    <!-- Modern UI -->
+    <string name="share_location_subtitle">Bagikan lokasi Anda dengan pendamping</string>
+    <string name="your_link_code">Kode Hubung Anda</string>
+    <string name="copy_code">Salin kode</string>
+    <string name="please_wait">Mohon tunggu sebentar</string>
+    <string name="center_map">Pusatkan</string>
+    <string name="refresh">Refresh</string>
+    <string name="code_hint">000000</string>
+    <string name="code_copied">Kode disalin!</string>
+    
+    <!-- New Role-Based Flow -->
+    <string name="welcome_first_time">Selamat datang! Pilih peran Anda</string>
+    <string name="logout">Keluar</string>
+    <string name="logout_confirm">Anda yakin ingin keluar dan mengganti peran?</string>
+    <string name="role_changed">Peran berhasil diganti</string>
+    <string name="yes">Ya</string>
+    <string name="no">Tidak</string>
+    <string name="tunanetra_subtitle">Mode Pengguna Tunanetra</string>
+    <string name="generate_code">Buat Kode Hubung</string>
+    
+    <!-- TTS Accessibility -->
+    <string name="tts_toggle_location">Tekan untuk mengaktifkan atau menonaktifkan berbagi lokasi</string>
+    <string name="tts_generate_code">Tekan untuk membuat kode hubung bagi pendamping</string>
+    <string name="tts_disconnect">Tekan untuk memutuskan hubungan dengan pendamping</string>
+    <string name="tts_logout">Tekan untuk keluar dan mengganti peran</string>
+    <string name="tts_enter_code">Masukkan kode 6 digit dari pengguna tunanetra</string>
+    <string name="tts_connect">Tekan untuk menghubungkan dengan pengguna</string>
+    
+    <!-- Safe Zones / Geofence -->
+    <string name="safe_zones">Zona Aman</string>
+    <string name="your_zones">Zona Anda</string>
+    <string name="add_zone">Tambah</string>
+    <string name="add_safe_zone">Tambah Zona Aman</string>
+    <string name="add_zone_instruction">Tentukan lokasi dan radius untuk zona aman baru</string>
+    <string name="tap_to_add_zone">Tap peta untuk menentukan lokasi zona</string>
+    <string name="zone_name_hint">Nama zona (cth: Rumah)</string>
+    <string name="zone_radius">Radius zona</string>
+    <string name="alert_options">Opsi notifikasi</string>
+    <string name="alert_on_exit">Keluar zona</string>
+    <string name="alert_on_enter">Masuk zona</string>
+    <string name="alert_exit">Keluar</string>
+    <string name="alert_enter">Masuk</string>
+    <string name="no_zones_yet">Belum ada zona aman. Tap tombol Tambah untuk membuat zona baru.</string>
+    <string name="delete_zone">Hapus Zona</string>
+    <string name="delete_zone_confirm">Hapus zona "%1$s"?</string>
+    <string name="zone_saved">Zona berhasil disimpan</string>
+    <string name="name_required">Nama zona wajib diisi</string>
+    <string name="radius_format">Radius: %1$dm</string>
+    <string name="cancel">Batal</string>
+    <string name="save">Simpan</string>
+    <string name="tts_safe_zones">Tekan untuk mengatur zona aman</string>
+    
+    <!-- Zone Alert Notifications -->
+    <string name="zone_exit_title">Keluar Zona Aman</string>
+    <string name="zone_exit_message">Pengguna keluar dari zona %1$s</string>
+    <string name="zone_enter_title">Masuk Zona Aman</string>
+    <string name="zone_enter_message">Pengguna masuk ke zona %1$s</string>
+
+    
+    <!-- Camera AI Feature -->
+    <string name="camera_ai_feature">Kamera AI</string>
+    <string name="camera_ai_description">Deteksi objek dengan kamera</string>
+    <string name="status_detecting">Mendeteksi objek…</string>
+    <string name="status_no_object">Tidak ada objek terdeteksi</string>
+    <string name="toggle_sound">Toggle Suara</string>
+    <string name="sound_on">Suara Aktif</string>
+    <string name="sound_off">Suara Nonaktif</string>
+    <string name="camera_permission_needed">Izin kamera diperlukan untuk mendeteksi objek</string>
+    <string name="grant_permission">Izinkan Kamera</string>
+    <string name="camera_error">Gagal membuka kamera</string>
+    <string name="back">Kembali</string>
+    <string name="camera_ai_active">Kamera AI diaktifkan. Arahkan kamera ke objek untuk mendeteksi.</string>
+    
+    <!-- Tunanetra Home -->
+    <string name="feature_live_location">Live Location</string>
+    <string name="feature_live_location_desc">Bagikan lokasi Anda secara real-time</string>
+    <string name="feature_camera_ai">Kamera AI</string>
+    <string name="feature_camera_ai_desc">Deteksi objek dengan bantuan kamera</string>
+    <string name="tunanetra_home_title">Beranda</string>
+    <string name="select_feature">Pilih Fitur</string>
+</resources>
+

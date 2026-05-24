@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@color/background_card">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_safe_zone"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_primary" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_zone_instruction"
+        android:textSize="14sp"
+        android:textColor="@color/text_secondary"
+        android:layout_marginTop="8dp" />
+
+    <!-- Zone Name -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="@color/accent"
+        app:boxCornerRadiusTopStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusBottomEnd="12dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etZoneName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/zone_name_hint"
+            android:textColor="@color/text_primary"
+            android:inputType="text"
+            android:maxLines="1" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Radius Slider -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/zone_radius"
+        android:textSize="14sp"
+        android:textColor="@color/text_primary"
+        android:layout_marginTop="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="8dp">
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/sliderRadius"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:valueFrom="100"
+            android:valueTo="2000"
+            android:value="500"
+            android:stepSize="50"
+            app:thumbColor="@color/accent"
+            app:trackColorActive="@color/accent"
+            app:trackColorInactive="@color/glass_border" />
+
+        <TextView
+            android:id="@+id/tvRadiusValue"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="500m"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/accent"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+
+    <!-- Alert Options -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/alert_options"
+        android:textSize="14sp"
+        android:textColor="@color/text_primary"
+        android:layout_marginTop="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="8dp">
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkAlertExit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/alert_on_exit"
+            android:checked="true"
+            android:textColor="@color/text_primary"
+            app:buttonTint="@color/accent" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkAlertEnter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/alert_on_enter"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/text_primary"
+            app:buttonTint="@color/accent" />
+
+    </LinearLayout>
+
+    <!-- Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_marginTop="24dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCancel"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"
+            android:textColor="@color/text_secondary" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/save"
+            android:layout_marginStart="8dp"
+            app:backgroundTint="@color/accent"
+            android:textColor="@color/text_on_accent" />
+
+    </LinearLayout>
+
+</LinearLayout>

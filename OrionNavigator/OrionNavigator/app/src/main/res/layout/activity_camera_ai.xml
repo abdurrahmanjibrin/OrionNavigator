@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".ui.CameraAIActivity">
+
+    <!-- ================================================================= -->
+    <!-- LAYER 1: CAMERA PREVIEW — full screen background                   -->
+    <!-- ================================================================= -->
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/previewView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/camera_ai_active"
+        app:scaleType="fillCenter"
+        app:implementationMode="compatible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Bounding Box Overlay -->
+    <ImageView
+        android:id="@+id/ivDetectionOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="@id/previewView"
+        app:layout_constraintEnd_toEndOf="@id/previewView"
+        app:layout_constraintStart_toStartOf="@id/previewView"
+        app:layout_constraintTop_toTopOf="@id/previewView" />
+
+    <!-- ================================================================= -->
+    <!-- LAYER 2: GLASS VIGNETTES — top & bottom dark fade                  -->
+    <!-- ================================================================= -->
+
+    <!-- Top dark vignette (safe zone for header) -->
+    <View
+        android:layout_width="0dp"
+        android:layout_height="130dp"
+        android:background="@drawable/gradient_overlay_top"
+        android:importantForAccessibility="no"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Bottom glass panel (dark navy, rounded top) -->
+    <View
+        android:id="@+id/overlayBottom"
+        android:layout_width="0dp"
+        android:layout_height="230dp"
+        android:background="@drawable/bg_glass_bottom_panel"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- ================================================================= -->
+    <!-- LAYER 3: UI OVERLAY — header, FABs, labels                         -->
+    <!-- ================================================================= -->
+
+    <!-- "KAMERA AI" title label -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:importantForAccessibility="no"
+        android:letterSpacing="0.12"
+        android:text="KAMERA AI"
+        android:textColor="#DDFFFFFF"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Back button (top left) — glass ImageButton -->
+    <ImageButton
+        android:id="@+id/fabBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="44dp"
+        android:background="@drawable/bg_glass_fab"
+        android:contentDescription="@string/back"
+        android:padding="10dp"
+        android:src="@drawable/ic_arrow_back"
+        app:tint="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Detected Object Name Badge -->
+    <TextView
+        android:id="@+id/tvObjectName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/bg_glass_badge"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        android:text=""
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:visibility="gone"
+        android:minHeight="48dp"
+        android:accessibilityLiveRegion="assertive"
+        app:layout_constraintBottom_toTopOf="@id/tvStatus"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Botol (92%)"
+        tools:visibility="visible" />
+
+    <!-- Status Text -->
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="12dp"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:text="@string/status_detecting"
+        android:textColor="#CCFFFFFF"
+        android:textSize="14sp"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toTopOf="@id/fabRowBarrier"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Loading indicator (above status text) -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:indeterminateTint="#AAFFFFFF"
+        android:visibility="gone"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toTopOf="@id/tvStatus"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Horizontal barrier at top of bottom FAB row -->
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/fabRowBarrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="top"
+        app:constraint_referenced_ids="btnWakeWord,fabMic,fabDescribe,fabSound" />
+
+    <!-- ================================================================= -->
+    <!-- BOTTOM FAB ROW: [WakeWord] [Mic] ——— [Jelaskan] ——— [Sound]       -->
+    <!-- ================================================================= -->
+
+    <!-- Wake Word toggle (bottom left-1) — glass ImageButton -->
+    <ImageButton
+        android:id="@+id/btnWakeWord"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/bg_glass_fab"
+        android:contentDescription="Aktifkan Hello Orion"
+        android:padding="10dp"
+        android:src="@drawable/ic_wakeword_off"
+        app:tint="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Mic FAB (bottom left-2) — glass ImageButton -->
+    <ImageButton
+        android:id="@+id/fabMic"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="36dp"
+        android:background="@drawable/bg_glass_fab"
+        android:contentDescription="Bicara langsung"
+        android:padding="14dp"
+        android:src="@drawable/ic_mic"
+        app:tint="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnWakeWord" />
+
+    <!-- Jelaskan button (bottom center) — glass ExtendedFAB -->
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fabDescribe"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:layout_marginBottom="36dp"
+        android:paddingHorizontal="20dp"
+        android:text="Jelaskan"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:fontFamily="sans-serif-medium"
+        android:contentDescription="Jelaskan apa yang terlihat di kamera"
+        app:icon="@drawable/ic_camera_voice"
+        app:iconTint="@color/white"
+        app:backgroundTint="#CC1565C0"
+        app:cornerRadius="28dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Sound FAB (bottom right) — glass ImageButton -->
+    <ImageButton
+        android:id="@+id/fabSound"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="36dp"
+        android:background="@drawable/bg_glass_fab"
+        android:contentDescription="@string/toggle_sound"
+        android:padding="14dp"
+        android:src="@drawable/ic_volume_on"
+        app:tint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- ================================================================= -->
+    <!-- PERMISSION DENIED STATE                                            -->
+    <!-- ================================================================= -->
+
+    <LinearLayout
+        android:id="@+id/layoutPermissionDenied"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_gradient_blue_white"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="32dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_beacon_panel"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="32dp">
+
+            <ImageView
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:src="@drawable/ic_camera_off"
+                android:importantForAccessibility="no"
+                app:tint="#AAFFFFFF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@string/camera_permission_needed"
+                android:textColor="#DDFFFFFF"
+                android:textSize="17sp"
+                android:fontFamily="sans-serif-medium" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRequestPermission"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:minHeight="48dp"
+                android:paddingHorizontal="32dp"
+                android:text="@string/grant_permission"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                app:backgroundTint="#CC1565C0"
+                app:strokeColor="#80FFFFFF"
+                app:strokeWidth="1.5dp"
+                app:cornerRadius="20dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

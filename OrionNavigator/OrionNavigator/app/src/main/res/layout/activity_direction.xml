@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    activity_direction.xml — Container utama DirectionActivity
+    ViewPager2 (Navigasi | Kamera) + Dot indicator + FAB Mic
+-->
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient_blue_white">
+
+    <!-- ViewPager2 for swipeable Navigation / Camera pages -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Page indicator — horizontal strip bar at very bottom, above system nav bar -->
+    <LinearLayout
+        android:id="@+id/llPageIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:importantForAccessibility="no">
+
+        <!-- Strip: Navigasi (left half) -->
+        <View
+            android:id="@+id/dotNav"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <!-- Strip: Kamera (right half) -->
+        <View
+            android:id="@+id/dotCamera"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <!-- Voice buttons (overlaid, bottom-right, above bottom dock) -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="180dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Wake Word toggle -->
+        <ImageButton
+            android:id="@+id/btnWakeWord"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/ic_wakeword_off"
+            android:background="@drawable/bg_beacon_panel"
+            android:padding="14dp"
+            android:scaleType="fitCenter"
+            android:contentDescription="Hello Orion" />
+
+        <!-- Direct Mic listen -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabMic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_mic"
+            android:contentDescription="Voice command"
+            app:fabSize="normal"
+            app:backgroundTint="#1565C0"
+            app:tint="@android:color/white"
+            app:elevation="6dp" />
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Colors - Modern Blue -->
+    <color name="primary">#1976D2</color>
+    <color name="primary_dark">#0D47A1</color>
+    <color name="primary_light">#64B5F6</color>
+    
+    <!-- Accent Colors -->
+    <color name="accent">#448AFF</color>
+    <color name="accent_dark">#2962FF</color>
+    
+    <!-- Status Colors -->
+    <color name="status_active">#4CAF50</color>
+    <color name="status_inactive">#BDBDBD</color>
+    <color name="status_warning">#FF9800</color>
+    <color name="status_error">#E53935</color>
+    
+    <!-- Distance Indicator Colors -->
+    <color name="distance_very_close">#4CAF50</color>
+    <color name="distance_close">#8BC34A</color>
+    <color name="distance_medium">#FFC107</color>
+    <color name="distance_far">#FF9800</color>
+    
+    <!-- Background Colors - Light Theme -->
+    <color name="background_primary">#FFFFFF</color>
+    <color name="background_secondary">#F5F7FA</color>
+    <color name="background_card">#FFFFFF</color>
+    
+    <!-- Text Colors -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="text_on_accent">#FFFFFF</color>
+    <color name="text_on_primary">#FFFFFF</color>
+    
+    <!-- Button Colors -->
+    <color name="button_primary">#1976D2</color>
+    <color name="button_secondary">#64B5F6</color>
+    <color name="button_danger">#E53935</color>
+    
+    <!-- Ripple -->
+    <color name="ripple_color">#301976D2</color>
+    
+    <!-- Splash -->
+    <color name="splash_background">#FFFFFF</color>
+    
+    <!-- Modern UI Colors - Light Theme -->
+    <color name="glass_background">#F0FFFFFF</color>
+    <color name="glass_border">#20000000</color>
+    <color name="glow_green">#4CAF50</color>
+    <color name="glow_green_transparent">#404CAF50</color>
+    <color name="gradient_start">#FFFFFF</color>
+    <color name="gradient_end">#E3F2FD</color>
+    <color name="accent_glow">#401976D2</color>
+    <color name="card_overlay">#F0FFFFFF</color>
+    <color name="status_pulse_active">#4CAF50</color>
+    <color name="status_pulse_inactive">#BDBDBD</color>
+    
+    <!-- Basic Colors -->
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="transparent">#00000000</color>
+    <color name="overlay_dark">#80000000</color>
+    <color name="overlay_light">#80FFFFFF</color>
+    <color name="background">#FFFFFF</color>
+    
+    <!-- Status Colors for Navigation -->
+    <color name="status_success">#4CAF50</color>
+    <color name="status_success_bg">#E8F5E9</color>
+    <color name="status_warning_bg">#FFF3E0</color>
+    
+    <!-- Card Shadow/Elevation -->
+    <color name="card_shadow">#20000000</color>
+    
+    <!-- Divider -->
+    <color name="divider">#E0E0E0</color>
+</resources>

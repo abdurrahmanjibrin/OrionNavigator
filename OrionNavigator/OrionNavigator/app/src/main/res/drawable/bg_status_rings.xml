@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Outer glow ring (pulse ring 1) -->
+    <item android:id="@+id/pulse_ring_outer">
+        <shape android:shape="oval">
+            <stroke android:width="2dp" android:color="@color/accent_glow" />
+            <size android:width="180dp" android:height="180dp" />
+        </shape>
+    </item>
+    <!-- Middle ring (pulse ring 2) -->
+    <item android:left="15dp" android:top="15dp" android:right="15dp" android:bottom="15dp"
+        android:id="@+id/pulse_ring_middle">
+        <shape android:shape="oval">
+            <stroke android:width="2dp" android:color="@color/glow_green_transparent" />
+        </shape>
+    </item>
+    <!-- Inner ring (pulse ring 3) -->
+    <item android:left="30dp" android:top="30dp" android:right="30dp" android:bottom="30dp"
+        android:id="@+id/pulse_ring_inner">
+        <shape android:shape="oval">
+            <stroke android:width="3dp" android:color="@color/accent" />
+        </shape>
+    </item>
+</layer-list>

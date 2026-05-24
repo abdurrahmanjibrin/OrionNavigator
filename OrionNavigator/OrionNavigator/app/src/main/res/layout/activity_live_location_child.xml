@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Live Lokasi - Child (Tunanetra) Screen
+    Konsep UI: Sama dengan beranda — gradient biru-putih + glassmorphism
+    Semua ID lama dipertahankan: btnToggle, tvStatus, viewStatusIndicator,
+    layoutNotLinked, layoutLinked, layoutCodeDisplay, tvLinkStatus,
+    tvLinkCode, btnGenerateCode, btnDisconnect, btnLogout, fabMic
+-->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient_blue_white">
+
+    <!-- ============================================================
+         TOP BAR — semua dalam satu container: Exit (kiri) + Judul (tengah) + Mic (kanan)
+         ============================================================ -->
+    <LinearLayout
+        android:id="@+id/layoutTopBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Exit button kiri -->
+        <ImageButton
+            android:id="@+id/btnLogout"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_exit"
+            android:background="@drawable/bg_beacon_panel"
+            android:padding="9dp"
+            android:scaleType="fitCenter"
+            android:contentDescription="@string/tts_logout" />
+
+        <!-- Judul tengah -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:importantForAccessibility="no">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Live Lokasi"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:importantForAccessibility="no" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bagikan posisi Anda"
+                android:textColor="#CCFFFFFF"
+                android:textSize="12sp"
+                android:importantForAccessibility="no" />
+
+        </LinearLayout>
+
+        <!-- Wake Word toggle button -->
+        <ImageButton
+            android:id="@+id/btnWakeWord"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_wakeword_off"
+            android:background="@drawable/bg_beacon_panel"
+            android:padding="9dp"
+            android:scaleType="fitCenter"
+            android:contentDescription="Aktifkan Hello Orion" />
+
+        <!-- Direct Mic listen button -->
+        <ImageButton
+            android:id="@+id/fabMic"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_mic"
+            android:background="@drawable/bg_beacon_panel"
+            android:padding="9dp"
+            android:scaleType="fitCenter"
+            android:contentDescription="Bicara langsung" />
+
+    </LinearLayout>
+
+    <!-- Divider bawah top bar — selalu di bawah container -->
+    <View
+        android:id="@+id/dividerTop"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#33FFFFFF"
+        android:importantForAccessibility="no"
+        app:layout_constraintTop_toBottomOf="@id/layoutTopBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <!-- ============================================================
+         STATUS INDICATOR — baris kecil status aktif/nonaktif
+         ============================================================ -->
+    <LinearLayout
+        android:id="@+id/layoutCurrentStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        android:background="@drawable/bg_beacon_panel"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/dividerTop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <View
+            android:id="@+id/viewStatusIndicator"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/bg_status_indicator"
+            android:importantForAccessibility="no" />
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/live_location_inactive"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:layout_marginStart="10dp"
+            android:contentDescription="@string/live_location_inactive" />
+
+    </LinearLayout>
+
+    <!-- ============================================================
+         TOMBOL TOGGLE — Lingkaran besar di tengah
+         ============================================================ -->
+    <FrameLayout
+        android:id="@+id/layoutStatusRings"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:importantForAccessibility="no"
+        app:layout_constraintTop_toBottomOf="@id/layoutCurrentStatus"
+        app:layout_constraintBottom_toTopOf="@id/cardLinking"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.5">
+
+        <!-- Outer Pulse Ring -->
+        <View
+            android:id="@+id/viewRingOuter"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:alpha="0.2"
+            android:background="@drawable/bg_beacon_panel"
+            android:importantForAccessibility="no" />
+
+        <!-- Middle Ring -->
+        <View
+            android:id="@+id/viewRingMiddle"
+            android:layout_width="162dp"
+            android:layout_height="162dp"
+            android:layout_gravity="center"
+            android:alpha="0.35"
+            android:background="@drawable/bg_beacon_panel"
+            android:importantForAccessibility="no" />
+
+        <!-- Inner Ring -->
+        <View
+            android:id="@+id/viewRingInner"
+            android:layout_width="126dp"
+            android:layout_height="126dp"
+            android:layout_gravity="center"
+            android:alpha="0.5"
+            android:background="@drawable/bg_beacon_panel"
+            android:importantForAccessibility="no" />
+
+        <!-- Toggle Button — lingkaran sempurna -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnToggle"
+            android:layout_width="108dp"
+            android:layout_height="108dp"
+            android:layout_gravity="center"
+            android:text="@string/live_location_toggle"
+            android:textSize="11sp"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            app:cornerRadius="54dp"
+            app:icon="@drawable/ic_live_location"
+            app:iconSize="32dp"
+            app:iconGravity="top"
+            app:iconPadding="4dp"
+            app:iconTint="#FFFFFF"
+            app:backgroundTint="#1565C0"
+            app:elevation="8dp"
+            android:contentDescription="@string/tts_toggle_location"
+            android:minWidth="0dp"
+            android:minHeight="0dp" />
+
+    </FrameLayout>
+
+    <!-- ============================================================
+         CARD LINKING — Link status + tombol + kode
+         ============================================================ -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardLinking"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="20dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="#DDFFFFFF"
+        app:strokeColor="#50FFFFFF"
+        app:strokeWidth="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- Not Linked Section -->
+            <LinearLayout
+                android:id="@+id/layoutNotLinked"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:importantForAccessibility="no">
+
+                    <FrameLayout
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="@drawable/bg_status_active"
+                        android:importantForAccessibility="no">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_person"
+                            app:tint="#FFFFFF"
+                            android:contentDescription=""
+                            android:importantForAccessibility="no" />
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="12dp"
+                        android:importantForAccessibility="no">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Status Koneksi"
+                            android:textSize="11sp"
+                            android:textColor="#888888"
+                            android:importantForAccessibility="no" />
+                        <TextView
+                            android:id="@+id/tvLinkStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/not_linked"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="#1565C0"
+                            android:maxLines="1"
+                            android:contentDescription="@string/not_linked" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnGenerateCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:text="@string/generate_code"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:layout_marginTop="14dp"
+                    app:backgroundTint="#1565C0"
+                    app:cornerRadius="14dp"
+                    android:contentDescription="@string/tts_generate_code" />
+
+            </LinearLayout>
+
+            <!-- Linked Section -->
+            <LinearLayout
+                android:id="@+id/layoutLinked"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:importantForAccessibility="no">
+
+                    <View
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:background="@drawable/bg_pulse_active"
+                        android:importantForAccessibility="no" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/linked_to"
+                        android:textSize="14sp"
+                        android:textColor="#2E7D32"
+                        android:textStyle="bold"
+                        android:layout_marginStart="10dp"
+                        android:importantForAccessibility="no" />
+
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnDisconnect"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:text="@string/disconnect"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:layout_marginTop="14dp"
+                    app:backgroundTint="#C62828"
+                    app:cornerRadius="14dp"
+                    android:contentDescription="@string/tts_disconnect" />
+
+            </LinearLayout>
+
+            <!-- Code Display -->
+            <LinearLayout
+                android:id="@+id/layoutCodeDisplay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginTop="16dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#22000000"
+                    android:layout_marginBottom="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/your_link_code"
+                    android:textSize="12sp"
+                    android:textColor="#888888"
+                    android:importantForAccessibility="no" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:background="@drawable/bg_beacon_panel"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:id="@+id/tvLinkCode"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="32sp"
+                        android:textStyle="bold"
+                        android:textColor="#1565C0"
+                        android:fontFamily="monospace"
+                        android:letterSpacing="0.4"
+                        android:gravity="center"
+                        android:contentDescription="Kode tautan" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/share_code_instruction"
+                    android:textSize="12sp"
+                    android:textColor="#888888"
+                    android:textAlignment="center"
+                    android:layout_marginTop="10dp"
+                    android:importantForAccessibility="no" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

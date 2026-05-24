@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Tunanetra Home Screen — No-Scroll, Responsive Layout
+    Struktur: ConstraintLayout dengan guideline persentase agar muat di semua ukuran layar
+    Semua ID: cardLiveLocation, cardNavigation, cardCameraAI, btnLogout, btnSettings, btnWakeWord, btnMic
+-->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient_blue_white"
+    tools:context=".ui.TunanetraActivity">
+
+    <!-- ============================================================
+         GUIDELINES — membagi layar secara proporsional
+         ============================================================ -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.0" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideHeaderBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.20" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideBeaconBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.36" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideCardsBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.93" />
+
+    <!-- ============================================================
+         TOP BAR — Logout icon (kiri) + Logo+Title (tengah) + Mic (kanan)
+         ============================================================ -->
+
+    <!-- Logout icon button — kiri atas -->
+    <ImageButton
+        android:id="@+id/btnLogout"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/ic_exit"
+        android:background="@drawable/bg_beacon_panel"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:contentDescription="@string/tts_logout"
+        android:importantForAccessibility="yes"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guideHeaderBottom" />
+
+    <!-- Settings icon button — sebelah logout -->
+    <ImageButton
+        android:id="@+id/btnSettings"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/ic_settings"
+        android:background="@drawable/bg_beacon_panel"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:contentDescription="Pengaturan"
+        android:importantForAccessibility="yes"
+        app:layout_constraintStart_toEndOf="@id/btnLogout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guideHeaderBottom" />
+
+    <!-- Header center: Logo + Title -->
+    <LinearLayout
+        android:id="@+id/layoutHeader"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:importantForAccessibility="no"
+        app:layout_constraintStart_toEndOf="@id/btnSettings"
+        app:layout_constraintEnd_toStartOf="@id/btnWakeWord"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guideHeaderBottom">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_orion_logo"
+            android:contentDescription=""
+            android:importantForAccessibility="no"
+            app:tint="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tunanetra_home_title"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:importantForAccessibility="no" />
+
+    </LinearLayout>
+
+    <!-- Wake Word toggle button — kanan atas -->
+    <ImageButton
+        android:id="@+id/btnWakeWord"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/ic_wakeword_off"
+        android:background="@drawable/bg_beacon_panel"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:contentDescription="Hello Orion"
+        android:importantForAccessibility="yes"
+        app:layout_constraintEnd_toStartOf="@id/btnMic"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guideHeaderBottom" />
+
+    <!-- Direct Mic button — kanan atas ujung -->
+    <ImageButton
+        android:id="@+id/btnMic"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/ic_mic"
+        android:background="@drawable/bg_beacon_panel"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:contentDescription="Voice command"
+        android:importantForAccessibility="yes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guideHeaderBottom" />
+
+    <!-- ============================================================
+         BEACON PANEL
+         ============================================================ -->
+    <LinearLayout
+        android:id="@+id/cardBeaconPanel"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:background="@drawable/bg_beacon_panel"
+        android:padding="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="4dp"
+        android:importantForAccessibility="no"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideHeaderBottom"
+        app:layout_constraintBottom_toTopOf="@id/guideBeaconBottom">
+
+        <!-- Row: icon + label + count -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="6dp"
+            android:importantForAccessibility="no">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_beacon"
+                android:contentDescription=""
+                android:importantForAccessibility="no"
+                app:tint="#FFFFFF"
+                android:layout_marginEnd="6dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Posisi Saat Ini"
+                android:textColor="#CCFFFFFF"
+                android:textSize="11sp"
+                android:letterSpacing="0.05"
+                android:importantForAccessibility="no" />
+
+            <TextView
+                android:id="@+id/tvBeaconCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 beacon"
+                android:textColor="#AAFFFFFF"
+                android:textSize="11sp"
+                android:importantForAccessibility="no"
+                tools:text="3 beacon" />
+
+        </LinearLayout>
+
+        <!-- Beacon name -->
+        <TextView
+            android:id="@+id/tvBeaconName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mencari sinyal beacon..."
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="6dp"
+            android:contentDescription="Posisi: Mencari sinyal beacon"
+            tools:text="Ruang 101 — Lantai 1" />
+
+        <!-- RSSI row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="4dp"
+            android:importantForAccessibility="no">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Kekuatan Sinyal"
+                android:textColor="#AAFFFFFF"
+                android:textSize="11sp"
+                android:importantForAccessibility="no" />
+
+            <TextView
+                android:id="@+id/tvBeaconRssi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-- dBm"
+                android:textColor="#CCFFFFFF"
+                android:textSize="11sp"
+                android:importantForAccessibility="no"
+                tools:text="-62 dBm" />
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBeaconRssi"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:progress="0"
+            android:max="100"
+            android:progressDrawable="@drawable/bg_rssi_progress"
+            android:importantForAccessibility="no"
+            tools:progress="65" />
+
+    </LinearLayout>
+
+    <!-- ============================================================
+         FEATURE CARDS — mengisi sisa layar secara proporsional
+         ============================================================ -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="6dp"
+        android:importantForAccessibility="no"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideBeaconBottom"
+        app:layout_constraintBottom_toTopOf="@id/guideCardsBottom"
+        app:layout_constraintVertical_bias="0.0">
+
+        <!-- CARD: Live Lokasi -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardLiveLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="72dp"
+            android:layout_marginBottom="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="#DDFFFFFF"
+            app:strokeColor="#50FFFFFF"
+            app:strokeWidth="1dp"
+            android:contentDescription="Live Lokasi. Bagikan lokasi Anda dengan pendamping">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:gravity="center_vertical"
+                android:importantForAccessibility="no">
+
+                <FrameLayout
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_status_active"
+                    android:layout_marginEnd="16dp"
+                    android:importantForAccessibility="no">
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_live_location"
+                        android:contentDescription=""
+                        android:importantForAccessibility="no"
+                        app:tint="#FFFFFF" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:importantForAccessibility="no">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Live Lokasi"
+                        android:textColor="#1565C0"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        android:importantForAccessibility="no" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Bagikan lokasi dengan pendamping"
+                        android:textColor="#666666"
+                        android:textSize="12sp"
+                        android:importantForAccessibility="no" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_back"
+                    android:contentDescription=""
+                    android:importantForAccessibility="no"
+                    android:rotation="180"
+                    app:tint="#CCCCCC" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- CARD: Navigasi -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="72dp"
+            android:layout_marginBottom="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="#DDFFFFFF"
+            app:strokeColor="#50FFFFFF"
+            app:strokeWidth="1dp"
+            android:contentDescription="Navigasi. Panduan arah di dalam ruangan">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:gravity="center_vertical"
+                android:importantForAccessibility="no">
+
+                <FrameLayout
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_status_active"
+                    android:layout_marginEnd="16dp"
+                    android:importantForAccessibility="no">
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_compass_arrow"
+                        android:contentDescription=""
+                        android:importantForAccessibility="no"
+                        app:tint="#FFFFFF" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:importantForAccessibility="no">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Navigasi"
+                        android:textColor="#1565C0"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        android:importantForAccessibility="no" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Panduan arah di dalam ruangan"
+                        android:textColor="#666666"
+                        android:textSize="12sp"
+                        android:importantForAccessibility="no" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_back"
+                    android:contentDescription=""
+                    android:importantForAccessibility="no"
+                    android:rotation="180"
+                    app:tint="#CCCCCC" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- CARD: Kamera AI -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardCameraAI"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="72dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="#DDFFFFFF"
+            app:strokeColor="#50FFFFFF"
+            app:strokeWidth="1dp"
+            android:contentDescription="Kamera AI. Deteksi objek di sekitar menggunakan kamera">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:gravity="center_vertical"
+                android:importantForAccessibility="no">
+
+                <FrameLayout
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_status_active"
+                    android:layout_marginEnd="16dp"
+                    android:importantForAccessibility="no">
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_camera"
+                        android:contentDescription=""
+                        android:importantForAccessibility="no"
+                        app:tint="#FFFFFF" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:importantForAccessibility="no">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Kamera AI"
+                        android:textColor="#1565C0"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        android:importantForAccessibility="no" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Deteksi objek menggunakan kamera"
+                        android:textColor="#666666"
+                        android:textSize="12sp"
+                        android:importantForAccessibility="no" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_back"
+                    android:contentDescription=""
+                    android:importantForAccessibility="no"
+                    android:rotation="180"
+                    app:tint="#CCCCCC" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+    <!-- ============================================================
+         BOTTOM HINT — label kecil bawah layar
+         ============================================================ -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ucapkan &quot;Hello Orion&quot; untuk perintah suara"
+        android:textColor="#99FFFFFF"
+        android:textSize="11sp"
+        android:gravity="center"
+        android:importantForAccessibility="no"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideCardsBottom" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

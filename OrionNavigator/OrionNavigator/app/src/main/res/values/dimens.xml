@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Standard dimensions for accessibility -->
+    <dimen name="spacing_xs">4dp</dimen>
+    <dimen name="spacing_sm">8dp</dimen>
+    <dimen name="spacing_md">16dp</dimen>
+    <dimen name="spacing_lg">24dp</dimen>
+    <dimen name="spacing_xl">32dp</dimen>
+    <dimen name="spacing_xxl">48dp</dimen>
+    
+    <!-- Button sizes (minimum 48dp touch target) -->
+    <dimen name="button_min_height">72dp</dimen>
+    <dimen name="button_min_width">200dp</dimen>
+    
+    <!-- Card dimensions -->
+    <dimen name="card_corner_radius">20dp</dimen>
+    <dimen name="card_elevation">8dp</dimen>
+    <dimen name="card_padding">24dp</dimen>
+    
+    <!-- Icon sizes -->
+    <dimen name="icon_size_sm">24dp</dimen>
+    <dimen name="icon_size_md">48dp</dimen>
+    <dimen name="icon_size_lg">72dp</dimen>
+    <dimen name="icon_size_xl">120dp</dimen>
+    
+    <!-- Text sizes -->
+    <dimen name="text_size_title">32sp</dimen>
+    <dimen name="text_size_subtitle">24sp</dimen>
+    <dimen name="text_size_body">18sp</dimen>
+    <dimen name="text_size_button">20sp</dimen>
+    
+    <!-- Status indicator -->
+    <dimen name="status_indicator_size">24dp</dimen>
+    
+    <!-- Distance ring sizes -->
+    <dimen name="distance_ring_outer">280dp</dimen>
+    <dimen name="distance_ring_inner">200dp</dimen>
+</resources>

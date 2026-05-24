@@ -1,0 +1,345 @@
+{
+  "uuid": "0112233445566778899AABBCCDDEEFF0",
+  "beacons": [
+    {
+      "major": 1,
+      "minor": 2,
+      "roomName": "Kelas 7",
+      "arrivalMessage": "Anda berada di Kelas 7",
+      "directions": {
+        "Ruang Guru": {
+          "steps": [
+            {
+              "heading": 90,
+              "instruction": "Keluar kelas, jalan lurus 10 langkah ke Ruang Guru"
+            }
+          ]
+        },
+        "Toilet 1": {
+          "steps": [
+            {
+              "heading": 180,
+              "instruction": "Keluar kelas, belok kiri"
+            },
+            {
+              "heading": 270,
+              "instruction": "Jalan lurus 15 langkah ke Toilet 1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "major": 1,
+      "minor": 3,
+      "roomName": "Ruang Guru",
+      "arrivalMessage": "Anda berada di Ruang Guru",
+      "directions": {
+        "Kelas 7": {
+          "steps": [
+            {
+              "heading": 270,
+              "instruction": "Jalan lurus 10 langkah ke Kelas 7"
+            }
+          ]
+        },
+        "Ruang Kepala Sekolah / Gamelan": {
+          "steps": [
+            {
+              "heading": 90,
+              "instruction": "Jalan lurus 5 langkah ke Ruang Kepala Sekolah"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "major": 1,
+      "minor": 4,
+      "roomName": "Ruang Kepala Sekolah / Gamelan",
+      "arrivalMessage": "Anda berada di area Ruang Kepala Sekolah dan Gamelan",
+      "directions": {
+        "Ruang Guru": {
+          "steps": [
+            {
+              "heading": 270,
+              "instruction": "Jalan lurus 5 langkah ke Ruang Guru"
+            }
+          ]
+        },
+        "Perpustakaan": {
+          "steps": [
+            {
+              "heading": 90,
+              "instruction": "Jalan lurus 10 langkah ke Perpustakaan"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "major": 1,
+      "minor": 5,
+      "roomName": "Perpustakaan",
+      "arrivalMessage": "Anda berada di Perpustakaan",
+      "directions": {
+        "Ruang Kepala Sekolah / Gamelan": {
+          "steps": [
+            {
+              "heading": 270,
+              "instruction": "Jalan lurus 10 langkah ke Ruang Gamelan"
+            }
+          ]
+        },
+        "Musholla": {
+          "steps": [
+            {
+              "heading": 90,
+              "instruction": "Jalan lurus 12 langkah ke Musholla"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "major": 1,
+      "minor": 6,
+      "roomName": "Musholla",
+      "arrivalMessage": "Anda berada di Musholla",
+      "directions": {
+        "Perpustakaan": {
+          "steps": [
+            {
+              "heading": 270,
+              "instruction": "Jalan lurus 12 langkah ke Perpustakaan"
+            }
+          ]
+        },
+        "Pendopo": {
+          "steps": [
+            {
+              "heading": 90,
+              "instruction": "Jalan lurus 15 langkah ke Pendopo"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "major": 1,
+      "minor": 7,
+      "roomName": "Pendopo",
+      "arrivalMessage": "Anda berada di Pendopo",
+      "directions": {
+        "Musholla": {
+          "steps": [
+            {
+              "heading": 270,
+              "instruction": "Jalan lurus 15 langkah ke Musholla"
+            }
+          ]
+        },
+        "Toilet 1": {
+          "steps": [
+            {
+              "heading": 180,
+              "instruction": "Jalan lurus 10 langkah ke Toilet 1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "major": 1,
+      "minor": 8,
+      "roomName": "Toilet 1",
+      "arrivalMessage": "Anda berada di Toilet 1",
+      "directions": {
+        "Pendopo": {
+          "steps": [
+            {
+              "heading": 0,
+              "instruction": "Jalan lurus 10 langkah ke Pendopo"
+            }
+          ]
+        },
+        "UKS": {
+          "steps": [
+            {
+              "heading": 90,
+              "instruction": "Jalan lurus 8 langkah ke UKS"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "major": 1,
+      "minor": 9,
+      "roomName": "UKS",
+      "arrivalMessage": "Anda berada di UKS",
+      "directions": {
+        "Toilet 1": {
+          "steps": [
+            {
+              "heading": 270,
+              "instruction": "Jalan lurus 8 langkah ke Toilet 1"
+            }
+          ]
+        },
+        "Kantin": {
+          "steps": [
+            {
+              "heading": 90,
+              "instruction": "Jalan lurus 10 langkah ke Kantin"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "major": 1,
+      "minor": 10,
+      "roomName": "Kantin",
+      "arrivalMessage": "Anda berada di Kantin",
+      "directions": {
+        "UKS": {
+          "steps": [
+            {
+              "heading": 270,
+              "instruction": "Jalan lurus 10 langkah ke UKS"
+            }
+          ]
+        },
+        "Kelas 10": {
+          "steps": [
+            {
+              "heading": 90,
+              "instruction": "Jalan lurus 12 langkah ke Kelas 10"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "major": 1,
+      "minor": 11,
+      "roomName": "Kelas 10",
+      "arrivalMessage": "Anda berada di Kelas 10",
+      "directions": {
+        "Kantin": {
+          "steps": [
+            {
+              "heading": 270,
+              "instruction": "Jalan lurus 12 langkah ke Kantin"
+            }
+          ]
+        },
+        "Ruang Musik": {
+          "steps": [
+            {
+              "heading": 90,
+              "instruction": "Jalan lurus 8 langkah ke Ruang Musik"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "major": 1,
+      "minor": 12,
+      "roomName": "Ruang Musik",
+      "arrivalMessage": "Anda berada di Ruang Musik",
+      "directions": {
+        "Kelas 10": {
+          "steps": [
+            {
+              "heading": 270,
+              "instruction": "Jalan lurus 8 langkah ke Kelas 10"
+            }
+          ]
+        },
+        "Parkiran": {
+          "steps": [
+            {
+              "heading": 90,
+              "instruction": "Jalan lurus 15 langkah ke Parkiran"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "major": 1,
+      "minor": 13,
+      "roomName": "Parkiran",
+      "arrivalMessage": "Anda berada di Parkiran",
+      "directions": {
+        "Ruang Musik": {
+          "steps": [
+            {
+              "heading": 270,
+              "instruction": "Jalan lurus 15 langkah ke Ruang Musik"
+            }
+          ]
+        },
+        "Ruang Komputer": {
+          "steps": [
+            {
+              "heading": 180,
+              "instruction": "Jalan lurus 10 langkah ke Ruang Komputer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "major": 1,
+      "minor": 14,
+      "roomName": "Ruang Komputer",
+      "arrivalMessage": "Anda berada di Ruang Komputer",
+      "directions": {
+        "Parkiran": {
+          "steps": [
+            {
+              "heading": 0,
+              "instruction": "Jalan lurus 10 langkah ke Parkiran"
+            }
+          ]
+        },
+        "Toilet 2": {
+          "steps": [
+            {
+              "heading": 90,
+              "instruction": "Jalan lurus 8 langkah ke Toilet 2"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "major": 1,
+      "minor": 15,
+      "roomName": "Toilet 2",
+      "arrivalMessage": "Anda berada di Toilet 2",
+      "directions": {
+        "Ruang Komputer": {
+          "steps": [
+            {
+              "heading": 270,
+              "instruction": "Jalan lurus 8 langkah ke Ruang Komputer"
+            }
+          ]
+        },
+        "Kelas 7": {
+          "steps": [
+            {
+              "heading": 0,
+              "instruction": "Jalan lurus 20 langkah ke Kelas 7"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

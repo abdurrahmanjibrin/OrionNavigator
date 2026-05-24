@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /orion-app.apk
+
+Sitemap: https://orionguide.id/sitemap.xml

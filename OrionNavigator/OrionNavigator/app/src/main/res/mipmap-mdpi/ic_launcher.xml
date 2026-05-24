@@ -1,0 +1,27 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- Background -->
+    <path
+        android:fillColor="#1E3A5F"
+        android:pathData="M0,0h48v48h-48z"/>
+    <!-- Orion Logo - 4-Pointed Compass/Diamond matching web design -->
+    <!-- Top arrow -->
+    <path
+        android:fillColor="#64B5F6"
+        android:pathData="M24,4 L30,19 L24,16 L18,19 Z"/>
+    <!-- Bottom arrow -->
+    <path
+        android:fillColor="#64B5F6"
+        android:pathData="M24,44 L18,29 L24,32 L30,29 Z"/>
+    <!-- Left arrow -->
+    <path
+        android:fillColor="#448AFF"
+        android:pathData="M4,24 L19,18 L16,24 L19,30 Z"/>
+    <!-- Right arrow -->
+    <path
+        android:fillColor="#448AFF"
+        android:pathData="M44,24 L29,30 L32,24 L29,18 Z"/>
+</vector>

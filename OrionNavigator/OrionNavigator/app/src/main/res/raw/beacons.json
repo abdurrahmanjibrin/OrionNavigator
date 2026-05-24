@@ -1,0 +1,39 @@
+{
+  "beacons": [
+    {
+      "uuid": "12345678-1234-1234-1234-123456789012",
+      "major": 1,
+      "minor": 101,
+      "location": "Ruang Guru",
+      "description": "Gedung A, Lantai 1"
+    },
+    {
+      "uuid": "12345678-1234-1234-1234-123456789012",
+      "major": 1,
+      "minor": 102,
+      "location": "Ruang Kelas",
+      "description": "Gedung A, Lantai 1"
+    },
+    {
+      "uuid": "12345678-1234-1234-1234-123456789012",
+      "major": 1,
+      "minor": 103,
+      "location": "Kantin",
+      "description": "Gedung B, Lantai 1"
+    },
+    {
+      "uuid": "12345678-1234-1234-1234-123456789012",
+      "major": 1,
+      "minor": 104,
+      "location": "Perpustakaan",
+      "description": "Gedung A, Lantai 2"
+    },
+    {
+      "uuid": "12345678-1234-1234-1234-123456789012",
+      "major": 1,
+      "minor": 105,
+      "location": "Toilet",
+      "description": "Gedung A, Lantai 1"
+    }
+  ]
+}

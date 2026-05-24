@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="@dimen/spacing_sm"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardBackgroundColor="@color/background_card"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="4dp"
+    app:rippleColor="@color/ripple_color">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/spacing_lg"
+        android:gravity="center_vertical">
+
+        <!-- Location Icon -->
+        <ImageView
+            android:id="@+id/ivIcon"
+            android:layout_width="@dimen/icon_size_md"
+            android:layout_height="@dimen/icon_size_md"
+            android:src="@drawable/ic_location"
+            android:contentDescription="@null"
+            android:importantForAccessibility="no"
+            app:tint="@color/accent" />
+
+        <!-- Location Details -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/spacing_md"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvLocationName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.Orion.Title"
+                android:textSize="@dimen/text_size_body"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvLocationInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:textAppearance="@style/TextAppearance.Orion.Subtitle"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <!-- Selection Indicator -->
+        <ImageView
+            android:id="@+id/ivSelected"
+            android:layout_width="@dimen/icon_size_sm"
+            android:layout_height="@dimen/icon_size_sm"
+            android:src="@drawable/ic_check"
+            android:contentDescription="@null"
+            android:visibility="invisible"
+            app:tint="@color/accent" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

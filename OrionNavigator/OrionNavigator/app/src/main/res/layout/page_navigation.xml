@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Navigasi - Page 0 dari ViewPager2 di DirectionActivity
+    Glassmorphism: bg_beacon_panel (#25FFFFFF semi-transparent) di atas gradient biru
+    Semua ID dipertahankan persis untuk DirectionActivity.kt
+-->
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="80dp">
+
+        <!-- ============================================================
+             LOKASI + TUJUAN — Glass Card
+             ============================================================ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_beacon_panel"
+            android:orientation="vertical"
+            android:padding="14dp">
+
+            <!-- Lokasi Saat Ini -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <FrameLayout
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/bg_status_active"
+                    android:importantForAccessibility="no">
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_navigation"
+                        app:tint="#FFFFFF"
+                        android:importantForAccessibility="no"
+                        android:contentDescription="" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tvCurrentRoom"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:text="Menunggu beacon..."
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF" />
+
+            </LinearLayout>
+
+            <!-- Divider tipis -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="10dp"
+                android:background="#40FFFFFF"
+                android:importantForAccessibility="no" />
+
+            <!-- Destination Spinner -->
+            <LinearLayout
+                android:id="@+id/llDestination"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <Spinner
+                    android:id="@+id/spinnerDestination"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_spinner_glass"
+                    android:padding="8dp" />
+
+            </LinearLayout>
+
+            <!-- Step Counting Toggle -->
+            <LinearLayout
+                android:id="@+id/llStepCountingToggle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Hitung Langkah Manual"
+                    android:textSize="13sp"
+                    android:textColor="#CCFFFFFF"
+                    android:importantForAccessibility="no" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/switchStepCounting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:contentDescription="Aktifkan hitung langkah manual" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Start Navigation Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStartNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_marginTop="12dp"
+            android:text="MULAI NAVIGASI"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:hapticFeedbackEnabled="true"
+            android:contentDescription="Tekan untuk memulai navigasi ke tujuan yang dipilih"
+            app:backgroundTint="#CC1565C0"
+            app:cornerRadius="20dp"
+            app:icon="@drawable/ic_navigation"
+            app:iconGravity="textStart"
+            app:iconSize="26dp"
+            app:iconTint="@color/white"
+            app:strokeColor="#60FFFFFF"
+            app:strokeWidth="1dp"
+            app:rippleColor="@color/ripple_color" />
+
+        <!-- ============================================================
+             INFO NAVIGASI — Step + Instruksi + Kompas
+             ============================================================ -->
+        <LinearLayout
+            android:id="@+id/cardStep"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_beacon_panel"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Step Progress -->
+            <TextView
+                android:id="@+id/tvStepProgress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Langkah - dari -"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:layout_gravity="center"
+                android:importantForAccessibility="no" />
+
+            <!-- Status -->
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Menunggu..."
+                android:textSize="14sp"
+                android:textColor="#A5D6A7"
+                android:layout_gravity="center"
+                android:importantForAccessibility="no" />
+
+            <!-- Instruction -->
+            <TextView
+                android:id="@+id/tvInstruction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Pilih tujuan untuk memulai navigasi"
+                android:textSize="14sp"
+                android:textColor="#DDFFFFFF"
+                android:gravity="center"
+                android:importantForAccessibility="no" />
+
+            <!-- Compass heading -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="4dp"
+                android:importantForAccessibility="no">
+
+                <TextView
+                    android:id="@+id/tvCurrentHeading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0°"
+                    android:textSize="12sp"
+                    android:textColor="#AAFFFFFF"
+                    android:importantForAccessibility="no" />
+
+                <TextView
+                    android:id="@+id/tvTargetHeading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="12sp"
+                    android:textColor="#AAFFFFFF"
+                    android:layout_marginStart="16dp"
+                    android:visibility="gone"
+                    android:importantForAccessibility="no" />
+
+            </LinearLayout>
+
+            <!-- Compass Arrow -->
+            <ImageView
+                android:id="@+id/ivCompassArrow"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_compass_arrow"
+                app:tint="#FFFFFF"
+                android:importantForAccessibility="no"
+                android:contentDescription="@null" />
+
+            <!-- Alignment Progress -->
+            <ProgressBar
+                android:id="@+id/progressAlignment"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:layout_marginTop="8dp"
+                android:max="100"
+                android:progress="0"
+                android:progressTint="#A5D6A7"
+                android:progressBackgroundTint="#40FFFFFF"
+                android:importantForAccessibility="no" />
+
+            <!-- Step Counter (visible only in step counting mode) -->
+            <TextView
+                android:id="@+id/tvStepCounter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Langkah: 0 / 0"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:gravity="center"
+                android:visibility="gone"
+                android:importantForAccessibility="no" />
+
+        </LinearLayout>
+
+        <!-- ============================================================
+             MAIN BUTTONS — Confirm Step / Count Step
+             ============================================================ -->
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnConfirmStep"
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:layout_marginTop="12dp"
+            android:text="LANJUT&#10;Langkah Berikutnya"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:enabled="false"
+            android:visibility="gone"
+            android:gravity="center"
+            android:hapticFeedbackEnabled="true"
+            android:contentDescription="Tekan untuk lanjut ke langkah berikutnya"
+            app:backgroundTint="#CC1565C0"
+            app:cornerRadius="24dp"
+            app:strokeColor="#60FFFFFF"
+            app:strokeWidth="1dp"
+            app:rippleColor="@color/ripple_color" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCountStep"
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:layout_marginTop="12dp"
+            android:text="LANGKAH&#10;Tekan setiap melangkah"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            android:gravity="center"
+            android:hapticFeedbackEnabled="true"
+            android:contentDescription="Tekan setiap kali Anda melangkah untuk menghitung"
+            app:backgroundTint="#CCE65100"
+            app:cornerRadius="24dp"
+            app:strokeColor="#60FFFFFF"
+            app:strokeWidth="1dp"
+            app:rippleColor="@color/ripple_color" />
+
+        <!-- ============================================================
+             SINYAL BEACON
+             ============================================================ -->
+        <LinearLayout
+            android:id="@+id/cardBeaconSignal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_beacon_panel"
+            android:orientation="vertical"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="10dp">
+
+            <!-- Header row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:importantForAccessibility="no">
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/ic_beacon"
+                    android:contentDescription=""
+                    android:importantForAccessibility="no"
+                    app:tint="#AAFFFFFF"
+                    android:layout_marginEnd="6dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sinyal Beacon"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:textColor="#AAFFFFFF"
+                    android:importantForAccessibility="no" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llBeaconList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="6dp"
+                android:importantForAccessibility="no">
+
+                <!-- Beacon 1 -->
+                <LinearLayout
+                    android:id="@+id/llBeacon1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:visibility="gone"
+                    android:importantForAccessibility="no">
+
+                    <View
+                        android:id="@+id/viewBeacon1Indicator"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:background="@drawable/bg_status_indicator" />
+
+                    <TextView
+                        android:id="@+id/tvBeacon1Name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:textSize="12sp"
+                        android:textColor="#DDFFFFFF"
+                        android:importantForAccessibility="no" />
+
+                    <TextView
+                        android:id="@+id/tvBeacon1Rssi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="11sp"
+                        android:textColor="#AAFFFFFF"
+                        android:importantForAccessibility="no" />
+
+                </LinearLayout>
+
+                <!-- Beacon 2 -->
+                <LinearLayout
+                    android:id="@+id/llBeacon2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="2dp"
+                    android:visibility="gone"
+                    android:importantForAccessibility="no">
+
+                    <View
+                        android:id="@+id/viewBeacon2Indicator"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:background="@drawable/bg_status_indicator" />
+
+                    <TextView
+                        android:id="@+id/tvBeacon2Name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:textSize="12sp"
+                        android:textColor="#DDFFFFFF"
+                        android:importantForAccessibility="no" />
+
+                    <TextView
+                        android:id="@+id/tvBeacon2Rssi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="11sp"
+                        android:textColor="#AAFFFFFF"
+                        android:importantForAccessibility="no" />
+
+                </LinearLayout>
+
+                <!-- Beacon 3 -->
+                <LinearLayout
+                    android:id="@+id/llBeacon3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="2dp"
+                    android:visibility="gone"
+                    android:importantForAccessibility="no">
+
+                    <View
+                        android:id="@+id/viewBeacon3Indicator"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:background="@drawable/bg_status_indicator" />
+
+                    <TextView
+                        android:id="@+id/tvBeacon3Name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:textSize="12sp"
+                        android:textColor="#DDFFFFFF"
+                        android:importantForAccessibility="no" />
+
+                    <TextView
+                        android:id="@+id/tvBeacon3Rssi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="11sp"
+                        android:textColor="#AAFFFFFF"
+                        android:importantForAccessibility="no" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvNoBeacons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Mencari beacon..."
+                    android:textSize="11sp"
+                    android:textColor="#AAFFFFFF"
+                    android:gravity="center"
+                    android:importantForAccessibility="no" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Hentikan Navigasi -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStop"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="12dp"
+            android:text="HENTIKAN NAVIGASI"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:hapticFeedbackEnabled="true"
+            android:contentDescription="Tekan untuk menghentikan navigasi"
+            app:backgroundTint="#99B71C1C"
+            app:cornerRadius="16dp"
+            app:strokeColor="#60FFFFFF"
+            app:strokeWidth="1dp" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

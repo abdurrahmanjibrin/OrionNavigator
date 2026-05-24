@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- BLE Permissions -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    
+    <!-- Location Permissions -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    
+    <!-- Network -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    
+    <!-- Foreground Service -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+    <!-- Camera Permission for Camera AI -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    
+    <!-- Microphone Permission for Voice Commands -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    
+
+    
+    <!-- Vibration for accessibility -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    
+    <!-- Features -->
+    <uses-feature android:name="android.hardware.bluetooth_le" android:required="false" />
+    <uses-feature android:name="android.hardware.location.gps" android:required="false" />
+
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.OrionNavigator"
+        tools:targetApi="31">
+        
+        <!-- Splash Screen -->
+        <activity
+            android:name=".ui.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.OrionNavigator.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <!-- Role Selection (First Launch Only) -->
+        <activity
+            android:name=".ui.RoleSelectionActivity"
+            android:exported="false"
+            android:label="@string/select_role" />
+        
+        <!-- Tunanetra Dashboard (Blind User) -->
+        <activity
+            android:name=".ui.TunanetraActivity"
+            android:exported="false"
+            android:label="@string/app_name" />
+        
+        <!-- Pendamping Dashboard (Caregiver) -->
+        <activity
+            android:name=".ui.PendampingActivity"
+            android:exported="false"
+            android:label="@string/app_name" />
+        
+        <!-- Legacy: Mode Selection (kept for backward compatibility) -->
+        <activity
+            android:name=".ui.ModeSelectionActivity"
+            android:exported="false"
+            android:label="@string/select_mode" />
+        
+        <!-- Beacon Mode -->
+        <activity
+            android:name=".ui.BeaconActivity"
+            android:exported="false"
+            android:label="@string/beacon_mode" />
+
+        
+        <!-- Legacy Live Location Activities (kept for compatibility) -->
+        <activity
+            android:name=".ui.LiveLocationChildActivity"
+            android:exported="false"
+            android:label="@string/live_location_mode" />
+        
+        <activity
+            android:name=".ui.LiveLocationParentActivity"
+            android:exported="false"
+            android:label="@string/live_location_mode" />
+        
+        
+        <!-- Camera AI Activity -->
+        <activity
+            android:name=".ui.CameraAIActivity"
+            android:exported="false"
+            android:label="@string/camera_ai_feature"
+            android:screenOrientation="portrait" />
+        
+        <!-- Safe Zones Management -->
+        <activity
+            android:name=".ui.SafeZonesActivity"
+            android:exported="false"
+            android:label="@string/safe_zones" />
+        
+        <!-- Direction Navigation (Compass-based) -->
+        <activity
+            android:name=".ui.DirectionActivity"
+            android:exported="false"
+            android:label="Navigasi Kompas"
+            android:screenOrientation="portrait" />
+        
+        <!-- Compass Test (Temporary - for comparing old vs new heading) -->
+        <activity
+            android:name=".ui.CompassTestActivity"
+            android:exported="false"
+            android:label="Compass Test"
+            android:screenOrientation="portrait" />
+        
+        <!-- Beacon Scan Service -->
+        <service
+            android:name=".service.BeaconScanService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="connectedDevice" />
+        
+        <!-- Beacon Advertise Service -->
+        <service
+            android:name=".service.BeaconAdvertiseService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="connectedDevice" />
+        
+        <!-- Location Update Service -->
+        <service
+            android:name=".service.LocationUpdateService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="location" />
+        
+
+
+    </application>
+
+</manifest>
+
