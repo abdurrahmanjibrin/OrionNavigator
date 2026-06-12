@@ -1558,6 +1558,8 @@ class DirectionActivity : AppCompatActivity(),
     // =========================================================================
 
     override fun onBeaconDetected(beaconId: String, uuid: String, major: Int, minor: Int, rssi: Int, txPower: Int) {
+        if (!BeaconRoomMapper.isBeaconRegistered(major, minor)) return
+        
         val actualRoomName = getRoomNameForBeacon(major, minor)
         detectedBeacons[beaconId] = BeaconSignal(actualRoomName, rssi, major, minor)
         navigationManager.onBeaconDetected(major, minor, rssi)

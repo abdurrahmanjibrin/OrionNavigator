@@ -181,6 +181,8 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 rssi: Int,
                 txPower: Int
             ) {
+                if (!BeaconRoomMapper.isBeaconRegistered(major, minor)) return
+                
                 val rawName = BeaconRoomMapper.getDisplayNameForBeacon(major, minor)
                 val displayName = rawName.split(" ").joinToString(" ") { word ->
                     word.replaceFirstChar { it.uppercase() }

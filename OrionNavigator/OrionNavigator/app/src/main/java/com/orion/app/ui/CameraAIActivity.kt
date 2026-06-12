@@ -60,6 +60,7 @@ class CameraAIActivity : AppCompatActivity() {
     private var geminiHelper: GeminiHelper? = null
     private var lastBitmap: Bitmap? = null
     private var isProcessingDescription = false
+    private var isShowingDescription = false
 
     // Frame skip counter for performance optimization
     private var frameSkipCounter = 0
@@ -196,6 +197,7 @@ class CameraAIActivity : AppCompatActivity() {
         }
 
         isProcessingDescription = true
+        isShowingDescription = true
         binding.fabDescribe.isEnabled = false
         binding.fabDescribe.text = ""
         binding.progressBar.visibility = View.VISIBLE
@@ -225,10 +227,20 @@ class CameraAIActivity : AppCompatActivity() {
             binding.fabDescribe.isEnabled = true
             binding.fabDescribe.text = "Jelaskan"
 
+            // Keep the description text visible until TTS finishes
+            ttsManager?.setOneShotOnDone {
+                lifecycleScope.launch(Dispatchers.Main) {
+                    isShowingDescription = false
+                }
+            }
             ttsManager?.speak(description)
 
             binding.tvStatus.text = description
             binding.tvStatus.visibility = View.VISIBLE
+
+            // Fallback timeout in case TTS is muted or fails to trigger callback
+            delay(15000)
+            isShowingDescription = false
         }
     }
 
@@ -382,8 +394,8 @@ class CameraAIActivity : AppCompatActivity() {
         // Draw bounding boxes on a Bitmap and set on ImageView
         drawBoundingBoxes(translatedResults)
 
-        // Don't speak interruptions if we are describing the scene
-        if (isProcessingDescription) return
+        // Don't speak interruptions or overwrite UI text if we are describing the scene
+        if (isProcessingDescription || isShowingDescription) return
 
         // Get the best label (highest confidence)
         val bestLabelPair = objectDetectorHelper?.getBestLabel(detectionResults)
@@ -544,6 +556,7 @@ class CameraAIActivity : AppCompatActivity() {
         loadingSoundJob?.cancel()
         loadingSoundJob = null
         isProcessingDescription = false
+        isShowingDescription = false
         cameraManager?.shutdown()
         objectDetectorHelper?.close()
         ttsManager?.shutdown()
