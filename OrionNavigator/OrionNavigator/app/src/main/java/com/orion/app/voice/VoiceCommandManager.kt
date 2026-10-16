@@ -76,6 +76,7 @@ class VoiceCommandManager(
 
     private var speechRecognizer: SpeechRecognizer? = null
     private var isListening = false
+    private var wakeWordDetector: WakeWordDetector? = null
 
     // Wake word mode state
     private var isWakeWordModeActive = false
@@ -143,6 +144,7 @@ class VoiceCommandManager(
         if (!isWakeWordModeActive) return
         isPausedForTTS = true
         handler.removeCallbacks(restartRunnable)
+        wakeWordDetector?.stop()
         destroyRecognizer()
         // Unmute so TTS audio is audible
         unmuteRecognizerBeep()
@@ -166,20 +168,15 @@ class VoiceCommandManager(
     // =========================================================================
 
     /**
-     * Start wake word mode — continuously listens for "Hello Orion".
+     * Start wake word mode — continuously listens for "Hello Orion" using ONNX models.
      * Call in onResume() after checking mic permission.
      */
     fun startWakeWordMode() {
         if (isWakeWordModeActive) return
-        if (!SpeechRecognizer.isRecognitionAvailable(context)) {
-            Log.w(TAG, "Speech recognition not available")
-            return
-        }
-
         isWakeWordModeActive = true
         isActiveListeningAfterWake = false
         isPausedForTTS = false
-        Log.d(TAG, "Wake word mode STARTED")
+        Log.d(TAG, "Wake word mode STARTED with ONNX WakeWordDetector")
         startWakeWordListening()
     }
 
@@ -192,6 +189,7 @@ class VoiceCommandManager(
         isActiveListeningAfterWake = false
         isPausedForTTS = false
         handler.removeCallbacks(restartRunnable)
+        wakeWordDetector?.stop()
         destroyRecognizer()
         unmuteRecognizerBeep()
         Log.d(TAG, "Wake word mode STOPPED")
@@ -202,21 +200,48 @@ class VoiceCommandManager(
     private fun startWakeWordListening() {
         if (!isWakeWordModeActive || isPausedForTTS) return
 
-        try {
-            // Mute the notification/beep sound before starting recognizer
-            muteRecognizerBeep()
+        if (isActiveListeningAfterWake) {
+            // User already triggered "Hello Orion"!
+            // Stop WakeWordDetector to release microphone, then start Android SpeechRecognizer for command
+            wakeWordDetector?.stop()
+            try {
+                destroyRecognizer()
+                speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context)
+                speechRecognizer?.setRecognitionListener(createWakeWordListener())
 
+                val recognizerIntent = createRecognizerIntent()
+                speechRecognizer?.startListening(recognizerIntent)
+                isListening = true
+                Log.d(TAG, "Active listening for command following 'Hello Orion'")
+            } catch (e: Exception) {
+                Log.e(TAG, "Error starting post-wake recognizer", e)
+                isActiveListeningAfterWake = false
+                scheduleRestart(ERROR_RESTART_DELAY_MS)
+            }
+        } else {
+            // Passive mode: Run lightweight offline ONNX WakeWordDetector
             destroyRecognizer()
-            speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context)
-            speechRecognizer?.setRecognitionListener(createWakeWordListener())
+            if (wakeWordDetector == null) {
+                wakeWordDetector = WakeWordDetector(context, threshold = 0.80f) { confidence ->
+                    handler.post {
+                        if (!isWakeWordModeActive || isPausedForTTS || isActiveListeningAfterWake) return@post
+                        Log.i(TAG, "Wake word detected via ONNX! Confidence: $confidence")
 
-            val recognizerIntent = createRecognizerIntent()
-            speechRecognizer?.startListening(recognizerIntent)
-            isListening = true
-            Log.d(TAG, if (isActiveListeningAfterWake) "Active listening (post-wake)" else "Passive listening for wake word")
-        } catch (e: Exception) {
-            Log.e(TAG, "Error starting wake word listening", e)
-            scheduleRestart(ERROR_RESTART_DELAY_MS)
+                        // Stop wake detector so microphone is free for SpeechRecognizer
+                        wakeWordDetector?.stop()
+                        isActiveListeningAfterWake = true
+
+                        // Trigger UI and accessible cue
+                        listener.onWakeWordDetected()
+                        listener.onListeningStarted()
+
+                        // Start capturing user's command
+                        startWakeWordListening()
+                    }
+                }
+            }
+            wakeWordDetector?.start()
+            Log.d(TAG, "Passive listening for wake word via ONNX")
         }
     }
 
@@ -485,6 +510,7 @@ class VoiceCommandManager(
         val wasWakeMode = isWakeWordModeActive
         if (wasWakeMode) {
             handler.removeCallbacks(restartRunnable)
+            wakeWordDetector?.stop()
         }
 
         try {
@@ -529,6 +555,8 @@ class VoiceCommandManager(
         isWakeWordModeActive = false
         isPausedForTTS = false
         handler.removeCallbacks(restartRunnable)
+        wakeWordDetector?.release()
+        wakeWordDetector = null
         destroyRecognizer()
         unmuteRecognizerBeep()
         isListening = false
