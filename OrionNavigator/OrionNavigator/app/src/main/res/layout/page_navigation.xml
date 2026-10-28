@@ -30,8 +30,76 @@
             android:orientation="vertical"
             android:padding="14dp">
 
-            <!-- Lokasi Saat Ini -->
+            <!-- Titik Awal -->
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <FrameLayout
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/bg_status_active"
+                    android:importantForAccessibility="no">
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_location"
+                        app:tint="#FFFFFF"
+                        android:importantForAccessibility="no"
+                        android:contentDescription="" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Titik Awal (Mulai Dari):"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF" />
+
+                    <Spinner
+                        android:id="@+id/spinnerStartLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/bg_spinner_glass"
+                        android:padding="8dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvCurrentRoom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="42dp"
+                android:layout_marginTop="2dp"
+                android:text="Lokasi Awal: Belum dipilih"
+                android:textSize="11sp"
+                android:textColor="#BBFFFFFF" />
+
+            <!-- Divider tipis -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="10dp"
+                android:background="#40FFFFFF"
+                android:importantForAccessibility="no" />
+
+            <!-- Destination Spinner -->
+            <LinearLayout
+                android:id="@+id/llDestination"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -52,42 +120,30 @@
                         android:contentDescription="" />
                 </FrameLayout>
 
-                <TextView
-                    android:id="@+id/tvCurrentRoom"
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="10dp"
-                    android:text="Menunggu beacon..."
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="#FFFFFF" />
+                    android:orientation="vertical">
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Titik Tujuan:"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF" />
 
-            <!-- Divider tipis -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginVertical="10dp"
-                android:background="#40FFFFFF"
-                android:importantForAccessibility="no" />
+                    <Spinner
+                        android:id="@+id/spinnerDestination"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/bg_spinner_glass"
+                        android:padding="8dp" />
 
-            <!-- Destination Spinner -->
-            <LinearLayout
-                android:id="@+id/llDestination"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <Spinner
-                    android:id="@+id/spinnerDestination"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_spinner_glass"
-                    android:padding="8dp" />
+                </LinearLayout>
 
             </LinearLayout>
 

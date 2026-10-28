@@ -3,343 +3,141 @@
   "beacons": [
     {
       "major": 1,
+      "minor": 1,
+      "roomName": "Toilet Wanita Area Cafe",
+      "arrivalMessage": "Anda berada di Toilet Wanita Area Cafe"
+    },
+    {
+      "major": 1,
       "minor": 2,
-      "roomName": "Kelas 7",
-      "arrivalMessage": "Anda berada di Kelas 7",
-      "directions": {
-        "Ruang Guru": {
-          "steps": [
-            {
-              "heading": 90,
-              "instruction": "Keluar kelas, jalan lurus 10 langkah ke Ruang Guru"
-            }
-          ]
-        },
-        "Toilet 1": {
-          "steps": [
-            {
-              "heading": 180,
-              "instruction": "Keluar kelas, belok kiri"
-            },
-            {
-              "heading": 270,
-              "instruction": "Jalan lurus 15 langkah ke Toilet 1"
-            }
-          ]
-        }
-      }
+      "roomName": "Cafe Unesa",
+      "arrivalMessage": "Anda berada di Cafe Unesa"
     },
     {
       "major": 1,
       "minor": 3,
-      "roomName": "Ruang Guru",
-      "arrivalMessage": "Anda berada di Ruang Guru",
-      "directions": {
-        "Kelas 7": {
-          "steps": [
-            {
-              "heading": 270,
-              "instruction": "Jalan lurus 10 langkah ke Kelas 7"
-            }
-          ]
-        },
-        "Ruang Kepala Sekolah / Gamelan": {
-          "steps": [
-            {
-              "heading": 90,
-              "instruction": "Jalan lurus 5 langkah ke Ruang Kepala Sekolah"
-            }
-          ]
-        }
-      }
+      "roomName": "Tangga Cafe",
+      "arrivalMessage": "Anda berada di Tangga Cafe"
     },
     {
       "major": 1,
       "minor": 4,
-      "roomName": "Ruang Kepala Sekolah / Gamelan",
-      "arrivalMessage": "Anda berada di area Ruang Kepala Sekolah dan Gamelan",
-      "directions": {
-        "Ruang Guru": {
-          "steps": [
-            {
-              "heading": 270,
-              "instruction": "Jalan lurus 5 langkah ke Ruang Guru"
-            }
-          ]
-        },
-        "Perpustakaan": {
-          "steps": [
-            {
-              "heading": 90,
-              "instruction": "Jalan lurus 10 langkah ke Perpustakaan"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "major": 1,
-      "minor": 5,
-      "roomName": "Perpustakaan",
-      "arrivalMessage": "Anda berada di Perpustakaan",
-      "directions": {
-        "Ruang Kepala Sekolah / Gamelan": {
-          "steps": [
-            {
-              "heading": 270,
-              "instruction": "Jalan lurus 10 langkah ke Ruang Gamelan"
-            }
-          ]
-        },
-        "Musholla": {
-          "steps": [
-            {
-              "heading": 90,
-              "instruction": "Jalan lurus 12 langkah ke Musholla"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "major": 1,
-      "minor": 6,
-      "roomName": "Musholla",
-      "arrivalMessage": "Anda berada di Musholla",
-      "directions": {
-        "Perpustakaan": {
-          "steps": [
-            {
-              "heading": 270,
-              "instruction": "Jalan lurus 12 langkah ke Perpustakaan"
-            }
-          ]
-        },
-        "Pendopo": {
-          "steps": [
-            {
-              "heading": 90,
-              "instruction": "Jalan lurus 15 langkah ke Pendopo"
-            }
-          ]
-        }
-      }
+      "roomName": "Toilet Pria Area Cafe",
+      "arrivalMessage": "Anda berada di Toilet Pria Area Cafe"
     },
     {
       "major": 1,
       "minor": 7,
-      "roomName": "Pendopo",
-      "arrivalMessage": "Anda berada di Pendopo",
-      "directions": {
-        "Musholla": {
-          "steps": [
-            {
-              "heading": 270,
-              "instruction": "Jalan lurus 15 langkah ke Musholla"
-            }
-          ]
-        },
-        "Toilet 1": {
-          "steps": [
-            {
-              "heading": 180,
-              "instruction": "Jalan lurus 10 langkah ke Toilet 1"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "major": 1,
-      "minor": 8,
-      "roomName": "Toilet 1",
-      "arrivalMessage": "Anda berada di Toilet 1",
-      "directions": {
-        "Pendopo": {
-          "steps": [
-            {
-              "heading": 0,
-              "instruction": "Jalan lurus 10 langkah ke Pendopo"
-            }
-          ]
-        },
-        "UKS": {
-          "steps": [
-            {
-              "heading": 90,
-              "instruction": "Jalan lurus 8 langkah ke UKS"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "major": 1,
-      "minor": 9,
-      "roomName": "UKS",
-      "arrivalMessage": "Anda berada di UKS",
-      "directions": {
-        "Toilet 1": {
-          "steps": [
-            {
-              "heading": 270,
-              "instruction": "Jalan lurus 8 langkah ke Toilet 1"
-            }
-          ]
-        },
-        "Kantin": {
-          "steps": [
-            {
-              "heading": 90,
-              "instruction": "Jalan lurus 10 langkah ke Kantin"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "major": 1,
-      "minor": 10,
-      "roomName": "Kantin",
-      "arrivalMessage": "Anda berada di Kantin",
-      "directions": {
-        "UKS": {
-          "steps": [
-            {
-              "heading": 270,
-              "instruction": "Jalan lurus 10 langkah ke UKS"
-            }
-          ]
-        },
-        "Kelas 10": {
-          "steps": [
-            {
-              "heading": 90,
-              "instruction": "Jalan lurus 12 langkah ke Kelas 10"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "major": 1,
-      "minor": 11,
-      "roomName": "Kelas 10",
-      "arrivalMessage": "Anda berada di Kelas 10",
-      "directions": {
-        "Kantin": {
-          "steps": [
-            {
-              "heading": 270,
-              "instruction": "Jalan lurus 12 langkah ke Kantin"
-            }
-          ]
-        },
-        "Ruang Musik": {
-          "steps": [
-            {
-              "heading": 90,
-              "instruction": "Jalan lurus 8 langkah ke Ruang Musik"
-            }
-          ]
-        }
-      }
+      "roomName": "Co Working Space Cafe",
+      "arrivalMessage": "Anda berada di Co Working Space Cafe"
     },
     {
       "major": 1,
       "minor": 12,
-      "roomName": "Ruang Musik",
-      "arrivalMessage": "Anda berada di Ruang Musik",
-      "directions": {
-        "Kelas 10": {
-          "steps": [
-            {
-              "heading": 270,
-              "instruction": "Jalan lurus 8 langkah ke Kelas 10"
-            }
-          ]
-        },
-        "Parkiran": {
-          "steps": [
-            {
-              "heading": 90,
-              "instruction": "Jalan lurus 15 langkah ke Parkiran"
-            }
-          ]
-        }
-      }
+      "roomName": "Tangga Musholla",
+      "arrivalMessage": "Anda berada di Tangga Musholla"
     },
     {
       "major": 1,
       "minor": 13,
-      "roomName": "Parkiran",
-      "arrivalMessage": "Anda berada di Parkiran",
-      "directions": {
-        "Ruang Musik": {
-          "steps": [
-            {
-              "heading": 270,
-              "instruction": "Jalan lurus 15 langkah ke Ruang Musik"
-            }
-          ]
-        },
-        "Ruang Komputer": {
-          "steps": [
-            {
-              "heading": 180,
-              "instruction": "Jalan lurus 10 langkah ke Ruang Komputer"
-            }
-          ]
-        }
-      }
+      "roomName": "Lift Musholla",
+      "arrivalMessage": "Anda berada di Lift Musholla"
     },
     {
       "major": 1,
-      "minor": 14,
-      "roomName": "Ruang Komputer",
-      "arrivalMessage": "Anda berada di Ruang Komputer",
-      "directions": {
-        "Parkiran": {
-          "steps": [
-            {
-              "heading": 0,
-              "instruction": "Jalan lurus 10 langkah ke Parkiran"
-            }
-          ]
-        },
-        "Toilet 2": {
-          "steps": [
-            {
-              "heading": 90,
-              "instruction": "Jalan lurus 8 langkah ke Toilet 2"
-            }
-          ]
-        }
-      }
+      "minor": 16,
+      "roomName": "Musholla Lantai 1 (Pintu 1)",
+      "arrivalMessage": "Anda berada di Musholla Lantai 1 (Pintu 1)"
     },
     {
       "major": 1,
-      "minor": 15,
-      "roomName": "Toilet 2",
-      "arrivalMessage": "Anda berada di Toilet 2",
-      "directions": {
-        "Ruang Komputer": {
-          "steps": [
-            {
-              "heading": 270,
-              "instruction": "Jalan lurus 8 langkah ke Ruang Komputer"
-            }
-          ]
-        },
-        "Kelas 7": {
-          "steps": [
-            {
-              "heading": 0,
-              "instruction": "Jalan lurus 20 langkah ke Kelas 7"
-            }
-          ]
-        }
-      }
+      "minor": 17,
+      "roomName": "Musholla Lantai 1 (Pintu 2)",
+      "arrivalMessage": "Anda berada di Musholla Lantai 1 (Pintu 2)"
+    },
+    {
+      "major": 1,
+      "minor": 19,
+      "roomName": "Lift Koridor Utama",
+      "arrivalMessage": "Anda berada di Lift Koridor Utama"
+    },
+    {
+      "major": 1,
+      "minor": 24,
+      "roomName": "Lobby",
+      "arrivalMessage": "Anda berada di Lobby"
+    },
+    {
+      "major": 1,
+      "minor": 26,
+      "roomName": "Pintu Tengah",
+      "arrivalMessage": "Anda berada di Pintu Tengah"
+    },
+    {
+      "major": 1,
+      "minor": 50,
+      "roomName": "Pintu Sayap Kiri",
+      "arrivalMessage": "Anda berada di Pintu Sayap Kiri"
+    },
+    {
+      "major": 1,
+      "minor": 51,
+      "roomName": "Satpam",
+      "arrivalMessage": "Anda berada di Satpam"
+    },
+    {
+      "major": 1,
+      "minor": 53,
+      "roomName": "Absen Perpustakaan",
+      "arrivalMessage": "Anda berada di Absen Perpustakaan"
+    },
+    {
+      "major": 1,
+      "minor": 54,
+      "roomName": "Tangga Absen Perpustakaan",
+      "arrivalMessage": "Anda berada di Tangga Absen Perpustakaan"
+    },
+    {
+      "major": 1,
+      "minor": 58,
+      "roomName": "Tangga Sayap Kiri",
+      "arrivalMessage": "Anda berada di Tangga Sayap Kiri"
+    },
+    {
+      "major": 1,
+      "minor": 59,
+      "roomName": "Lift Sayap Kiri",
+      "arrivalMessage": "Anda berada di Lift Sayap Kiri"
+    },
+    {
+      "major": 1,
+      "minor": 60,
+      "roomName": "Working Space Sayap Kiri",
+      "arrivalMessage": "Anda berada di Working Space Sayap Kiri"
+    },
+    {
+      "major": 1,
+      "minor": 64,
+      "roomName": "Toilet Pria Sayap Kiri",
+      "arrivalMessage": "Anda berada di Toilet Pria Sayap Kiri"
+    },
+    {
+      "major": 1,
+      "minor": 65,
+      "roomName": "Toilet Wanita Sayap Kiri",
+      "arrivalMessage": "Anda berada di Toilet Wanita Sayap Kiri"
+    },
+    {
+      "major": 1,
+      "minor": 66,
+      "roomName": "Toilet Difabel Sayap Kiri",
+      "arrivalMessage": "Anda berada di Toilet Difabel Sayap Kiri"
+    },
+    {
+      "major": 1,
+      "minor": 68,
+      "roomName": "Information Center",
+      "arrivalMessage": "Anda berada di Information Center"
     }
   ]
 }

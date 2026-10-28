@@ -148,6 +148,7 @@ class DirectionActivity : AppCompatActivity(),
     
     // Page 0 (Navigation) views
     private var navCurrentRoom: TextView? = null
+    private var navSpinnerStartLocation: android.widget.Spinner? = null
     private var navSpinnerDestination: android.widget.Spinner? = null
     private var navStepCountingToggle: LinearLayout? = null
     private var navSwitchStepCounting: SwitchMaterial? = null
@@ -183,6 +184,7 @@ class DirectionActivity : AppCompatActivity(),
     private var camPreviewView: PreviewView? = null
     private var camDetectionOverlay: ImageView? = null
     private var camTvCurrentRoom: TextView? = null
+    private var camSpinnerStartLocation: android.widget.Spinner? = null
     private var camSpinnerDestination: android.widget.Spinner? = null
     private var camLlStepCountingToggle: LinearLayout? = null
     private var camSwitchStepCounting: SwitchMaterial? = null
@@ -199,8 +201,9 @@ class DirectionActivity : AppCompatActivity(),
     private var camBtnStop: MaterialButton? = null
     private var camBtnDescribe: MaterialButton? = null
     private var camProgressDescribe: ProgressBar? = null
-    private var isSyncingSpinner = false  // prevent infinite sync loops
-    private var isSyncingToggle = false   // prevent infinite sync loops
+    private var isSyncingSpinner = false       // prevent infinite sync loops
+    private var isSyncingStartSpinner = false  // prevent infinite sync loops
+    private var isSyncingToggle = false        // prevent infinite sync loops
 
     // Bounding box paints (for camera page)
     private val boxPaint = Paint().apply {
@@ -443,6 +446,7 @@ class DirectionActivity : AppCompatActivity(),
         
         // Bind all navigation page views
         navCurrentRoom = v.findViewById(R.id.tvCurrentRoom)
+        navSpinnerStartLocation = v.findViewById(R.id.spinnerStartLocation)
         navSpinnerDestination = v.findViewById(R.id.spinnerDestination)
         navStepCountingToggle = v.findViewById(R.id.llStepCountingToggle)
         navSwitchStepCounting = v.findViewById(R.id.switchStepCounting)
@@ -486,6 +490,7 @@ class DirectionActivity : AppCompatActivity(),
         camPreviewView = v.findViewById(R.id.camPreviewView)
         camDetectionOverlay = v.findViewById(R.id.camDetectionOverlay)
         camTvCurrentRoom = v.findViewById(R.id.camTvCurrentRoom)
+        camSpinnerStartLocation = v.findViewById(R.id.camSpinnerStartLocation)
         camSpinnerDestination = v.findViewById(R.id.camSpinnerDestination)
         camLlStepCountingToggle = v.findViewById(R.id.camLlStepCountingToggle)
         camSwitchStepCounting = v.findViewById(R.id.camSwitchStepCounting)
@@ -512,16 +517,12 @@ class DirectionActivity : AppCompatActivity(),
     // =========================================================================
     
     private fun setupNavPageUI() {
+        setupStartLocationSpinner()
         setupDestinationSpinner()
         
         navBtnStartNavigation?.setOnClickListener {
             provideHapticFeedback()
-            val selectedRoom = navSpinnerDestination?.selectedItem as? String
-            if (selectedRoom != null) {
-                startNavigation()
-            } else {
-                ttsManager.speak("Pilih tujuan terlebih dahulu")
-            }
+            startNavigation()
         }
         
         navBtnConfirmStep?.setOnClickListener {
@@ -558,7 +559,8 @@ class DirectionActivity : AppCompatActivity(),
     }
     
     private fun setupCamPageUI() {
-        // --- Destination Spinner (same data as nav page) ---
+        // --- Start Location & Destination Spinners ---
+        setupCamStartLocationSpinner()
         setupCamDestinationSpinner()
         
         // --- Step Counting Toggle (bidirectional sync) ---
@@ -581,12 +583,7 @@ class DirectionActivity : AppCompatActivity(),
         // --- Start Navigation Button ---
         camBtnStartNavigation?.setOnClickListener {
             provideHapticFeedback()
-            val selectedRoom = camSpinnerDestination?.selectedItem as? String
-            if (selectedRoom != null) {
-                startNavigation()
-            } else {
-                ttsManager.speak("Pilih tujuan terlebih dahulu")
-            }
+            startNavigation()
         }
         
         // --- Action Button (confirm step / count step) ---
@@ -615,6 +612,154 @@ class DirectionActivity : AppCompatActivity(),
         syncCameraPageState()
     }
     
+    private fun setupCamStartLocationSpinner() {
+        val rooms = navigationManager.getAllRooms()
+        val adapter = object : ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, rooms) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent)
+                view.contentDescription = getItem(position)
+                return view
+            }
+
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent)
+                val itemName = getItem(position) ?: ""
+                view.contentDescription = itemName
+                ViewCompat.setAccessibilityDelegate(view, object : AccessibilityDelegateCompat() {
+                    override fun onInitializeAccessibilityNodeInfo(
+                        host: View,
+                        info: AccessibilityNodeInfoCompat
+                    ) {
+                        super.onInitializeAccessibilityNodeInfo(host, info)
+                        info.className = "android.widget.TextView"
+                        info.roleDescription = ""
+                        info.isCheckable = false
+                        info.isChecked = false
+                        info.contentDescription = itemName
+                    }
+                })
+                return view
+            }
+        }
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        camSpinnerStartLocation?.adapter = adapter
+
+        camSpinnerStartLocation?.let { spinner ->
+            ViewCompat.setAccessibilityDelegate(spinner, object : AccessibilityDelegateCompat() {
+                override fun onInitializeAccessibilityNodeInfo(
+                    host: View,
+                    info: AccessibilityNodeInfoCompat
+                ) {
+                    super.onInitializeAccessibilityNodeInfo(host, info)
+                    info.roleDescription = ""
+                }
+            })
+        }
+
+        val navSelection = navSpinnerStartLocation?.selectedItemPosition ?: 0
+        if (navSelection >= 0 && navSelection < rooms.size) {
+            camSpinnerStartLocation?.setSelection(navSelection)
+        }
+
+        camSpinnerStartLocation?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (isSyncingStartSpinner) return
+                isSyncingStartSpinner = true
+                navSpinnerStartLocation?.setSelection(position)
+                isSyncingStartSpinner = false
+
+                val selectedRoom = rooms[position]
+                camSpinnerStartLocation?.contentDescription = "Titik awal: $selectedRoom"
+                navCurrentRoom?.text = "Lokasi Awal: $selectedRoom"
+                camTvCurrentRoom?.text = "Lokasi Awal: $selectedRoom"
+
+                navigationManager.setStartingRoom(selectedRoom)
+
+                if (!isNavigating) {
+                    ttsManager.speak("Titik awal dipilih: $selectedRoom.")
+                }
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        if (rooms.isNotEmpty()) {
+            val initIdx = navSpinnerStartLocation?.selectedItemPosition ?: 0
+            camSpinnerStartLocation?.contentDescription = "Titik awal: ${rooms.getOrElse(initIdx) { rooms[0] }}"
+        }
+    }
+
+    private fun setupStartLocationSpinner() {
+        val rooms = navigationManager.getAllRooms()
+        val adapter = object : ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, rooms) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent)
+                view.contentDescription = getItem(position)
+                return view
+            }
+
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent)
+                val itemName = getItem(position) ?: ""
+                view.contentDescription = itemName
+                ViewCompat.setAccessibilityDelegate(view, object : AccessibilityDelegateCompat() {
+                    override fun onInitializeAccessibilityNodeInfo(
+                        host: View,
+                        info: AccessibilityNodeInfoCompat
+                    ) {
+                        super.onInitializeAccessibilityNodeInfo(host, info)
+                        info.className = "android.widget.TextView"
+                        info.roleDescription = ""
+                        info.isCheckable = false
+                        info.isChecked = false
+                        info.contentDescription = itemName
+                    }
+                })
+                return view
+            }
+        }
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        navSpinnerStartLocation?.adapter = adapter
+
+        navSpinnerStartLocation?.let { spinner ->
+            ViewCompat.setAccessibilityDelegate(spinner, object : AccessibilityDelegateCompat() {
+                override fun onInitializeAccessibilityNodeInfo(
+                    host: View,
+                    info: AccessibilityNodeInfoCompat
+                ) {
+                    super.onInitializeAccessibilityNodeInfo(host, info)
+                    info.roleDescription = ""
+                }
+            })
+        }
+
+        navSpinnerStartLocation?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (isSyncingStartSpinner) return
+                isSyncingStartSpinner = true
+                camSpinnerStartLocation?.setSelection(position)
+                isSyncingStartSpinner = false
+
+                val selectedRoom = rooms[position]
+                navSpinnerStartLocation?.contentDescription = "Titik awal: $selectedRoom"
+                navCurrentRoom?.text = "Lokasi Awal: $selectedRoom"
+                camTvCurrentRoom?.text = "Lokasi Awal: $selectedRoom"
+
+                navigationManager.setStartingRoom(selectedRoom)
+
+                if (!isNavigating) {
+                    ttsManager.speak("Titik awal dipilih: $selectedRoom.")
+                }
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        if (rooms.isNotEmpty()) {
+            navSpinnerStartLocation?.contentDescription = "Titik awal: ${rooms[0]}"
+            navCurrentRoom?.text = "Lokasi Awal: ${rooms[0]}"
+            navigationManager.setStartingRoom(rooms[0])
+        }
+    }
+
     private fun setupCamDestinationSpinner() {
         val rooms = navigationManager.getAllRooms()
         val adapter = object : ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, rooms) {
@@ -663,8 +808,9 @@ class DirectionActivity : AppCompatActivity(),
             })
         }
 
-        // Sync initial selection dengan nav page
-        val navSelection = navSpinnerDestination?.selectedItemPosition ?: 0
+        // Sync initial selection dengan nav page (default to index 1 if rooms > 1)
+        val defaultIdx = if (rooms.size > 1) 1 else 0
+        val navSelection = navSpinnerDestination?.selectedItemPosition ?: defaultIdx
         if (navSelection >= 0 && navSelection < rooms.size) {
             camSpinnerDestination?.setSelection(navSelection)
         }
@@ -688,9 +834,9 @@ class DirectionActivity : AppCompatActivity(),
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        // Set initial contentDescription ke item pertama
+        // Set initial contentDescription
         if (rooms.isNotEmpty()) {
-            val initIdx = navSpinnerDestination?.selectedItemPosition ?: 0
+            val initIdx = navSpinnerDestination?.selectedItemPosition ?: defaultIdx
             camSpinnerDestination?.contentDescription = rooms.getOrElse(initIdx) { rooms[0] }
         }
     }
@@ -745,6 +891,11 @@ class DirectionActivity : AppCompatActivity(),
             })
         }
 
+        // Set default selection to index 1 so start and destination differ initially
+        if (rooms.size > 1) {
+            navSpinnerDestination?.setSelection(1)
+        }
+
         navSpinnerDestination?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if (isSyncingSpinner) return
@@ -764,8 +915,10 @@ class DirectionActivity : AppCompatActivity(),
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        // Set initial contentDescription ke item pertama
-        if (rooms.isNotEmpty()) {
+        // Set initial contentDescription
+        if (rooms.size > 1) {
+            navSpinnerDestination?.contentDescription = rooms[1]
+        } else if (rooms.isNotEmpty()) {
             navSpinnerDestination?.contentDescription = rooms[0]
         }
     }
@@ -1145,23 +1298,41 @@ class DirectionActivity : AppCompatActivity(),
             navTvStatus?.text = "Kompas tidak tersedia"
             return
         }
+
+        // Read start location and destination from whichever page is currently active
+        val selectedStart = if (currentPage == PAGE_CAMERA) {
+            camSpinnerStartLocation?.selectedItem as? String
+        } else {
+            navSpinnerStartLocation?.selectedItem as? String
+        }
+        val selectedRoom = if (currentPage == PAGE_CAMERA) {
+            camSpinnerDestination?.selectedItem as? String
+        } else {
+            navSpinnerDestination?.selectedItem as? String
+        }
+
+        if (selectedStart.isNullOrBlank()) {
+            ttsManager.speak("Pilih titik awal terlebih dahulu")
+            return
+        }
+
+        if (selectedRoom.isNullOrBlank()) {
+            ttsManager.speak("Pilih tujuan terlebih dahulu")
+            return
+        }
+
+        if (selectedStart == selectedRoom) {
+            ttsManager.speak("Titik awal dan tujuan tidak boleh sama. Silakan pilih tujuan berbeda.")
+            return
+        }
         
         isNavigating = true
         navigationManager.start()
         updateUIState(true)
         syncCameraPageState()
         
-        // Read destination from whichever page is currently active
-        val selectedRoom = if (currentPage == PAGE_CAMERA) {
-            camSpinnerDestination?.selectedItem as? String
-        } else {
-            navSpinnerDestination?.selectedItem as? String
-        }
-        if (selectedRoom != null) {
-            navigationManager.setDestination(selectedRoom)
-        }
-        
-        ttsManager.speak("Navigasi dimulai. Geser kiri untuk mode kamera.")
+        navigationManager.setStartingRoom(selectedStart)
+        navigationManager.setDestination(selectedRoom)
     }
 
     private fun stopNavigation() {
@@ -1178,6 +1349,7 @@ class DirectionActivity : AppCompatActivity(),
     private fun updateUIState(navigating: Boolean) {
         // Navigation page UI
         navBtnStartNavigation?.visibility = if (navigating) View.GONE else View.VISIBLE
+        navSpinnerStartLocation?.isEnabled = !navigating
         navSpinnerDestination?.isEnabled = !navigating
         navStepCountingToggle?.visibility = if (navigating) View.GONE else View.VISIBLE
         navCardStep?.visibility = if (navigating) View.VISIBLE else View.GONE
@@ -1206,6 +1378,7 @@ class DirectionActivity : AppCompatActivity(),
     private fun syncCameraPageState() {
         if (isNavigating) {
             // Hide pre-navigation controls
+            camSpinnerStartLocation?.isEnabled = false
             camSpinnerDestination?.isEnabled = false
             camLlStepCountingToggle?.visibility = View.GONE
             camBtnStartNavigation?.visibility = View.GONE
@@ -1227,6 +1400,7 @@ class DirectionActivity : AppCompatActivity(),
             camTvStepProgress?.text = navTvStepProgress?.text ?: "Navigasi aktif"
         } else {
             // Show pre-navigation controls
+            camSpinnerStartLocation?.isEnabled = true
             camSpinnerDestination?.isEnabled = true
             camLlStepCountingToggle?.visibility = View.VISIBLE
             camBtnStartNavigation?.visibility = View.VISIBLE
@@ -1264,10 +1438,28 @@ class DirectionActivity : AppCompatActivity(),
     
     override fun onRoomChanged(roomName: String) {
         runOnUiThread {
-            navCurrentRoom?.text = "Lokasi: $roomName"
-            // Update contentDescription agar TalkBack membaca nama lokasi yang benar
-            navCurrentRoom?.contentDescription = "Lokasi saat ini: $roomName"
-            camTvCurrentRoom?.text = "Lokasi: $roomName"
+            navCurrentRoom?.text = "Lokasi Awal: $roomName"
+            navCurrentRoom?.contentDescription = "Lokasi awal: $roomName"
+            camTvCurrentRoom?.text = "Lokasi Awal: $roomName"
+
+            if (!isNavigating) {
+                val rooms = navigationManager.getAllRooms()
+                val idx = rooms.indexOf(roomName)
+                if (idx >= 0) {
+                    if (navSpinnerStartLocation?.selectedItemPosition != idx) {
+                        isSyncingStartSpinner = true
+                        navSpinnerStartLocation?.setSelection(idx)
+                        navSpinnerStartLocation?.contentDescription = "Titik awal: $roomName"
+                        isSyncingStartSpinner = false
+                    }
+                    if (camSpinnerStartLocation?.selectedItemPosition != idx) {
+                        isSyncingStartSpinner = true
+                        camSpinnerStartLocation?.setSelection(idx)
+                        camSpinnerStartLocation?.contentDescription = "Titik awal: $roomName"
+                        isSyncingStartSpinner = false
+                    }
+                }
+            }
         }
     }
 
@@ -1763,7 +1955,12 @@ class DirectionActivity : AppCompatActivity(),
 
     private fun handleCheckLocation() {
         if (detectedBeacons.isEmpty()) {
-            ttsManager.speak("Lokasi belum ditemukan, mohon untuk mendekat ke beacon terdekat")
+            val start = navigationManager.getCurrentRoom() ?: (navSpinnerStartLocation?.selectedItem as? String)
+            if (start != null) {
+                ttsManager.speak("Titik awal yang dipilih adalah $start. Beacon tidak terdeteksi.")
+            } else {
+                ttsManager.speak("Lokasi belum dipilih. Silakan pilih titik awal pada menu.")
+            }
             return
         }
         // Get the beacon with strongest signal (highest RSSI)
@@ -1777,48 +1974,78 @@ class DirectionActivity : AppCompatActivity(),
 
     private fun handleSelectDestination(spokenText: String) {
         if (isNavigating) {
-            ttsManager.speak("Hentikan navigasi terlebih dahulu sebelum memilih tujuan baru")
+            ttsManager.speak("Hentikan navigasi terlebih dahulu sebelum memilih rute baru")
             return
         }
 
-        // Extract destination name by removing command prefixes
-        val prefixes = listOf(
-            "saya ingin ke ", "saya mau ke ", "tujuan ke ",
-            "pergi ke ", "arahkan ke ", "navigasi ke ",
-            "antar ke ", "bawa ke ", "ke "
+        val lower = spokenText.lowercase().trim()
+        val startPrefixes = listOf(
+            "saya mulai dari ", "mulai dari ", "berangkat dari ", 
+            "start dari ", "posisi saya di ", "saya di ", "posisi di ", "dari "
         )
-        var destinationKeyword = spokenText.lowercase().trim()
-        for (prefix in prefixes) {
-            if (destinationKeyword.contains(prefix)) {
-                destinationKeyword = destinationKeyword.substringAfter(prefix).trim()
+        
+        var isSettingStart = false
+        var keyword = lower
+        
+        for (prefix in startPrefixes) {
+            if (keyword.contains(prefix)) {
+                keyword = keyword.substringAfter(prefix).trim()
+                isSettingStart = true
                 break
             }
         }
+        
+        if (!isSettingStart) {
+            val destPrefixes = listOf(
+                "saya ingin ke ", "saya mau ke ", "tujuan ke ",
+                "pergi ke ", "arahkan ke ", "navigasi ke ",
+                "antar ke ", "bawa ke ", "ke "
+            )
+            for (prefix in destPrefixes) {
+                if (keyword.contains(prefix)) {
+                    keyword = keyword.substringAfter(prefix).trim()
+                    break
+                }
+            }
+        }
 
-        if (destinationKeyword.isEmpty()) {
-            ttsManager.speak("Silakan sebutkan nama tujuan. Contoh: saya ingin ke kantin.")
+        if (keyword.isEmpty()) {
+            ttsManager.speak(if (isSettingStart) "Silakan sebutkan titik awal. Contoh: mulai dari lobby." else "Silakan sebutkan nama tujuan. Contoh: saya ingin ke kantin.")
             return
         }
 
         // Use GraphData fuzzy matching
-        val matchedNode = GraphData.findDestinationByKeyword(destinationKeyword)
+        val matchedNode = GraphData.findDestinationByKeyword(keyword)
         if (matchedNode != null) {
-            // Find the position in the spinner and set it
             val rooms = navigationManager.getAllRooms()
             val position = rooms.indexOfFirst { it.equals(matchedNode.nameSpoken, ignoreCase = true) }
             if (position >= 0) {
                 runOnUiThread {
-                    isSyncingSpinner = true
-                    navSpinnerDestination?.setSelection(position)
-                    camSpinnerDestination?.setSelection(position)
-                    isSyncingSpinner = false
+                    if (isSettingStart) {
+                        isSyncingStartSpinner = true
+                        navSpinnerStartLocation?.setSelection(position)
+                        camSpinnerStartLocation?.setSelection(position)
+                        isSyncingStartSpinner = false
+                        navCurrentRoom?.text = "Lokasi Awal: ${matchedNode.nameSpoken}"
+                        camTvCurrentRoom?.text = "Lokasi Awal: ${matchedNode.nameSpoken}"
+                        navigationManager.setStartingRoom(matchedNode.nameSpoken)
+                    } else {
+                        isSyncingSpinner = true
+                        navSpinnerDestination?.setSelection(position)
+                        camSpinnerDestination?.setSelection(position)
+                        isSyncingSpinner = false
+                    }
                 }
-                ttsManager.speak("Tujuan dipilih: ${matchedNode.nameSpoken}. Katakan Mulai Navigasi untuk memulai.")
+                if (isSettingStart) {
+                    ttsManager.speak("Titik awal dipilih: ${matchedNode.nameSpoken}.")
+                } else {
+                    ttsManager.speak("Tujuan dipilih: ${matchedNode.nameSpoken}. Katakan Mulai Navigasi untuk memulai.")
+                }
             } else {
-                ttsManager.speak("Tujuan ${matchedNode.nameSpoken} tidak ditemukan di daftar. Silakan coba lagi.")
+                ttsManager.speak("Ruangan ${matchedNode.nameSpoken} tidak ditemukan di daftar. Silakan coba lagi.")
             }
         } else {
-            ttsManager.speak("Tujuan tidak ditemukan. Silakan coba lagi dengan nama ruangan yang benar.")
+            ttsManager.speak("Ruangan tidak ditemukan. Silakan coba lagi dengan nama ruangan yang benar.")
         }
     }
 

@@ -1,7 +1,7 @@
 package com.orion.app.navigation
 
 /**
- * Beacon to Room Mapper
+ * Beacon to Room Mapper for UNESA Rektorat Lantai 1
  * Maps BLE beacon Major/Minor to GraphData node IDs
  * 
  * UUID: 0112233445566778899AABBCCDDEEFF0
@@ -9,28 +9,33 @@ package com.orion.app.navigation
 object BeaconRoomMapper {
     
     /**
-     * Mapping beacon (Major, Minor) ke node ID dalam graph
-     * Sesuai dengan konfigurasi beacon YPAB
+     * Mapping beacon (Major, Minor) ke node ID dalam graph UNESA Rektorat Lantai 1.
+     * Menggunakan Major = 1, Minor = Node ID.
      */
     private val beaconToNodeMap = mapOf(
-        Pair(1, 1)  to 29,   // Ruangan Kelas Tujuh
-        Pair(1, 2)  to 30,   // Ruangan Guru
-        Pair(1, 3)  to 31,   // Ruangan Kepala Sekolah
-        Pair(1, 4)  to 26,   // Ruangan Gamelan
-        Pair(1, 5)  to 37,   // Perpustakaan
-        Pair(1, 6)  to 36,   // Ruangan Musholla
-        Pair(1, 7)  to 43,   // Jalur Selatan Pendopo
-        Pair(1, 8)  to 27,   // Ruangan Toilet
-        Pair(1, 9)  to 35,   // Ruangan Asrama Putra
-        Pair(1, 10) to 38,   // Kantin
-        Pair(1, 11) to 39,   // Ruangan Kelas Dua Belas
-        Pair(1, 12) to 41,   // Ruangan Musik
-        Pair(1, 13) to 33,   // Parkir
-        Pair(1, 14) to 34,   // Ruangan Komputer
-        Pair(1, 15) to 40,   // Ruangan Kelas Delapan
-        Pair(1, 16) to 23,   // Satpam
-        Pair(1, 17) to 25,   // Jalur Utara Pendopo
-        Pair(1, 18) to 42    // Ruangan Sekre Dua
+        Pair(1, 1)  to 1,   // Toilet Wanita Area Cafe
+        Pair(1, 2)  to 2,   // Cafe Unesa
+        Pair(1, 3)  to 3,   // Tangga Cafe
+        Pair(1, 4)  to 4,   // Toilet Pria Area Cafe
+        Pair(1, 7)  to 7,   // Co Working Space Cafe
+        Pair(1, 12) to 12,  // Tangga Musholla
+        Pair(1, 13) to 13,  // Lift Musholla
+        Pair(1, 16) to 16,  // Musholla Lantai 1 (Pintu 1)
+        Pair(1, 17) to 17,  // Musholla Lantai 1 (Pintu 2)
+        Pair(1, 19) to 19,  // Lift Koridor Utama
+        Pair(1, 24) to 24,  // Lobby
+        Pair(1, 26) to 26,  // Pintu Tengah
+        Pair(1, 50) to 50,  // Pintu Sayap Kiri
+        Pair(1, 51) to 51,  // Satpam
+        Pair(1, 53) to 53,  // Absen Perpustakaan
+        Pair(1, 54) to 54,  // Tangga Absen Perpustakaan
+        Pair(1, 58) to 58,  // Tangga Sayap Kiri
+        Pair(1, 59) to 59,  // Lift Sayap Kiri
+        Pair(1, 60) to 60,  // Working Space Sayap Kiri
+        Pair(1, 64) to 64,  // Toilet Pria Sayap Kiri
+        Pair(1, 65) to 65,  // Toilet Wanita Sayap Kiri
+        Pair(1, 66) to 66,  // Toilet Difabel Sayap Kiri
+        Pair(1, 68) to 68   // Information Center
     )
     
     /**
