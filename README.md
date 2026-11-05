@@ -178,3 +178,9 @@ This project is part of the Orion Guide initiative. All rights reserved.
 <p align="center">
   Built with ❤️ for accessibility
 </p>
+
+
+### 🚀 Key Features & Architecture
+- **Object Detection Engine**: Real-time camera detection pipeline.
+- **Navigation Assistance**: Assistive spatial awareness and alert cues.
+- **Kotlin Android Native**: Optimized mobile lifecycle performance.
