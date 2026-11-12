@@ -8,6 +8,7 @@ import com.orion.app.ble.BleScanner
 import com.orion.app.ble.DistanceCalculator
 import com.orion.app.data.BeaconInfo
 import com.orion.app.data.BeaconRepository
+import com.orion.app.tts.TTSManager
 import java.util.Locale
 
 /**
@@ -68,6 +69,7 @@ class NavigationManager(private val context: Context) : BeaconSource.OnBeaconDet
                 if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                     tts?.setLanguage(Locale.getDefault())
                 }
+                tts?.setSpeechRate(TTSManager.getSavedSpeechRate(context))
                 isTtsReady = true
                 Log.d(TAG, "TTS initialized successfully")
             } else {

@@ -31,6 +31,7 @@ import android.widget.ImageButton
 import com.orion.app.R
 import com.orion.app.data.LiveLocationRepository
 import com.orion.app.service.LocationUpdateService
+import com.orion.app.tts.TTSManager
 import com.orion.app.voice.GeminiCommandProcessor
 import com.orion.app.voice.ListeningDialogHelper
 import com.orion.app.voice.VoiceCommandManager
@@ -182,6 +183,7 @@ class LiveLocationChildActivity : AppCompatActivity(), TextToSpeech.OnInitListen
                 .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SPEECH)
                 .build()
             tts?.setAudioAttributes(audioAttributes)
+            tts?.setSpeechRate(TTSManager.getSavedSpeechRate(this))
             
             // Pause/resume wake word during TTS to prevent mic interference
             tts?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {

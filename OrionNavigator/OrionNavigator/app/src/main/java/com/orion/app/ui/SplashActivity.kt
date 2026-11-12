@@ -11,6 +11,7 @@ import android.speech.tts.UtteranceProgressListener
 import androidx.appcompat.app.AppCompatActivity
 import com.orion.app.R
 import com.orion.app.navigation.MapDataLoader
+import com.orion.app.tts.TTSManager
 import java.util.Locale
 
 /**
@@ -37,6 +38,12 @@ class SplashActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         const val METHOD_GYRO = "gyro"    // Gyroscope Only (Game Rotation Vector) - Hanya Kiri/Kanan, Kebal Atas/Bawah
         const val METHOD_NEW = "new"      // Android Rotation Vector (OS sensor fusion)
         const val METHOD_OLD = "old"      // Accelerometer + Magnetometer (Legacy)
+
+        // TTS Speech Rate preference (Android Accessibility style)
+        const val KEY_TTS_SPEECH_RATE = "tts_speech_rate"
+        const val DEFAULT_TTS_SPEECH_RATE = 0.9f
+        const val MIN_TTS_SPEECH_RATE = 0.5f
+        const val MAX_TTS_SPEECH_RATE = 2.0f
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,6 +75,7 @@ class SplashActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SPEECH)
                 .build()
             tts?.setAudioAttributes(audioAttributes)
+            tts?.setSpeechRate(TTSManager.getSavedSpeechRate(this))
             
             // Speak welcome message
             tts?.speak(

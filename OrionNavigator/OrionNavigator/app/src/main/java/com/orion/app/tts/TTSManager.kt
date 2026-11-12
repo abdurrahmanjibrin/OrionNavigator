@@ -5,7 +5,9 @@ import android.media.AudioAttributes
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.util.Log
+import com.orion.app.ui.SplashActivity
 import java.util.Locale
+import kotlin.math.roundToInt
 
 /**
  * Manager class for Text-to-Speech functionality
@@ -16,9 +18,11 @@ import java.util.Locale
  */
 class TTSManager(context: Context) : TextToSpeech.OnInitListener {
 
+    private val appContext = context.applicationContext
     private var tts: TextToSpeech? = null
     private var isInitialized = false
     private var isSoundEnabled = true
+    private var currentSpeechRate: Float = getSavedSpeechRate(appContext)
     private var lastSpokenObject: String? = null
     private var lastSpeakTime: Long = 0
     
@@ -59,8 +63,9 @@ class TTSManager(context: Context) : TextToSpeech.OnInitListener {
                 .build()
             tts?.setAudioAttributes(audioAttributes)
             
-            // Set speech rate slightly slower for clarity
-            tts?.setSpeechRate(0.9f)
+            // Apply saved speech rate (Accessibility setting, default 0.9f)
+            currentSpeechRate = getSavedSpeechRate(appContext)
+            tts?.setSpeechRate(currentSpeechRate)
             isInitialized = true
 
             // Set utterance listener for wake-word pause/resume
@@ -196,6 +201,33 @@ class TTSManager(context: Context) : TextToSpeech.OnInitListener {
     }
 
     /**
+     * Set speech rate (0.5f - 2.0f) and optionally persist to SharedPreferences
+     */
+    fun setSpeechRate(rate: Float, persist: Boolean = true) {
+        val clamped = clampSpeechRate(rate)
+        currentSpeechRate = clamped
+        if (persist) {
+            saveSpeechRate(appContext, clamped)
+        }
+        tts?.setSpeechRate(clamped)
+        Log.d(TAG, "Speech rate updated to $clamped (persist=$persist)")
+    }
+
+    /**
+     * Get current speech rate
+     */
+    fun getSpeechRate(): Float = currentSpeechRate
+
+    /**
+     * Reload speech rate from SharedPreferences (e.g. in onResume after settings change)
+     */
+    fun refreshSpeechRate() {
+        val saved = getSavedSpeechRate(appContext)
+        currentSpeechRate = saved
+        tts?.setSpeechRate(saved)
+    }
+
+    /**
      * Stop any ongoing speech without shutting down
      */
     fun stop() {
@@ -225,5 +257,38 @@ class TTSManager(context: Context) : TextToSpeech.OnInitListener {
 
     companion object {
         private const val TAG = "TTSManager"
+
+        fun clampSpeechRate(rate: Float): Float {
+            val rounded = (rate * 10f).roundToInt() / 10f
+            return rounded.coerceIn(SplashActivity.MIN_TTS_SPEECH_RATE, SplashActivity.MAX_TTS_SPEECH_RATE)
+        }
+
+        fun getSavedSpeechRate(context: Context): Float {
+            val prefs = context.getSharedPreferences(SplashActivity.PREFS_NAME, Context.MODE_PRIVATE)
+            val saved = prefs.getFloat(SplashActivity.KEY_TTS_SPEECH_RATE, SplashActivity.DEFAULT_TTS_SPEECH_RATE)
+            return clampSpeechRate(saved)
+        }
+
+        fun saveSpeechRate(context: Context, rate: Float) {
+            val clamped = clampSpeechRate(rate)
+            val prefs = context.getSharedPreferences(SplashActivity.PREFS_NAME, Context.MODE_PRIVATE)
+            prefs.edit().putFloat(SplashActivity.KEY_TTS_SPEECH_RATE, clamped).apply()
+        }
+
+        fun getSpeechRateCategory(rate: Float): String {
+            val r = clampSpeechRate(rate)
+            return when {
+                r <= 0.6f -> "Sangat Lambat"
+                r <= 0.8f -> "Lambat"
+                r <= 1.0f -> "Normal"
+                r <= 1.4f -> "Cepat"
+                else -> "Sangat Cepat"
+            }
+        }
+
+        fun getSpeechRateLabel(rate: Float): String {
+            val r = clampSpeechRate(rate)
+            return String.format(Locale.US, "%.1fx (%s)", r, getSpeechRateCategory(r))
+        }
     }
 }

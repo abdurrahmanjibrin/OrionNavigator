@@ -59,6 +59,7 @@ import com.orion.app.navigation.IndoorNavigationManager
 import com.orion.app.navigation.MapDataLoader
 import com.orion.app.sensor.CompassManager
 import com.orion.app.tts.TTSManager
+import com.orion.app.tts.TtsSettingsDialog
 import com.orion.app.voice.GeminiCommandProcessor
 import com.orion.app.voice.ListeningDialogHelper
 import com.orion.app.voice.VoiceCommandManager
@@ -155,6 +156,8 @@ class DirectionActivity : AppCompatActivity(),
     private var navSpinnerDestination: android.widget.Spinner? = null
     private var navStepCountingToggle: LinearLayout? = null
     private var navSwitchStepCounting: SwitchMaterial? = null
+    private var navTtsSpeedSetting: LinearLayout? = null
+    private var navTvTtsSpeedBadge: TextView? = null
     private var navBtnStartNavigation: MaterialButton? = null
     private var navCardStep: View? = null
     private var navTvStepProgress: TextView? = null
@@ -363,6 +366,9 @@ class DirectionActivity : AppCompatActivity(),
 
     override fun onResume() {
         super.onResume()
+        ttsManager.refreshSpeechRate()
+        cameraTtsManager?.refreshSpeechRate()
+        updateTtsSpeedBadge()
         compassManager.start()
         bleScanner.startScan()
         if (isCameraActive && currentPage == PAGE_CAMERA) {
@@ -524,6 +530,8 @@ class DirectionActivity : AppCompatActivity(),
         navSpinnerDestination = v.findViewById(R.id.spinnerDestination)
         navStepCountingToggle = v.findViewById(R.id.llStepCountingToggle)
         navSwitchStepCounting = v.findViewById(R.id.switchStepCounting)
+        navTtsSpeedSetting = v.findViewById(R.id.llTtsSpeedSetting)
+        navTvTtsSpeedBadge = v.findViewById(R.id.tvTtsSpeedBadge)
         navBtnStartNavigation = v.findViewById(R.id.btnStartNavigation)
         navCardStep = v.findViewById(R.id.cardStep)
         navTvStepProgress = v.findViewById(R.id.tvStepProgress)
@@ -630,8 +638,40 @@ class DirectionActivity : AppCompatActivity(),
             provideHapticFeedback()
             stopNavigation()
         }
+
+        navTtsSpeedSetting?.setOnClickListener {
+            provideHapticFeedback()
+            showTtsSpeedDialog()
+        }
+        updateTtsSpeedBadge()
         
         updateUIState(false)
+    }
+
+    private fun updateTtsSpeedBadge() {
+        val rate = TTSManager.getSavedSpeechRate(this)
+        val label = TTSManager.getSpeechRateLabel(rate)
+        navTvTtsSpeedBadge?.text = "$label • Atur"
+        navTtsSpeedSetting?.contentDescription =
+            "Kecepatan suara panduan navigasi, saat ini $label. Ketuk untuk mengatur."
+    }
+
+    private fun showTtsSpeedDialog() {
+        TtsSettingsDialog.show(
+            context = this,
+            onPreviewSpeak = { text, rate ->
+                ttsManager.setSpeechRate(rate, persist = false)
+                ttsManager.speakInterrupt(text)
+            },
+            onRestoreRate = { originalRate ->
+                ttsManager.setSpeechRate(originalRate, persist = false)
+            },
+            onSaved = { newRate ->
+                ttsManager.setSpeechRate(newRate, persist = true)
+                cameraTtsManager?.setSpeechRate(newRate, persist = true)
+                updateTtsSpeedBadge()
+            }
+        )
     }
     
     private fun setupCamPageUI() {

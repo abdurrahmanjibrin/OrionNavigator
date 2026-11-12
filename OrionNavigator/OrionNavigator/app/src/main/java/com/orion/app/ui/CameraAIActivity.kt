@@ -536,6 +536,7 @@ class CameraAIActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        ttsManager?.refreshSpeechRate()
         ttsManager?.resetLastSpoken()
         if (isWakeWordEnabled && ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
             == PackageManager.PERMISSION_GRANTED) {

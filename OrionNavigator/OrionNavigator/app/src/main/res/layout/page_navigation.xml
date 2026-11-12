@@ -232,6 +232,44 @@
 
             </LinearLayout>
 
+            <!-- TTS Speed Setting -->
+            <LinearLayout
+                android:id="@+id/llTtsSpeedSetting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground"
+                android:contentDescription="Kecepatan suara panduan navigasi. Ketuk untuk mengatur.">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Kecepatan Suara (TTS)"
+                    android:textSize="13sp"
+                    android:textColor="#CCFFFFFF"
+                    android:importantForAccessibility="no" />
+
+                <TextView
+                    android:id="@+id/tvTtsSpeedBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="4dp"
+                    android:text="0.9x (Normal) • Atur"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/bg_spinner_glass"
+                    android:importantForAccessibility="no" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <!-- Start Navigation Button -->

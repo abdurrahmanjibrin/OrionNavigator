@@ -9,6 +9,7 @@ import android.speech.tts.UtteranceProgressListener
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.card.MaterialCardView
 import com.orion.app.R
+import com.orion.app.tts.TTSManager
 import java.util.*
 
 /**
@@ -58,6 +59,7 @@ class RoleSelectionActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SPEECH)
                 .build()
             tts?.setAudioAttributes(audioAttributes)
+            tts?.setSpeechRate(TTSManager.getSavedSpeechRate(this))
             
             // Set listener to announce second option after first
             tts?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
