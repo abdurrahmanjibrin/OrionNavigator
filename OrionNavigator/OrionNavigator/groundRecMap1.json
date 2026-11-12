@@ -1,0 +1,552 @@
+{
+  "buildingName": "New Building",
+  "edges": [
+    {
+      "arrivalDegree": 91.38275909423828,
+      "arrivalGyro": 168.94229125976562,
+      "degree": 96.93499755859375,
+      "departureDegree": 96.93499755859375,
+      "departureGyro": 172.42666625976562,
+      "from": 1,
+      "gyro": 172.42666625976562,
+      "steps": 14,
+      "to": 2
+    },
+    {
+      "arrivalDegree": 271.3827590942383,
+      "arrivalGyro": 348.9422912597656,
+      "degree": 276.93499755859375,
+      "departureDegree": 276.93499755859375,
+      "departureGyro": 352.4266662597656,
+      "from": 2,
+      "gyro": 352.4266662597656,
+      "steps": 14,
+      "to": 1
+    },
+    {
+      "arrivalDegree": 91.28951263427734,
+      "arrivalGyro": 165.68350219726562,
+      "degree": 91.60108184814453,
+      "departureDegree": 91.60108184814453,
+      "departureGyro": 169.16954040527344,
+      "from": 2,
+      "gyro": 169.16954040527344,
+      "steps": 8,
+      "to": 3
+    },
+    {
+      "arrivalDegree": 271.28951263427734,
+      "arrivalGyro": 345.6835021972656,
+      "degree": 271.60108184814453,
+      "departureDegree": 271.60108184814453,
+      "departureGyro": 349.16954040527344,
+      "from": 3,
+      "gyro": 349.16954040527344,
+      "steps": 8,
+      "to": 2
+    },
+    {
+      "arrivalDegree": 354.26751708984375,
+      "arrivalGyro": 74.199951171875,
+      "degree": 5.1740570068359375,
+      "departureDegree": 5.1740570068359375,
+      "departureGyro": 78.64523315429688,
+      "from": 3,
+      "gyro": 78.64523315429688,
+      "steps": 13,
+      "to": 4
+    },
+    {
+      "arrivalDegree": 174.26751708984375,
+      "arrivalGyro": 254.199951171875,
+      "degree": 185.17405700683594,
+      "departureDegree": 185.17405700683594,
+      "departureGyro": 258.6452331542969,
+      "from": 4,
+      "gyro": 258.6452331542969,
+      "steps": 13,
+      "to": 3
+    },
+    {
+      "arrivalDegree": 4.562410354614258,
+      "arrivalGyro": 85.14605712890625,
+      "degree": 354.6908874511719,
+      "departureDegree": 354.6908874511719,
+      "departureGyro": 75.03961181640625,
+      "from": 4,
+      "gyro": 75.03961181640625,
+      "steps": 5,
+      "to": 5
+    },
+    {
+      "arrivalDegree": 184.56241035461426,
+      "arrivalGyro": 265.14605712890625,
+      "degree": 174.69088745117188,
+      "departureDegree": 174.69088745117188,
+      "departureGyro": 255.03961181640625,
+      "from": 5,
+      "gyro": 255.03961181640625,
+      "steps": 5,
+      "to": 4
+    },
+    {
+      "arrivalDegree": 53.820640563964844,
+      "arrivalGyro": 125.14813232421875,
+      "degree": 48.26123046875,
+      "departureDegree": 48.26123046875,
+      "departureGyro": 127.46063232421875,
+      "from": 5,
+      "gyro": 127.46063232421875,
+      "steps": 9,
+      "to": 6
+    },
+    {
+      "arrivalDegree": 233.82064056396484,
+      "arrivalGyro": 305.14813232421875,
+      "degree": 228.26123046875,
+      "departureDegree": 228.26123046875,
+      "departureGyro": 307.46063232421875,
+      "from": 6,
+      "gyro": 307.46063232421875,
+      "steps": 9,
+      "to": 5
+    },
+    {
+      "arrivalDegree": 70.23384857177734,
+      "arrivalGyro": 125.58010864257812,
+      "degree": 56.08579635620117,
+      "departureDegree": 56.08579635620117,
+      "departureGyro": 127.12728881835938,
+      "from": 6,
+      "gyro": 127.12728881835938,
+      "steps": 10,
+      "to": 7
+    },
+    {
+      "arrivalDegree": 250.23384857177734,
+      "arrivalGyro": 305.5801086425781,
+      "degree": 236.08579635620117,
+      "departureDegree": 236.08579635620117,
+      "departureGyro": 307.1272888183594,
+      "from": 7,
+      "gyro": 307.1272888183594,
+      "steps": 10,
+      "to": 6
+    },
+    {
+      "arrivalDegree": 74.54464721679688,
+      "arrivalGyro": 132.20721435546875,
+      "degree": 72.87535858154297,
+      "departureDegree": 72.87535858154297,
+      "departureGyro": 126.58831787109375,
+      "from": 7,
+      "gyro": 126.58831787109375,
+      "steps": 5,
+      "to": 8
+    },
+    {
+      "arrivalDegree": 254.54464721679688,
+      "arrivalGyro": 312.20721435546875,
+      "degree": 252.87535858154297,
+      "departureDegree": 252.87535858154297,
+      "departureGyro": 306.58831787109375,
+      "from": 8,
+      "gyro": 306.58831787109375,
+      "steps": 5,
+      "to": 7
+    },
+    {
+      "arrivalDegree": 160.56100463867188,
+      "arrivalGyro": 223.14706420898438,
+      "degree": 80.89330291748047,
+      "departureDegree": 80.89330291748047,
+      "departureGyro": 137.81777954101562,
+      "from": 8,
+      "gyro": 137.81777954101562,
+      "steps": 9,
+      "to": 9
+    },
+    {
+      "arrivalDegree": 340.5610046386719,
+      "arrivalGyro": 43.147064208984375,
+      "degree": 260.89330291748047,
+      "departureDegree": 260.89330291748047,
+      "departureGyro": 317.8177795410156,
+      "from": 9,
+      "gyro": 317.8177795410156,
+      "steps": 9,
+      "to": 8
+    },
+    {
+      "arrivalDegree": 182.67202758789062,
+      "arrivalGyro": 315.47930908203125,
+      "degree": 183.674072265625,
+      "departureDegree": 183.674072265625,
+      "departureGyro": 315.90155029296875,
+      "from": 2,
+      "gyro": 315.90155029296875,
+      "steps": 6,
+      "to": 10
+    },
+    {
+      "arrivalDegree": 2.672027587890625,
+      "arrivalGyro": 135.47930908203125,
+      "degree": 3.674072265625,
+      "departureDegree": 3.674072265625,
+      "departureGyro": 135.90155029296875,
+      "from": 10,
+      "gyro": 135.90155029296875,
+      "steps": 6,
+      "to": 2
+    },
+    {
+      "arrivalDegree": 270.50262451171875,
+      "arrivalGyro": 42.7257080078125,
+      "degree": 272.01715087890625,
+      "departureDegree": 272.01715087890625,
+      "departureGyro": 46.58404541015625,
+      "from": 10,
+      "gyro": 46.58404541015625,
+      "steps": 13,
+      "to": 11
+    },
+    {
+      "arrivalDegree": 90.50262451171875,
+      "arrivalGyro": 222.7257080078125,
+      "degree": 92.01715087890625,
+      "departureDegree": 92.01715087890625,
+      "departureGyro": 226.58404541015625,
+      "from": 11,
+      "gyro": 226.58404541015625,
+      "steps": 13,
+      "to": 10
+    },
+    {
+      "arrivalDegree": 194.28636169433594,
+      "arrivalGyro": 315.92352294921875,
+      "degree": 181.12022399902344,
+      "departureDegree": 181.12022399902344,
+      "departureGyro": 312.74853515625,
+      "from": 11,
+      "gyro": 312.74853515625,
+      "steps": 5,
+      "to": 12
+    },
+    {
+      "arrivalDegree": 14.286361694335938,
+      "arrivalGyro": 135.92352294921875,
+      "degree": 1.1202239990234375,
+      "departureDegree": 1.1202239990234375,
+      "departureGyro": 132.74853515625,
+      "from": 12,
+      "gyro": 132.74853515625,
+      "steps": 5,
+      "to": 11
+    },
+    {
+      "arrivalDegree": 278.0431823730469,
+      "arrivalGyro": 43.521026611328125,
+      "degree": 280.56396484375,
+      "departureDegree": 280.56396484375,
+      "departureGyro": 42.235809326171875,
+      "from": 12,
+      "gyro": 42.235809326171875,
+      "steps": 3,
+      "to": 13
+    },
+    {
+      "arrivalDegree": 98.04318237304688,
+      "arrivalGyro": 223.52102661132812,
+      "degree": 100.56396484375,
+      "departureDegree": 100.56396484375,
+      "departureGyro": 222.23580932617188,
+      "from": 13,
+      "gyro": 222.23580932617188,
+      "steps": 3,
+      "to": 12
+    },
+    {
+      "arrivalDegree": 190.62924194335938,
+      "arrivalGyro": 307.6896057128906,
+      "degree": 188.1156768798828,
+      "departureDegree": 188.1156768798828,
+      "departureGyro": 310.15240478515625,
+      "from": 12,
+      "gyro": 310.15240478515625,
+      "steps": 4,
+      "to": 14
+    },
+    {
+      "arrivalDegree": 10.629241943359375,
+      "arrivalGyro": 127.68960571289062,
+      "degree": 8.115676879882812,
+      "departureDegree": 8.115676879882812,
+      "departureGyro": 130.15240478515625,
+      "from": 14,
+      "gyro": 130.15240478515625,
+      "steps": 4,
+      "to": 12
+    },
+    {
+      "arrivalDegree": 337.70867919921875,
+      "arrivalGyro": 92.67605590820312,
+      "degree": 285.22216796875,
+      "departureDegree": 285.22216796875,
+      "departureGyro": 41.452606201171875,
+      "from": 14,
+      "gyro": 41.452606201171875,
+      "steps": 5,
+      "to": 15
+    },
+    {
+      "arrivalDegree": 157.70867919921875,
+      "arrivalGyro": 272.6760559082031,
+      "degree": 105.22216796875,
+      "departureDegree": 105.22216796875,
+      "departureGyro": 221.45260620117188,
+      "from": 15,
+      "gyro": 221.45260620117188,
+      "steps": 5,
+      "to": 14
+    },
+    {
+      "arrivalDegree": 9.058698654174805,
+      "arrivalGyro": 122.87466430664062,
+      "degree": 136.19467163085938,
+      "departureDegree": 136.19467163085938,
+      "departureGyro": 249.5787353515625,
+      "from": 14,
+      "gyro": 249.5787353515625,
+      "steps": 3,
+      "to": 16
+    },
+    {
+      "arrivalDegree": 189.0586986541748,
+      "arrivalGyro": 302.8746643066406,
+      "degree": 316.1946716308594,
+      "departureDegree": 316.1946716308594,
+      "departureGyro": 69.5787353515625,
+      "from": 16,
+      "gyro": 69.5787353515625,
+      "steps": 3,
+      "to": 14
+    },
+    {
+      "arrivalDegree": 187.53631591796875,
+      "arrivalGyro": 300.7524719238281,
+      "degree": 187.5108642578125,
+      "departureDegree": 187.5108642578125,
+      "departureGyro": 304.7049560546875,
+      "from": 10,
+      "gyro": 304.7049560546875,
+      "steps": 9,
+      "to": 17
+    },
+    {
+      "arrivalDegree": 7.53631591796875,
+      "arrivalGyro": 120.75247192382812,
+      "degree": 7.5108642578125,
+      "departureDegree": 7.5108642578125,
+      "departureGyro": 124.7049560546875,
+      "from": 17,
+      "gyro": 124.7049560546875,
+      "steps": 9,
+      "to": 10
+    },
+    {
+      "arrivalDegree": 101.63894653320312,
+      "arrivalGyro": 214.2727813720703,
+      "degree": 103.4311294555664,
+      "departureDegree": 103.4311294555664,
+      "departureGyro": 215.25680541992188,
+      "from": 17,
+      "gyro": 215.25680541992188,
+      "steps": 12,
+      "to": 18
+    },
+    {
+      "arrivalDegree": 281.6389465332031,
+      "arrivalGyro": 34.27278137207031,
+      "degree": 283.4311294555664,
+      "departureDegree": 283.4311294555664,
+      "departureGyro": 35.256805419921875,
+      "from": 18,
+      "gyro": 35.256805419921875,
+      "steps": 12,
+      "to": 17
+    },
+    {
+      "arrivalDegree": 192.39122009277344,
+      "arrivalGyro": 298.46337890625,
+      "degree": 191.0228729248047,
+      "departureDegree": 191.0228729248047,
+      "departureGyro": 299.37652587890625,
+      "from": 17,
+      "gyro": 299.37652587890625,
+      "steps": 13,
+      "to": 19
+    },
+    {
+      "arrivalDegree": 12.391220092773438,
+      "arrivalGyro": 118.46337890625,
+      "degree": 11.022872924804688,
+      "departureDegree": 11.022872924804688,
+      "departureGyro": 119.37652587890625,
+      "from": 19,
+      "gyro": 119.37652587890625,
+      "steps": 13,
+      "to": 17
+    },
+    {
+      "arrivalDegree": 282.5725402832031,
+      "arrivalGyro": 27.0621337890625,
+      "degree": 280.66357421875,
+      "departureDegree": 280.66357421875,
+      "departureGyro": 27.21478271484375,
+      "from": 19,
+      "gyro": 27.21478271484375,
+      "steps": 6,
+      "to": 20
+    },
+    {
+      "arrivalDegree": 102.57254028320312,
+      "arrivalGyro": 207.0621337890625,
+      "degree": 100.66357421875,
+      "departureDegree": 100.66357421875,
+      "departureGyro": 207.21478271484375,
+      "from": 20,
+      "gyro": 207.21478271484375,
+      "steps": 6,
+      "to": 19
+    },
+    {
+      "arrivalDegree": 272.3868408203125,
+      "arrivalGyro": 15.73773193359375,
+      "degree": 280.6849365234375,
+      "departureDegree": 280.6849365234375,
+      "departureGyro": 24.735015869140625,
+      "from": 20,
+      "gyro": 24.735015869140625,
+      "steps": 4,
+      "to": 21
+    },
+    {
+      "arrivalDegree": 92.3868408203125,
+      "arrivalGyro": 195.73773193359375,
+      "degree": 100.6849365234375,
+      "departureDegree": 100.6849365234375,
+      "departureGyro": 204.73501586914062,
+      "from": 21,
+      "gyro": 204.73501586914062,
+      "steps": 4,
+      "to": 20
+    }
+  ],
+  "nodes": [
+    {
+      "id": 1,
+      "isDestination": false,
+      "name": "101"
+    },
+    {
+      "id": 2,
+      "isDestination": false,
+      "name": "108"
+    },
+    {
+      "id": 3,
+      "isDestination": false,
+      "name": "115"
+    },
+    {
+      "id": 4,
+      "isDestination": false,
+      "name": "117"
+    },
+    {
+      "id": 5,
+      "isDestination": false,
+      "name": "118"
+    },
+    {
+      "id": 6,
+      "isDestination": false,
+      "name": "119"
+    },
+    {
+      "id": 7,
+      "isDestination": false,
+      "name": "120"
+    },
+    {
+      "id": 8,
+      "isDestination": false,
+      "name": "121"
+    },
+    {
+      "id": 9,
+      "isDestination": false,
+      "name": "122"
+    },
+    {
+      "id": 10,
+      "isDestination": false,
+      "name": "109"
+    },
+    {
+      "id": 11,
+      "isDestination": false,
+      "name": "102"
+    },
+    {
+      "id": 12,
+      "isDestination": false,
+      "name": "104"
+    },
+    {
+      "id": 13,
+      "isDestination": false,
+      "name": "103"
+    },
+    {
+      "id": 14,
+      "isDestination": false,
+      "name": "105"
+    },
+    {
+      "id": 15,
+      "isDestination": false,
+      "name": "106"
+    },
+    {
+      "id": 16,
+      "isDestination": false,
+      "name": "107"
+    },
+    {
+      "id": 17,
+      "isDestination": false,
+      "name": "110"
+    },
+    {
+      "id": 18,
+      "isDestination": false,
+      "name": "111"
+    },
+    {
+      "id": 19,
+      "isDestination": false,
+      "name": "112"
+    },
+    {
+      "id": 20,
+      "isDestination": false,
+      "name": "113"
+    },
+    {
+      "id": 21,
+      "isDestination": false,
+      "name": "114"
+    }
+  ]
+}

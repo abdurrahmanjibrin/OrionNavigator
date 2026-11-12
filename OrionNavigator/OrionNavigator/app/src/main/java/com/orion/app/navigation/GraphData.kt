@@ -62,16 +62,24 @@ object GraphData {
         64 to Node(64, "Toilet Pria Sayap Kiri", true),
         65 to Node(65, "Toilet Wanita Sayap Kiri", true),
         66 to Node(66, "Toilet Difabel Sayap Kiri", true),
-        68 to Node(68, "Information Center", true)
+        68 to Node(68, "Information Center", true),
+        901 to Node(901, "Uji Coba - Titik Mulai (Hadap Lurus)", true),
+        902 to Node(902, "Uji Coba - Pos 1 Belok Kanan", false),
+        903 to Node(903, "Uji Coba - Pos 2 Belok Kiri", false),
+        904 to Node(904, "Uji Coba - Titik Selesai", true)
     )
 
-    // Gabungan semua nodes (Junctions + Destinations)
-    val nodes: Map<Int, Node> = junctionNodes + destinationNodes
+    // Gabungan semua default nodes (Junctions + Destinations)
+    private val defaultNodes: Map<Int, Node> = junctionNodes + destinationNodes
+
+    // Active nodes in memory (can be loaded from JSON)
+    var nodes: Map<Int, Node> = defaultNodes
+        private set
 
     // ========== EDGES dengan jumlah langkah dan bearing ==========
     // Setiap koneksi memiliki 2 edge (bolak-balik) dengan bearing masing-masing
     // Bearing dalam derajat: 0° = Utara, 90° = Timur, 180° = Selatan, 270° = Barat
-    val edges: List<Edge> = listOf(
+    private val defaultEdges: List<Edge> = listOf(
         Edge(1 , 2 , 9 , 152.0), // Toilet Wanita Area Cafe -> Cafe Unesa
         Edge(2 , 1 , 9 , 330.0), // Cafe Unesa -> Toilet Wanita Area Cafe
         Edge(2 , 3 , 9 , 288.0), // Cafe Unesa -> Tangga Cafe
@@ -165,8 +173,18 @@ object GraphData {
         Edge(67, 63, 14, 199.0), // Pertigaan Penghubung Sayap Kiri -> Depan Toilet Difabel
         Edge(67, 68, 13, 282.0), // Pertigaan Penghubung Sayap Kiri -> Information Center
         Edge(68, 18, 20,  12.0), // Information Center -> Pertigaan Information Center
-        Edge(68, 67, 13, 102.0) // Information Center -> Pertigaan Penghubung Sayap Kiri
+        Edge(68, 67, 13, 102.0), // Information Center -> Pertigaan Penghubung Sayap Kiri
+        Edge(901, 902, 10,   0.0), // Uji Coba: Titik Mulai -> Pos 1 (Hadap Lurus 0°)
+        Edge(902, 901, 10, 180.0),
+        Edge(902, 903, 10,  90.0), // Uji Coba: Pos 1 -> Pos 2 (Belok Kanan 90°)
+        Edge(903, 902, 10, 270.0),
+        Edge(903, 904, 10,   0.0), // Uji Coba: Pos 2 -> Selesai
+        Edge(904, 903, 10, 180.0)
     )
+
+    // Active edges in memory (can be loaded from JSON)
+    var edges: List<Edge> = defaultEdges
+        private set
 
     /**
      * Helper: Dapatkan semua tujuan untuk dropdown
@@ -210,10 +228,46 @@ object GraphData {
     }
 
     /**
+     * Building and floor name (can be loaded from JSON)
+     */
+    var currentBuildingName: String = "Gedung Rektorat UNESA"
+        private set
+
+    var currentFloorName: String = "Lantai 1"
+        private set
+
+    /**
+     * Update map graph data dynamically (e.g. from JSON file)
+     */
+    fun setMapData(
+        newNodes: Map<Int, Node>,
+        newEdges: List<Edge>,
+        newAliases: Map<String, String>? = null,
+        buildingName: String? = null,
+        floorName: String? = null
+    ) {
+        if (newNodes.isNotEmpty()) {
+            nodes = newNodes
+        }
+        if (newEdges.isNotEmpty()) {
+            edges = newEdges
+        }
+        if (newAliases != null && newAliases.isNotEmpty()) {
+            destinationAliases = newAliases.toMutableMap()
+        }
+        if (!buildingName.isNullOrBlank()) {
+            currentBuildingName = buildingName
+        }
+        if (!floorName.isNullOrBlank()) {
+            currentFloorName = floorName
+        }
+    }
+
+    /**
      * Keyword aliases for voice command matching.
      * Maps English/phonetic variations and informal terms to actual destination nameSpoken.
      */
-    private val destinationAliases = mapOf(
+    private val defaultAliases = mapOf(
         // Cafe Unesa
         "cafe" to "Cafe Unesa",
         "kafe" to "Cafe Unesa",
@@ -304,6 +358,12 @@ object GraphData {
         "info center" to "Information Center",
         "resepsionis" to "Information Center"
     )
+
+    /**
+     * Active aliases for voice command matching (can be loaded from JSON)
+     */
+    var destinationAliases: MutableMap<String, String> = defaultAliases.toMutableMap()
+        private set
 
     /**
      * Find destination by keyword (fuzzy matching for voice commands).

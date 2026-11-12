@@ -16,6 +16,8 @@ import android.view.animation.Animation
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
+import android.net.Uri
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -27,6 +29,8 @@ import com.orion.app.R
 import com.orion.app.ble.BeaconSource
 import com.orion.app.ble.BleScanner
 import com.orion.app.navigation.BeaconRoomMapper
+import com.orion.app.navigation.GraphData
+import com.orion.app.navigation.MapDataLoader
 import com.orion.app.voice.GeminiCommandProcessor
 import com.orion.app.voice.ListeningDialogHelper
 import com.orion.app.voice.VoiceCommandManager
@@ -88,6 +92,15 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             voiceCommandManager?.startWakeWordMode()
         } else {
             speak("Izin mikrofon diperlukan untuk perintah suara")
+        }
+    }
+
+    // File picker launcher for JSON map import
+    private val jsonPickerLauncher = registerForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        if (uri != null) {
+            importJsonMap(uri)
         }
     }
     
@@ -333,6 +346,9 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 speakHelp()
             }
             VoiceIntent.UNKNOWN -> {
+                if (checkVoiceFloorSwitch(spokenText)) {
+                    return
+                }
                 if (spokenText.isBlank()) {
                     speak("Maaf, suara tidak terdengar jelas. Silakan ucapkan Hello Orion dan coba lagi.")
                 } else {
@@ -340,9 +356,39 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 }
             }
             else -> {
+                if (checkVoiceFloorSwitch(spokenText)) {
+                    return
+                }
                 speak("Perintah tidak tersedia di halaman ini.")
             }
         }
+    }
+
+    private fun checkVoiceFloorSwitch(spokenText: String): Boolean {
+        if (spokenText.isBlank()) return false
+        val lower = spokenText.lowercase()
+            .replace("satu", "1")
+            .replace("dua", "2")
+            .replace("tiga", "3")
+            .replace("empat", "4")
+            .replace("lima", "5")
+
+        if (!lower.contains("lantai") && !lower.contains("floor") && !lower.contains("ground") && !lower.contains("layer")) {
+            return false
+        }
+
+        val layers = MapDataLoader.getAvailableLayers(this)
+        for (layer in layers) {
+            val fLower = layer.floorName.lowercase()
+            if (lower.contains(fLower) || (fLower.startsWith("lantai ") && lower.contains(fLower.substring(7)))) {
+                MapDataLoader.setActiveLayer(this, layer.id)
+                val msg = "Beralih ke layer ${layer.floorName}"
+                speak(msg)
+                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+                return true
+            }
+        }
+        return false
     }
 
     private fun speakHelp() {
@@ -483,10 +529,10 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             showLogoutDialog()
         }
 
-        // Settings button — compass settings
+        // Settings button — compass & map settings
         btnSettings.setOnClickListener {
             vibrate()
-            showCompassSettingsDialog()
+            showSettingsMenuDialog()
         }
 
         // Mic button — direct listen (skip wake word)
@@ -518,15 +564,182 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         }, 800)
     }
 
+    private fun showSettingsMenuDialog() {
+        val options = arrayOf(
+            "🏢 Pilih Lantai / Layer Denah",
+            "➕ Impor Denah Baru (Tambah Layer)",
+            "🗑️ Hapus Layer Denah Kustom",
+            "🧭 Pengaturan Metode Kompas",
+            "🧪 Layar Uji Sensor Kompas & Gyro",
+            "🔄 Reset ke Bawaan (Lantai 1 Saja)",
+            "📍 Info Denah & Layer Aktif"
+        )
+
+        AlertDialog.Builder(this)
+            .setTitle("⚙️ Pengaturan Orion")
+            .setItems(options) { _, which ->
+                when (which) {
+                    0 -> showFloorSelectionDialog()
+                    1 -> {
+                        speak("Pilih file denah JSON dari penyimpanan")
+                        jsonPickerLauncher.launch("*/*")
+                    }
+                    2 -> showDeleteLayerDialog()
+                    3 -> showCompassSettingsDialog()
+                    4 -> {
+                        startActivity(Intent(this, CompassTestActivity::class.java))
+                    }
+                    5 -> resetMapToDefault()
+                    6 -> showActiveMapInfo()
+                }
+            }
+            .setNegativeButton("Tutup") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun showFloorSelectionDialog() {
+        val layers = MapDataLoader.getAvailableLayers(this)
+        val activeId = MapDataLoader.getActiveLayerId(this)
+        val activeIdx = layers.indexOfFirst { it.id == activeId }.coerceAtLeast(0)
+
+        val items = layers.map { layer ->
+            val status = if (layer.isBuiltIn) "Bawaan" else "Kustom"
+            "${layer.displayName}\n${layer.nodeCount} titik • ${layer.destinationCount} ruangan ($status)"
+        }.toTypedArray()
+
+        AlertDialog.Builder(this)
+            .setTitle("🏢 Pilih Lantai / Layer Denah")
+            .setSingleChoiceItems(items, activeIdx) { dialog, which ->
+                val selected = layers.getOrNull(which)
+                if (selected != null) {
+                    MapDataLoader.setActiveLayer(this, selected.id)
+                    val msg = "Beralih ke ${selected.floorName}"
+                    speak(msg)
+                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+                }
+                dialog.dismiss()
+            }
+            .setNegativeButton("Batal") { dialog, _ -> dialog.dismiss() }
+            .show()
+    }
+
+    private fun showDeleteLayerDialog() {
+        val customLayers = MapDataLoader.getAvailableLayers(this).filter { !it.isBuiltIn }
+        if (customLayers.isEmpty()) {
+            val msg = "Tidak ada layer denah kustom yang tersimpan"
+            speak(msg)
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val items = customLayers.map { "${it.displayName} (${it.nodeCount} titik)" }.toTypedArray()
+        AlertDialog.Builder(this)
+            .setTitle("🗑️ Hapus Layer Denah Kustom")
+            .setItems(items) { _, which ->
+                val target = customLayers[which]
+                AlertDialog.Builder(this)
+                    .setTitle("Konfirmasi Hapus")
+                    .setMessage("Hapus layer '${target.displayName}'? Data denah ini akan dihapus dari penyimpanan.")
+                    .setPositiveButton("Hapus") { _, _ ->
+                        if (MapDataLoader.deleteLayer(this, target.id)) {
+                            val msg = "Layer ${target.floorName} berhasil dihapus"
+                            speak(msg)
+                            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+                        } else {
+                            speak("Gagal menghapus layer")
+                        }
+                    }
+                    .setNegativeButton("Batal", null)
+                    .show()
+            }
+            .setNegativeButton("Tutup", null)
+            .show()
+    }
+
+    private fun importJsonMap(uri: Uri) {
+        try {
+            var fileName: String? = null
+            contentResolver.query(uri, null, null, null, null)?.use { cursor ->
+                val nameIndex = cursor.getColumnIndex(android.provider.OpenableColumns.DISPLAY_NAME)
+                if (nameIndex != -1 && cursor.moveToFirst()) {
+                    fileName = cursor.getString(nameIndex)
+                }
+            }
+            contentResolver.openInputStream(uri)?.use { stream ->
+                val result = MapDataLoader.importMapFromStream(this, stream, fileName)
+                result.onSuccess { message ->
+                    speak(message)
+                    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+                }.onFailure { error ->
+                    val errorMsg = "Gagal memuat file denah: ${error.message}"
+                    speak(errorMsg)
+                    Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show()
+                }
+            } ?: run {
+                val errorMsg = "Tidak dapat membuka file yang dipilih"
+                speak(errorMsg)
+                Toast.makeText(this, errorMsg, Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
+            val errorMsg = "Terjadi kesalahan membaca file: ${e.message}"
+            speak(errorMsg)
+            Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun resetMapToDefault() {
+        if (MapDataLoader.resetToDefault(this)) {
+            val message = "Denah berhasil direset ke bawaan: ${GraphData.currentFloorName} (${GraphData.currentBuildingName})"
+            speak(message)
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        } else {
+            val message = "Gagal mereset denah ke bawaan"
+            speak(message)
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun showActiveMapInfo() {
+        val activeLayer = MapDataLoader.getActiveLayer(this)
+        val allLayers = MapDataLoader.getAvailableLayers(this)
+        val destCount = GraphData.getDestinations().size
+        val totalNodes = GraphData.nodes.size
+        val totalEdges = GraphData.edges.size
+        val statusSource = if (activeLayer.isBuiltIn) "Bawaan Aplikasi" else "Kustom (Impor)"
+
+        val layersSummary = allLayers.joinToString(", ") { it.floorName }
+        val infoMsg = "Denah aktif: ${activeLayer.floorName} - ${activeLayer.buildingName} ($statusSource).\n" +
+                "Total ${totalNodes} titik (${destCount} ruangan) dan ${totalEdges} jalur.\n" +
+                "Tersedia ${allLayers.size} layer denah tersimpan: $layersSummary."
+        speak("Denah aktif ${activeLayer.floorName}. Total ${allLayers.size} layer tersedia.")
+        
+        AlertDialog.Builder(this)
+            .setTitle("📍 Info Denah & Layer")
+            .setMessage(infoMsg)
+            .setPositiveButton("OK") { d, _ -> d.dismiss() }
+            .show()
+    }
+
     private fun showCompassSettingsDialog() {
         val prefs = getSharedPreferences(SplashActivity.PREFS_NAME, Context.MODE_PRIVATE)
-        val currentMethod = prefs.getString(SplashActivity.KEY_COMPASS_METHOD, SplashActivity.METHOD_NEW)
+        val currentMethod = prefs.getString(SplashActivity.KEY_COMPASS_METHOD, SplashActivity.METHOD_HYBRID)
         
         val options = arrayOf(
-            "🟢 Baru (Rotation Vector + Remap) — Lebih akurat",
-            "🔴 Lama (Accelerometer + Magnetometer)"
+            "🚀 HYBRID (Kompas di Awal ➔ Gyro Saat Berjalan) — Paling Direkomendasikan",
+            "🌟 Fused Orientation Provider (Google FOP) — Murni Kompas Google",
+            "🎮 Gyroscope Only (Game Rotation Vector) — Respons Kiri/Kanan Saja",
+            "🟢 Android Rotation Vector — Fusi sensor perangkat",
+            "🔴 Klasik (Accelerometer + Magnetometer)"
         )
-        val checkedItem = if (currentMethod == SplashActivity.METHOD_NEW) 0 else 1
+        val checkedItem = when (currentMethod) {
+            SplashActivity.METHOD_HYBRID -> 0
+            SplashActivity.METHOD_FOP -> 1
+            SplashActivity.METHOD_GYRO -> 2
+            SplashActivity.METHOD_NEW -> 3
+            else -> 4
+        }
         var selectedItem = checkedItem
         
         AlertDialog.Builder(this)
@@ -535,11 +748,17 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 selectedItem = which
             }
             .setPositiveButton("Simpan") { _, _ ->
-                val newMethod = if (selectedItem == 0) SplashActivity.METHOD_NEW else SplashActivity.METHOD_OLD
+                val (newMethod, methodName) = when (selectedItem) {
+                    0 -> Pair(SplashActivity.METHOD_HYBRID, "Hybrid (Kompas + Gyro)")
+                    1 -> Pair(SplashActivity.METHOD_FOP, "Google FOP")
+                    2 -> Pair(SplashActivity.METHOD_GYRO, "Gyroscope Only")
+                    3 -> Pair(SplashActivity.METHOD_NEW, "Rotation Vector")
+                    else -> Pair(SplashActivity.METHOD_OLD, "Sensor Klasik")
+                }
                 if (newMethod != currentMethod) {
                     prefs.edit().putString(SplashActivity.KEY_COMPASS_METHOD, newMethod).apply()
-                    val methodName = if (newMethod == SplashActivity.METHOD_NEW) "Baru" else "Lama"
                     speak("Metode kompas diubah ke $methodName. Perubahan akan berlaku saat membuka navigasi.")
+                    Toast.makeText(this, "Metode kompas: $methodName", Toast.LENGTH_SHORT).show()
                 }
             }
             .setNegativeButton("Batal") { dialog, _ ->

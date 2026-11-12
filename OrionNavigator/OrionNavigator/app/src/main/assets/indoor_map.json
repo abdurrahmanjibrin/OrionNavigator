@@ -1,12 +1,985 @@
-[
-  {
-    "to": "lorong",
-    "steps": 10,
-    "direction": "lurus"
-  },
-  {
-    "to": "kamar",
-    "steps": 5,
-    "direction": "belok kanan"
+{
+  "buildingId": "unesa_rektorat_lt1",
+  "buildingName": "Gedung Rektorat UNESA Lantai 1",
+  "beaconUuid": "0112233445566778899AABBCCDDEEFF0",
+  "nodes": [
+    {
+      "id": 5,
+      "name": "Pertigaan Koridor Cafe",
+      "isDestination": false
+    },
+    {
+      "id": 6,
+      "name": "Tikungan Co Working Space",
+      "isDestination": false
+    },
+    {
+      "id": 8,
+      "name": "Pertigaan Sayap Timur",
+      "isDestination": false
+    },
+    {
+      "id": 9,
+      "name": "Koridor Menuju Musholla",
+      "isDestination": false
+    },
+    {
+      "id": 10,
+      "name": "Pertigaan Tangga Musholla",
+      "isDestination": false
+    },
+    {
+      "id": 11,
+      "name": "Pertigaan Lift Utama",
+      "isDestination": false
+    },
+    {
+      "id": 14,
+      "name": "Koridor Antara Lift dan Tangga",
+      "isDestination": false
+    },
+    {
+      "id": 15,
+      "name": "Depan Musholla Pintu Satu",
+      "isDestination": false
+    },
+    {
+      "id": 18,
+      "name": "Pertigaan Information Center",
+      "isDestination": false
+    },
+    {
+      "id": 20,
+      "name": "Koridor Depan Lift Utama",
+      "isDestination": false
+    },
+    {
+      "id": 21,
+      "name": "Tikungan Koridor Lobby Timur",
+      "isDestination": false
+    },
+    {
+      "id": 22,
+      "name": "Tikungan Koridor Lobby Selatan",
+      "isDestination": false
+    },
+    {
+      "id": 23,
+      "name": "Pertigaan Depan Lobby",
+      "isDestination": false
+    },
+    {
+      "id": 25,
+      "name": "Pertigaan Akses Lobby",
+      "isDestination": false
+    },
+    {
+      "id": 52,
+      "name": "Pertigaan Depan Satpam",
+      "isDestination": false
+    },
+    {
+      "id": 55,
+      "name": "Pertigaan Tangga Perpustakaan",
+      "isDestination": false
+    },
+    {
+      "id": 56,
+      "name": "Pertigaan Koridor Barat",
+      "isDestination": false
+    },
+    {
+      "id": 57,
+      "name": "Pertigaan Lift Sayap Kiri",
+      "isDestination": false
+    },
+    {
+      "id": 61,
+      "name": "Pertigaan Toilet Sayap Kiri",
+      "isDestination": false
+    },
+    {
+      "id": 62,
+      "name": "Depan Toilet Wanita Sayap Kiri",
+      "isDestination": false
+    },
+    {
+      "id": 63,
+      "name": "Depan Toilet Difabel",
+      "isDestination": false
+    },
+    {
+      "id": 67,
+      "name": "Pertigaan Penghubung Sayap Kiri",
+      "isDestination": false
+    },
+    {
+      "id": 1,
+      "name": "Toilet Wanita Area Cafe",
+      "isDestination": true
+    },
+    {
+      "id": 2,
+      "name": "Cafe Unesa",
+      "isDestination": true
+    },
+    {
+      "id": 3,
+      "name": "Tangga Cafe",
+      "isDestination": true
+    },
+    {
+      "id": 4,
+      "name": "Toilet Pria Area Cafe",
+      "isDestination": true
+    },
+    {
+      "id": 7,
+      "name": "Co Working Space Cafe",
+      "isDestination": true
+    },
+    {
+      "id": 12,
+      "name": "Tangga Musholla",
+      "isDestination": true
+    },
+    {
+      "id": 13,
+      "name": "Lift Musholla",
+      "isDestination": true
+    },
+    {
+      "id": 16,
+      "name": "Musholla Lantai 1 (Pintu 1)",
+      "isDestination": true
+    },
+    {
+      "id": 17,
+      "name": "Musholla Lantai 1 (Pintu 2)",
+      "isDestination": true
+    },
+    {
+      "id": 19,
+      "name": "Lift Koridor Utama",
+      "isDestination": true
+    },
+    {
+      "id": 24,
+      "name": "Lobby",
+      "isDestination": true
+    },
+    {
+      "id": 26,
+      "name": "Pintu Tengah",
+      "isDestination": true
+    },
+    {
+      "id": 50,
+      "name": "Pintu Sayap Kiri",
+      "isDestination": true
+    },
+    {
+      "id": 51,
+      "name": "Satpam",
+      "isDestination": true
+    },
+    {
+      "id": 53,
+      "name": "Absen Perpustakaan",
+      "isDestination": true
+    },
+    {
+      "id": 54,
+      "name": "Tangga Absen Perpustakaan",
+      "isDestination": true
+    },
+    {
+      "id": 58,
+      "name": "Tangga Sayap Kiri",
+      "isDestination": true
+    },
+    {
+      "id": 59,
+      "name": "Lift Sayap Kiri",
+      "isDestination": true
+    },
+    {
+      "id": 60,
+      "name": "Working Space Sayap Kiri",
+      "isDestination": true
+    },
+    {
+      "id": 64,
+      "name": "Toilet Pria Sayap Kiri",
+      "isDestination": true
+    },
+    {
+      "id": 65,
+      "name": "Toilet Wanita Sayap Kiri",
+      "isDestination": true
+    },
+    {
+      "id": 66,
+      "name": "Toilet Difabel Sayap Kiri",
+      "isDestination": true
+    },
+    {
+      "id": 68,
+      "name": "Information Center",
+      "isDestination": true
+    }
+  ],
+  "edges": [
+    {
+      "from": 1,
+      "to": 2,
+      "steps": 9,
+      "bearing": 152.0
+    },
+    {
+      "from": 2,
+      "to": 1,
+      "steps": 9,
+      "bearing": 330.0
+    },
+    {
+      "from": 2,
+      "to": 3,
+      "steps": 9,
+      "bearing": 288.0
+    },
+    {
+      "from": 2,
+      "to": 5,
+      "steps": 5,
+      "bearing": 139.0
+    },
+    {
+      "from": 3,
+      "to": 2,
+      "steps": 9,
+      "bearing": 331.0
+    },
+    {
+      "from": 4,
+      "to": 5,
+      "steps": 9,
+      "bearing": 152.0
+    },
+    {
+      "from": 5,
+      "to": 2,
+      "steps": 5,
+      "bearing": 139.0
+    },
+    {
+      "from": 5,
+      "to": 4,
+      "steps": 9,
+      "bearing": 330.0
+    },
+    {
+      "from": 5,
+      "to": 6,
+      "steps": 20,
+      "bearing": 240.0
+    },
+    {
+      "from": 6,
+      "to": 5,
+      "steps": 20,
+      "bearing": 70.0
+    },
+    {
+      "from": 6,
+      "to": 7,
+      "steps": 6,
+      "bearing": 281.0
+    },
+    {
+      "from": 6,
+      "to": 8,
+      "steps": 23,
+      "bearing": 195.0
+    },
+    {
+      "from": 7,
+      "to": 6,
+      "steps": 6,
+      "bearing": 93.0
+    },
+    {
+      "from": 8,
+      "to": 6,
+      "steps": 23,
+      "bearing": 5.0
+    },
+    {
+      "from": 8,
+      "to": 9,
+      "steps": 20,
+      "bearing": 278.0
+    },
+    {
+      "from": 8,
+      "to": 25,
+      "steps": 15,
+      "bearing": 92.0
+    },
+    {
+      "from": 9,
+      "to": 8,
+      "steps": 20,
+      "bearing": 103.0
+    },
+    {
+      "from": 9,
+      "to": 10,
+      "steps": 6,
+      "bearing": 192.0
+    },
+    {
+      "from": 10,
+      "to": 9,
+      "steps": 6,
+      "bearing": 358.0
+    },
+    {
+      "from": 10,
+      "to": 12,
+      "steps": 3,
+      "bearing": 268.0
+    },
+    {
+      "from": 10,
+      "to": 14,
+      "steps": 3,
+      "bearing": 183.0
+    },
+    {
+      "from": 11,
+      "to": 15,
+      "steps": 4,
+      "bearing": 13.0
+    },
+    {
+      "from": 11,
+      "to": 18,
+      "steps": 3,
+      "bearing": 192.0
+    },
+    {
+      "from": 11,
+      "to": 19,
+      "steps": 7,
+      "bearing": 102.0
+    },
+    {
+      "from": 12,
+      "to": 10,
+      "steps": 3,
+      "bearing": 94.0
+    },
+    {
+      "from": 13,
+      "to": 14,
+      "steps": 7,
+      "bearing": 94.0
+    },
+    {
+      "from": 14,
+      "to": 10,
+      "steps": 3,
+      "bearing": 1.0
+    },
+    {
+      "from": 14,
+      "to": 13,
+      "steps": 7,
+      "bearing": 272.0
+    },
+    {
+      "from": 14,
+      "to": 15,
+      "steps": 11,
+      "bearing": 183.0
+    },
+    {
+      "from": 15,
+      "to": 11,
+      "steps": 4,
+      "bearing": 181.0
+    },
+    {
+      "from": 15,
+      "to": 14,
+      "steps": 11,
+      "bearing": 345.0
+    },
+    {
+      "from": 15,
+      "to": 16,
+      "steps": 3,
+      "bearing": 272.0
+    },
+    {
+      "from": 16,
+      "to": 15,
+      "steps": 3,
+      "bearing": 91.0
+    },
+    {
+      "from": 17,
+      "to": 18,
+      "steps": 3,
+      "bearing": 94.0
+    },
+    {
+      "from": 18,
+      "to": 11,
+      "steps": 3,
+      "bearing": 4.0
+    },
+    {
+      "from": 18,
+      "to": 17,
+      "steps": 3,
+      "bearing": 268.0
+    },
+    {
+      "from": 18,
+      "to": 68,
+      "steps": 20,
+      "bearing": 175.0
+    },
+    {
+      "from": 19,
+      "to": 11,
+      "steps": 7,
+      "bearing": 286.0
+    },
+    {
+      "from": 19,
+      "to": 20,
+      "steps": 7,
+      "bearing": 106.0
+    },
+    {
+      "from": 20,
+      "to": 19,
+      "steps": 7,
+      "bearing": 277.0
+    },
+    {
+      "from": 20,
+      "to": 21,
+      "steps": 9,
+      "bearing": 1.0
+    },
+    {
+      "from": 20,
+      "to": 22,
+      "steps": 9,
+      "bearing": 184.0
+    },
+    {
+      "from": 21,
+      "to": 20,
+      "steps": 9,
+      "bearing": 186.0
+    },
+    {
+      "from": 21,
+      "to": 25,
+      "steps": 5,
+      "bearing": 96.0
+    },
+    {
+      "from": 22,
+      "to": 20,
+      "steps": 9,
+      "bearing": 25.0
+    },
+    {
+      "from": 22,
+      "to": 23,
+      "steps": 5,
+      "bearing": 114.0
+    },
+    {
+      "from": 23,
+      "to": 22,
+      "steps": 5,
+      "bearing": 77.0
+    },
+    {
+      "from": 23,
+      "to": 24,
+      "steps": 9,
+      "bearing": 13.0
+    },
+    {
+      "from": 23,
+      "to": 67,
+      "steps": 13,
+      "bearing": 183.0
+    },
+    {
+      "from": 24,
+      "to": 23,
+      "steps": 9,
+      "bearing": 191.0
+    },
+    {
+      "from": 24,
+      "to": 25,
+      "steps": 9,
+      "bearing": 15.0
+    },
+    {
+      "from": 24,
+      "to": 26,
+      "steps": 27,
+      "bearing": 100.0
+    },
+    {
+      "from": 25,
+      "to": 8,
+      "steps": 15,
+      "bearing": 272.0
+    },
+    {
+      "from": 25,
+      "to": 21,
+      "steps": 5,
+      "bearing": 272.0
+    },
+    {
+      "from": 25,
+      "to": 24,
+      "steps": 9,
+      "bearing": 194.0
+    },
+    {
+      "from": 26,
+      "to": 24,
+      "steps": 27,
+      "bearing": 288.0
+    },
+    {
+      "from": 50,
+      "to": 51,
+      "steps": 9,
+      "bearing": 192.0
+    },
+    {
+      "from": 51,
+      "to": 50,
+      "steps": 9,
+      "bearing": 20.0
+    },
+    {
+      "from": 51,
+      "to": 52,
+      "steps": 11,
+      "bearing": 290.0
+    },
+    {
+      "from": 52,
+      "to": 51,
+      "steps": 11,
+      "bearing": 162.0
+    },
+    {
+      "from": 52,
+      "to": 53,
+      "steps": 5,
+      "bearing": 90.0
+    },
+    {
+      "from": 52,
+      "to": 55,
+      "steps": 11,
+      "bearing": 1.0
+    },
+    {
+      "from": 53,
+      "to": 52,
+      "steps": 5,
+      "bearing": 252.0
+    },
+    {
+      "from": 54,
+      "to": 55,
+      "steps": 8,
+      "bearing": 244.0
+    },
+    {
+      "from": 55,
+      "to": 52,
+      "steps": 11,
+      "bearing": 70.0
+    },
+    {
+      "from": 55,
+      "to": 54,
+      "steps": 8,
+      "bearing": 72.0
+    },
+    {
+      "from": 55,
+      "to": 56,
+      "steps": 4,
+      "bearing": 251.0
+    },
+    {
+      "from": 56,
+      "to": 55,
+      "steps": 4,
+      "bearing": 72.0
+    },
+    {
+      "from": 56,
+      "to": 57,
+      "steps": 11,
+      "bearing": 233.0
+    },
+    {
+      "from": 56,
+      "to": 61,
+      "steps": 24,
+      "bearing": 340.0
+    },
+    {
+      "from": 57,
+      "to": 56,
+      "steps": 11,
+      "bearing": 58.0
+    },
+    {
+      "from": 57,
+      "to": 58,
+      "steps": 4,
+      "bearing": 240.0
+    },
+    {
+      "from": 57,
+      "to": 59,
+      "steps": 3,
+      "bearing": 325.0
+    },
+    {
+      "from": 58,
+      "to": 57,
+      "steps": 4,
+      "bearing": 58.0
+    },
+    {
+      "from": 59,
+      "to": 57,
+      "steps": 3,
+      "bearing": 148.0
+    },
+    {
+      "from": 60,
+      "to": 61,
+      "steps": 3,
+      "bearing": 19.0
+    },
+    {
+      "from": 61,
+      "to": 56,
+      "steps": 24,
+      "bearing": 145.0
+    },
+    {
+      "from": 61,
+      "to": 60,
+      "steps": 3,
+      "bearing": 194.0
+    },
+    {
+      "from": 61,
+      "to": 62,
+      "steps": 5,
+      "bearing": 15.0
+    },
+    {
+      "from": 61,
+      "to": 64,
+      "steps": 4,
+      "bearing": 286.0
+    },
+    {
+      "from": 62,
+      "to": 61,
+      "steps": 5,
+      "bearing": 216.0
+    },
+    {
+      "from": 62,
+      "to": 63,
+      "steps": 4,
+      "bearing": 15.0
+    },
+    {
+      "from": 62,
+      "to": 65,
+      "steps": 4,
+      "bearing": 283.0
+    },
+    {
+      "from": 63,
+      "to": 62,
+      "steps": 4,
+      "bearing": 216.0
+    },
+    {
+      "from": 63,
+      "to": 66,
+      "steps": 4,
+      "bearing": 283.0
+    },
+    {
+      "from": 63,
+      "to": 67,
+      "steps": 14,
+      "bearing": 15.0
+    },
+    {
+      "from": 64,
+      "to": 61,
+      "steps": 4,
+      "bearing": 105.0
+    },
+    {
+      "from": 65,
+      "to": 62,
+      "steps": 4,
+      "bearing": 105.0
+    },
+    {
+      "from": 66,
+      "to": 63,
+      "steps": 4,
+      "bearing": 105.0
+    },
+    {
+      "from": 67,
+      "to": 23,
+      "steps": 13,
+      "bearing": 19.0
+    },
+    {
+      "from": 67,
+      "to": 63,
+      "steps": 14,
+      "bearing": 199.0
+    },
+    {
+      "from": 67,
+      "to": 68,
+      "steps": 13,
+      "bearing": 282.0
+    },
+    {
+      "from": 68,
+      "to": 18,
+      "steps": 20,
+      "bearing": 12.0
+    },
+    {
+      "from": 68,
+      "to": 67,
+      "steps": 13,
+      "bearing": 102.0
+    }
+  ],
+  "beacons": [
+    {
+      "major": 1,
+      "minor": 1,
+      "nodeId": 1
+    },
+    {
+      "major": 1,
+      "minor": 2,
+      "nodeId": 2
+    },
+    {
+      "major": 1,
+      "minor": 3,
+      "nodeId": 3
+    },
+    {
+      "major": 1,
+      "minor": 4,
+      "nodeId": 4
+    },
+    {
+      "major": 1,
+      "minor": 7,
+      "nodeId": 7
+    },
+    {
+      "major": 1,
+      "minor": 12,
+      "nodeId": 12
+    },
+    {
+      "major": 1,
+      "minor": 13,
+      "nodeId": 13
+    },
+    {
+      "major": 1,
+      "minor": 16,
+      "nodeId": 16
+    },
+    {
+      "major": 1,
+      "minor": 17,
+      "nodeId": 17
+    },
+    {
+      "major": 1,
+      "minor": 19,
+      "nodeId": 19
+    },
+    {
+      "major": 1,
+      "minor": 24,
+      "nodeId": 24
+    },
+    {
+      "major": 1,
+      "minor": 26,
+      "nodeId": 26
+    },
+    {
+      "major": 1,
+      "minor": 50,
+      "nodeId": 50
+    },
+    {
+      "major": 1,
+      "minor": 51,
+      "nodeId": 51
+    },
+    {
+      "major": 1,
+      "minor": 53,
+      "nodeId": 53
+    },
+    {
+      "major": 1,
+      "minor": 54,
+      "nodeId": 54
+    },
+    {
+      "major": 1,
+      "minor": 58,
+      "nodeId": 58
+    },
+    {
+      "major": 1,
+      "minor": 59,
+      "nodeId": 59
+    },
+    {
+      "major": 1,
+      "minor": 60,
+      "nodeId": 60
+    },
+    {
+      "major": 1,
+      "minor": 64,
+      "nodeId": 64
+    },
+    {
+      "major": 1,
+      "minor": 65,
+      "nodeId": 65
+    },
+    {
+      "major": 1,
+      "minor": 66,
+      "nodeId": 66
+    },
+    {
+      "major": 1,
+      "minor": 68,
+      "nodeId": 68
+    }
+  ],
+  "aliases": {
+    "cafe": "Cafe Unesa",
+    "kafe": "Cafe Unesa",
+    "kopi": "Cafe Unesa",
+    "warung": "Cafe Unesa",
+    "makan": "Cafe Unesa",
+    "minum": "Cafe Unesa",
+    "toilet wanita cafe": "Toilet Wanita Area Cafe",
+    "toilet cewek cafe": "Toilet Wanita Area Cafe",
+    "wc wanita cafe": "Toilet Wanita Area Cafe",
+    "toilet pria cafe": "Toilet Pria Area Cafe",
+    "toilet cowok cafe": "Toilet Pria Area Cafe",
+    "wc pria cafe": "Toilet Pria Area Cafe",
+    "toilet pria sayap kiri": "Toilet Pria Sayap Kiri",
+    "toilet pria barat": "Toilet Pria Sayap Kiri",
+    "toilet cowok sayap kiri": "Toilet Pria Sayap Kiri",
+    "toilet wanita sayap kiri": "Toilet Wanita Sayap Kiri",
+    "toilet wanita barat": "Toilet Wanita Sayap Kiri",
+    "toilet cewek sayap kiri": "Toilet Wanita Sayap Kiri",
+    "toilet difabel": "Toilet Difabel Sayap Kiri",
+    "difabel": "Toilet Difabel Sayap Kiri",
+    "disabilitas": "Toilet Difabel Sayap Kiri",
+    "toilet disabilitas": "Toilet Difabel Sayap Kiri",
+    "tangga cafe": "Tangga Cafe",
+    "tangga musholla": "Tangga Musholla",
+    "tangga perpus": "Tangga Absen Perpustakaan",
+    "tangga perpustakaan": "Tangga Absen Perpustakaan",
+    "tangga sayap kiri": "Tangga Sayap Kiri",
+    "tangga barat": "Tangga Sayap Kiri",
+    "lift musholla": "Lift Musholla",
+    "lift koridor utama": "Lift Koridor Utama",
+    "lift utama": "Lift Koridor Utama",
+    "lift tengah": "Lift Koridor Utama",
+    "lift sayap kiri": "Lift Sayap Kiri",
+    "lift barat": "Lift Sayap Kiri",
+    "elevator": "Lift Koridor Utama",
+    "musholla": "Musholla Lantai 1 (Pintu 1)",
+    "mushola": "Musholla Lantai 1 (Pintu 1)",
+    "masjid": "Musholla Lantai 1 (Pintu 1)",
+    "sholat": "Musholla Lantai 1 (Pintu 1)",
+    "surau": "Musholla Lantai 1 (Pintu 1)",
+    "musholla pintu 1": "Musholla Lantai 1 (Pintu 1)",
+    "musholla pintu 2": "Musholla Lantai 1 (Pintu 2)",
+    "lobby": "Lobby",
+    "lobi": "Lobby",
+    "ruang tunggu": "Lobby",
+    "depan": "Lobby",
+    "pintu tengah": "Pintu Tengah",
+    "pintu utama": "Pintu Tengah",
+    "pintu sayap kiri": "Pintu Sayap Kiri",
+    "pintu barat": "Pintu Sayap Kiri",
+    "satpam": "Satpam",
+    "pos satpam": "Satpam",
+    "security": "Satpam",
+    "penjaga": "Satpam",
+    "absen perpustakaan": "Absen Perpustakaan",
+    "absen perpus": "Absen Perpustakaan",
+    "perpustakaan": "Absen Perpustakaan",
+    "perpus": "Absen Perpustakaan",
+    "co working space": "Co Working Space Cafe",
+    "coworking space": "Co Working Space Cafe",
+    "coworking": "Co Working Space Cafe",
+    "working space": "Working Space Sayap Kiri",
+    "working space kiri": "Working Space Sayap Kiri",
+    "information center": "Information Center",
+    "informasi": "Information Center",
+    "pusat informasi": "Information Center",
+    "info center": "Information Center",
+    "resepsionis": "Information Center"
   }
-]
+}

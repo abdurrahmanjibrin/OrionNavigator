@@ -421,11 +421,13 @@ class IndoorNavigationManager(
             }
         } else if (waitingForUserConfirmation) {
             if (!isAligned) {
-                // User berbelok setelah aligned
+                // User berbelok setelah aligned (arah salah)
+                val justLostAlignment = lastAlignedState
                 if (lastAlignedState) {
                     lastAlignedState = false
                 }
-                if (now - lastGuidanceTtsTime >= GUIDANCE_TTS_INTERVAL_MS) {
+                // Jika baru saja berbelok salah arah, SEGERA berikan feedback teks dan TTS tanpa menunggu interval 5 detik!
+                if (justLostAlignment || now - lastGuidanceTtsTime >= GUIDANCE_TTS_INTERVAL_MS) {
                     val warning = ManualNavGuide.getAlignmentGuidance(diff, currentTolerance)
                     ttsManager.speak(warning)
                     callback?.onAlignmentGuidance(warning, abs(diff))

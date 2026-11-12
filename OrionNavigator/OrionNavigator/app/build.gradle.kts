@@ -66,8 +66,8 @@ dependencies {
     implementation("com.google.firebase:firebase-database-ktx")
     implementation("com.google.firebase:firebase-auth-ktx")
     
-    // Location Services
-    implementation("com.google.android.gms:play-services-location:21.0.1")
+    // Location Services & Fused Orientation Provider (FOP)
+    implementation("com.google.android.gms:play-services-location:21.2.0")
     
     // OSMDroid (OpenStreetMap)
     implementation("org.osmdroid:osmdroid-android:6.1.17")

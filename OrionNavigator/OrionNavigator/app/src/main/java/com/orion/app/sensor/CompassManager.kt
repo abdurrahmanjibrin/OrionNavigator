@@ -6,41 +6,70 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.util.Log
+import androidx.core.content.ContextCompat
+import com.google.android.gms.location.DeviceOrientation
+import com.google.android.gms.location.DeviceOrientationListener
+import com.google.android.gms.location.DeviceOrientationRequest
+import com.google.android.gms.location.FusedOrientationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.orion.app.ui.SplashActivity
 import kotlin.math.abs
 
 /**
  * CompassManager - Manages device compass heading.
- * Supports two methods:
- * 1. OLD: Accelerometer + Magnetometer (original, less accurate when tilted)
- * 2. NEW: Rotation Vector + remapCoordinateSystem (stable at all orientations)
- *
- * Method is read from SharedPreferences. Default: NEW.
+ * Supports three methods:
+ * 1. FOP (DEFAULT): Google Fused Orientation Provider (Google Play Services)
+ *    Fuses accelerometer, gyroscope, and magnetometer with Google's advanced multi-device algorithms.
+ *    Most consistent across different device manufacturers.
+ * 2. NEW: Android Rotation Vector (OS sensor fusion) with orientation stability & smooth upright detection.
+ * 3. OLD: Accelerometer + Magnetometer (legacy fallback).
  */
-class CompassManager(context: Context, private val callback: Callback) : SensorEventListener {
+class CompassManager(private val context: Context, private val callback: Callback) : SensorEventListener {
 
     companion object {
         private const val TAG = "CompassManager"
         
-        // Smoothing factor for compass readings (higher = more responsive, lower = smoother)
-        private const val ALPHA = 0.5f
+        // Smoothing factor for compass readings (circular low-pass filter)
+        private const val ALPHA = 0.35f
         
         // Tolerance for alignment check (degrees)
         const val HEADING_TOLERANCE = 15f
 
-        // Pitch threshold for switching remap axes (new method)
-        private const val PITCH_THRESHOLD = 40f
+        // Upright thresholds with hysteresis (degrees).
+        // Standard portrait handheld holding angle is between 25° and 55°.
+        // Only when the phone is held nearly vertical (e.g. pointing the camera straight ahead in Camera AI mode)
+        // should the forward vector be remapped to the back camera (-Z).
+        private const val UPRIGHT_ENTER_THRESHOLD = 70f
+        private const val UPRIGHT_EXIT_THRESHOLD = 55f
     }
 
     private val sensorManager: SensorManager = 
         context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
-    // Sensors - old method
+    // Google Fused Orientation Provider (FOP)
+    private val fopClient: FusedOrientationProviderClient? = try {
+        LocationServices.getFusedOrientationProviderClient(context)
+    } catch (e: Exception) {
+        Log.w(TAG, "FusedOrientationProviderClient not available", e)
+        null
+    }
+    private var isFopActive = false
+
+    private val fopListener = DeviceOrientationListener { orientation: DeviceOrientation ->
+        val heading = orientation.headingDegrees
+        if (!heading.isNaN()) {
+            lastCompassHeading = heading
+            if (!isGyroLocked) {
+                applyNewHeading(heading)
+            }
+        }
+    }
+
+    // Hardware sensors
     private val accelerometer: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
     private val magnetometer: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
-
-    // Sensor - new method
     private val rotationVector: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
+    private val gameRotationVector: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR)
 
     // Old method data
     private val gravity = FloatArray(3)
@@ -48,41 +77,91 @@ class CompassManager(context: Context, private val callback: Callback) : SensorE
     private var hasGravity = false
     private var hasGeomagnetic = false
 
-    // New method data
-    private var pitch = 0f
-
+    // State
     private var currentHeading = 0f
+    private var isFirstHeading = true
     private var isRunning = false
+    private var isUpright = false
+    private var gyroZeroOffset = 0f
+    private var isGyroZeroCalibrated = false
 
-    // Which method to use
-    private val useNewMethod: Boolean
+    // Hybrid tracking state
+    private var isGyroLocked = false
+    private var gyroLockOffset = 0f
+    private var lastRawGyroYaw = 0f
+    private var lastCompassHeading = 0f
+
+    // Active method setting
+    private val selectedMethod: String
 
     init {
         val prefs = context.getSharedPreferences(SplashActivity.PREFS_NAME, Context.MODE_PRIVATE)
-        val method = prefs.getString(SplashActivity.KEY_COMPASS_METHOD, SplashActivity.METHOD_NEW)
-        useNewMethod = (method == SplashActivity.METHOD_NEW)
-        Log.d(TAG, "Compass method: ${if (useNewMethod) "NEW (RotationVector)" else "OLD (Accel+Magneto)"}")
+        selectedMethod = prefs.getString(SplashActivity.KEY_COMPASS_METHOD, SplashActivity.METHOD_HYBRID) ?: SplashActivity.METHOD_HYBRID
+        Log.d(TAG, "Configured compass method: $selectedMethod")
     }
 
     /**
-     * Start listening to compass sensors
+     * Start listening to compass updates
      */
     fun start() {
         if (isRunning) return
         
-        if (useNewMethod) {
-            // New method: Rotation Vector (+ accelerometer for pitch detection)
+        isFirstHeading = true
+        isUpright = false
+        isFopActive = false
+        isGyroLocked = false
+
+        // 1. Gyroscope Only (Game Rotation Vector) mode - ignores pitch/tilt, only tracks left/right turns
+        if (selectedMethod == SplashActivity.METHOD_GYRO) {
+            val sensorToUse = gameRotationVector ?: rotationVector
+            if (sensorToUse != null) {
+                sensorManager.registerListener(this, sensorToUse, SensorManager.SENSOR_DELAY_GAME)
+                isRunning = true
+                Log.i(TAG, "Compass started with Gyro Only (GameRotationVector)")
+                return
+            }
+        }
+
+        // 2. In Hybrid or FOP mode: register gameRotationVector in background for gyro tracking
+        val gyroSensor = gameRotationVector ?: rotationVector
+        if (gyroSensor != null) {
+            sensorManager.registerListener(this, gyroSensor, SensorManager.SENSOR_DELAY_GAME)
+        }
+
+        // 3. Try Google Fused Orientation Provider (FOP) if selected or in Hybrid mode
+        val tryFop = (selectedMethod == SplashActivity.METHOD_HYBRID || selectedMethod == SplashActivity.METHOD_FOP)
+        if (tryFop && fopClient != null) {
+            try {
+                val request = DeviceOrientationRequest.Builder(DeviceOrientationRequest.OUTPUT_PERIOD_DEFAULT).build()
+                fopClient.requestOrientationUpdates(request, ContextCompat.getMainExecutor(context), fopListener)
+                    .addOnSuccessListener {
+                        isFopActive = true
+                        isRunning = true
+                        Log.i(TAG, "Compass started with Google Fused Orientation Provider (FOP) [Method=$selectedMethod]")
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w(TAG, "Failed to start Google FOP, falling back to Android Rotation Vector", e)
+                        startHardwareSensors(useRotationVector = true)
+                    }
+                return
+            } catch (e: Exception) {
+                Log.w(TAG, "Error requesting FOP updates, falling back to Rotation Vector", e)
+            }
+        }
+
+        // 4. Fallback to hardware compass sensors
+        val useRotationVector = (selectedMethod != SplashActivity.METHOD_OLD)
+        startHardwareSensors(useRotationVector)
+    }
+
+    private fun startHardwareSensors(useRotationVector: Boolean) {
+        val canUseRotationVector = useRotationVector && (rotationVector != null)
+
+        if (canUseRotationVector) {
             rotationVector?.let {
                 sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_GAME)
             }
-            accelerometer?.let {
-                sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_GAME)
-            }
-            magnetometer?.let {
-                sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_GAME)
-            }
         } else {
-            // Old method: Accelerometer + Magnetometer
             accelerometer?.let {
                 sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_GAME)
             }
@@ -90,21 +169,34 @@ class CompassManager(context: Context, private val callback: Callback) : SensorE
                 sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_GAME)
             }
         }
-        
+
         isRunning = true
-        Log.d(TAG, "Compass started")
+        Log.d(TAG, "Compass started with hardware sensors (mode=${if (canUseRotationVector) "RotationVector" else "Accel+Magneto"})")
     }
 
     /**
-     * Stop listening to compass sensors
+     * Stop listening to compass updates
      */
     fun stop() {
-        if (!isRunning) return
+        if (!isRunning && !isFopActive) return
         
+        if (isFopActive && fopClient != null) {
+            try {
+                fopClient.removeOrientationUpdates(fopListener)
+            } catch (e: Exception) {
+                Log.w(TAG, "Error removing FOP listener", e)
+            }
+            isFopActive = false
+        }
+
         sensorManager.unregisterListener(this)
         isRunning = false
         hasGravity = false
         hasGeomagnetic = false
+        isFirstHeading = true
+        isUpright = false
+        isGyroLocked = false
+        isGyroZeroCalibrated = false
         Log.d(TAG, "Compass stopped")
     }
 
@@ -112,47 +204,189 @@ class CompassManager(context: Context, private val callback: Callback) : SensorE
      * Check if compass is available on this device
      */
     fun isCompassAvailable(): Boolean {
-        return if (useNewMethod) {
-            rotationVector != null
-        } else {
-            accelerometer != null && magnetometer != null
-        }
+        return fopClient != null || rotationVector != null || (accelerometer != null && magnetometer != null)
     }
 
     override fun onSensorChanged(event: SensorEvent) {
+        // 1. ALWAYS process Gyroscope tracking (Game Rotation Vector), even when FOP is active!
+        // This ensures lastRawGyroYaw is always alive and gyro tracking works seamlessly when locked.
+        if (event.sensor.type == Sensor.TYPE_GAME_ROTATION_VECTOR) {
+            updateGameRotationVector(event)
+            return
+        }
+
+        // 2. If gyro is locked or gyro mode is active on a device without TYPE_GAME_ROTATION_VECTOR
+        if (event.sensor.type == Sensor.TYPE_ROTATION_VECTOR && (selectedMethod == SplashActivity.METHOD_GYRO || isGyroLocked)) {
+            updateGameRotationVector(event)
+            return
+        }
+
+        // 3. For magnetic compass sensors, only process if Google FOP is NOT active
+        if (isFopActive) return
+
         when (event.sensor.type) {
+            Sensor.TYPE_ROTATION_VECTOR -> {
+                updateRotationVectorMethod(event)
+            }
             Sensor.TYPE_ACCELEROMETER -> {
-                // Low-pass filter
                 gravity[0] = ALPHA * event.values[0] + (1 - ALPHA) * gravity[0]
                 gravity[1] = ALPHA * event.values[1] + (1 - ALPHA) * gravity[1]
                 gravity[2] = ALPHA * event.values[2] + (1 - ALPHA) * gravity[2]
                 hasGravity = true
 
-                if (!useNewMethod) {
+                if (selectedMethod == SplashActivity.METHOD_OLD || rotationVector == null) {
                     updateOldMethod()
                 }
             }
             Sensor.TYPE_MAGNETIC_FIELD -> {
-                // Low-pass filter
                 geomagnetic[0] = ALPHA * event.values[0] + (1 - ALPHA) * geomagnetic[0]
                 geomagnetic[1] = ALPHA * event.values[1] + (1 - ALPHA) * geomagnetic[1]
                 geomagnetic[2] = ALPHA * event.values[2] + (1 - ALPHA) * geomagnetic[2]
                 hasGeomagnetic = true
 
-                if (!useNewMethod) {
+                if (selectedMethod == SplashActivity.METHOD_OLD || rotationVector == null) {
                     updateOldMethod()
-                }
-            }
-            Sensor.TYPE_ROTATION_VECTOR -> {
-                if (useNewMethod) {
-                    updateNewMethod(event)
                 }
             }
         }
     }
 
     /**
-     * OLD METHOD - Accelerometer + Magnetometer (no remap)
+     * METHOD: Gyroscope / Hybrid Tracking (Game Rotation Vector)
+     * Pure Gyro + Accelerometer. Completely immune to pitch (tilt up/down) and magnetic interference.
+     * Only turns left/right alter the heading.
+     */
+    private fun updateGameRotationVector(event: SensorEvent) {
+        val rotationMatrix = FloatArray(9)
+        SensorManager.getRotationMatrixFromVector(rotationMatrix, event.values)
+
+        val orientation = FloatArray(3)
+        SensorManager.getOrientation(rotationMatrix, orientation)
+
+        // Pitch in Android: 0 is flat, -90° is upright (top pointing towards sky).
+        val pitchDeg = abs(Math.toDegrees(orientation[1].toDouble()).toFloat())
+        val rawYaw: Float
+        if (pitchDeg > 45f) {
+            val remappedMatrix = FloatArray(9)
+            SensorManager.remapCoordinateSystem(
+                rotationMatrix,
+                SensorManager.AXIS_X,
+                SensorManager.AXIS_MINUS_Z,
+                remappedMatrix
+            )
+            val remappedOrientation = FloatArray(3)
+            SensorManager.getOrientation(remappedMatrix, remappedOrientation)
+            var y = Math.toDegrees(remappedOrientation[0].toDouble()).toFloat()
+            if (y < 0) y += 360f
+            rawYaw = y
+        } else {
+            var y = Math.toDegrees(orientation[0].toDouble()).toFloat()
+            if (y < 0) y += 360f
+            rawYaw = y
+        }
+        lastRawGyroYaw = rawYaw
+
+        if (selectedMethod == SplashActivity.METHOD_GYRO) {
+            // Pure gyro mode
+            if (!isGyroZeroCalibrated) {
+                gyroZeroOffset = rawYaw
+                isGyroZeroCalibrated = true
+                Log.i(TAG, "Gyro zero reference calibrated to: $gyroZeroOffset")
+            }
+            val relativeHeading = (rawYaw - gyroZeroOffset + 360f) % 360f
+            applyNewHeading(relativeHeading)
+        } else if (isGyroLocked) {
+            // Hybrid locked mode: continues seamlessly from initial compass heading, driven purely by gyro yaw!
+            val hybridHeading = (lastRawGyroYaw + gyroLockOffset + 360f) % 360f
+            applyNewHeading(hybridHeading)
+        }
+    }
+
+    /**
+     * Lock heading tracking to Gyroscope.
+     * Takes current compass heading as the anchor, then tracks all subsequent
+     * movement strictly via Gyroscope (immune to tilt up/down and magnetic noise).
+     */
+    fun lockGyroTracking() {
+        if (selectedMethod != SplashActivity.METHOD_HYBRID) {
+            Log.d(TAG, "lockGyroTracking ignored: active method is '$selectedMethod' (not hybrid)")
+            return
+        }
+        if (gameRotationVector == null && rotationVector == null) {
+            Log.w(TAG, "Cannot lock gyro tracking: no gyro sensor available")
+            return
+        }
+        val currentAnchor = if (lastCompassHeading > 0) lastCompassHeading else currentHeading
+        gyroLockOffset = (currentAnchor - lastRawGyroYaw + 360f) % 360f
+        isGyroLocked = true
+        Log.i(TAG, "🚀 Hybrid Lock Engaged: Anchor=$currentAnchor°, GyroYaw=$lastRawGyroYaw°, Offset=$gyroLockOffset°")
+    }
+
+    /**
+     * Unlock gyro tracking and return to absolute compass
+     */
+    fun unlockGyroTracking() {
+        if (isGyroLocked) {
+            isGyroLocked = false
+            Log.i(TAG, "Hybrid Lock Released: Returned to Compass")
+        }
+    }
+
+    fun isGyroLocked(): Boolean = isGyroLocked
+
+    /**
+     * Reset gyro zero point to the current facing direction (for Gyro-only mode)
+     */
+    fun resetGyroZero() {
+        isGyroZeroCalibrated = false
+    }
+
+    /**
+     * METHOD 2: Rotation Vector
+     */
+    private fun updateRotationVectorMethod(event: SensorEvent) {
+        val rotationMatrix = FloatArray(9)
+        SensorManager.getRotationMatrixFromVector(rotationMatrix, event.values)
+
+        val orientation = FloatArray(3)
+        SensorManager.getOrientation(rotationMatrix, orientation)
+
+        // Pitch in Android: 0 is flat, -90° is upright (top pointing towards sky).
+        val pitchDeg = abs(Math.toDegrees(orientation[1].toDouble()).toFloat())
+
+        // Hysteresis to prevent flapping between handheld and upright mode
+        if (!isUpright && pitchDeg > UPRIGHT_ENTER_THRESHOLD) {
+            isUpright = true
+        } else if (isUpright && pitchDeg < UPRIGHT_EXIT_THRESHOLD) {
+            isUpright = false
+        }
+
+        val heading: Float
+        if (isUpright) {
+            // When held upright, remap device -Z (camera pointing forward) to World Y (North)
+            val remappedMatrix = FloatArray(9)
+            SensorManager.remapCoordinateSystem(
+                rotationMatrix,
+                SensorManager.AXIS_X,
+                SensorManager.AXIS_MINUS_Z,
+                remappedMatrix
+            )
+            val remappedOrientation = FloatArray(3)
+            SensorManager.getOrientation(remappedMatrix, remappedOrientation)
+            heading = Math.toDegrees(remappedOrientation[0].toDouble()).toFloat()
+        } else {
+            // Normal handheld walking angle: device +Y (top edge of phone) points forward
+            heading = Math.toDegrees(orientation[0].toDouble()).toFloat()
+        }
+
+        lastCompassHeading = heading
+        if (!isGyroLocked) {
+            applyNewHeading(heading)
+        }
+    }
+
+    /**
+     * METHOD 3: Accelerometer + Magnetometer fallback
      */
     private fun updateOldMethod() {
         if (!hasGravity || !hasGeomagnetic) return
@@ -163,70 +397,35 @@ class CompassManager(context: Context, private val callback: Callback) : SensorE
         if (SensorManager.getRotationMatrix(rotationMatrix, inclinationMatrix, gravity, geomagnetic)) {
             val orientation = FloatArray(3)
             SensorManager.getOrientation(rotationMatrix, orientation)
-
-            // Convert to degrees (0-360)
-            var heading = Math.toDegrees(orientation[0].toDouble()).toFloat()
-            if (heading < 0) {
-                heading += 360f
+            val heading = Math.toDegrees(orientation[0].toDouble()).toFloat()
+            lastCompassHeading = heading
+            if (!isGyroLocked) {
+                applyNewHeading(heading)
             }
-
-            currentHeading = heading
-            callback.onHeadingChanged(heading)
         }
     }
 
     /**
-     * NEW METHOD - Rotation Vector + remapCoordinateSystem
-     * Heading stays consistent regardless of phone tilt
+     * Apply circular smoothing and notify callback
      */
-    private fun updateNewMethod(event: SensorEvent) {
-        val rotationMatrix = FloatArray(9)
-        SensorManager.getRotationMatrixFromVector(rotationMatrix, event.values)
-
-        // Also compute pitch from accelerometer for tilt detection
-        if (hasGravity && hasGeomagnetic) {
-            val tempR = FloatArray(9)
-            val tempI = FloatArray(9)
-            if (SensorManager.getRotationMatrix(tempR, tempI, gravity, geomagnetic)) {
-                val tempO = FloatArray(3)
-                SensorManager.getOrientation(tempR, tempO)
-                pitch = Math.toDegrees(tempO[1].toDouble()).toFloat()
-            }
-        }
-
-        val absPitch = abs(pitch)
-        val remappedMatrix = FloatArray(9)
-
-        if (absPitch < PITCH_THRESHOLD) {
-            // Phone is mostly FLAT - standard mapping
-            SensorManager.remapCoordinateSystem(
-                rotationMatrix,
-                SensorManager.AXIS_X,
-                SensorManager.AXIS_Y,
-                remappedMatrix
-            )
-        } else {
-            // Phone is mostly UPRIGHT - remap Z axis
-            SensorManager.remapCoordinateSystem(
-                rotationMatrix,
-                SensorManager.AXIS_X,
-                SensorManager.AXIS_Z,
-                remappedMatrix
-            )
-        }
-
-        val orientation = FloatArray(3)
-        SensorManager.getOrientation(remappedMatrix, orientation)
-
-        var heading = Math.toDegrees(orientation[0].toDouble()).toFloat()
+    private fun applyNewHeading(rawHeading: Float) {
+        var heading = rawHeading
         if (heading < 0) heading += 360f
 
-        currentHeading = heading
-        callback.onHeadingChanged(heading)
+        if (isFirstHeading) {
+            currentHeading = heading
+            isFirstHeading = false
+        } else {
+            var diff = heading - currentHeading
+            while (diff > 180f) diff -= 360f
+            while (diff < -180f) diff += 360f
+            currentHeading = (currentHeading + ALPHA * diff + 360f) % 360f
+        }
+
+        callback.onHeadingChanged(currentHeading)
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        // Not used, but could be used to warn user about calibration
         when (accuracy) {
             SensorManager.SENSOR_STATUS_UNRELIABLE -> {
                 Log.w(TAG, "Sensor accuracy: UNRELIABLE - calibration needed")
@@ -244,14 +443,10 @@ class CompassManager(context: Context, private val callback: Callback) : SensorE
 
     /**
      * Calculate the turn direction and angle to face the target heading.
-     * 
-     * @param targetHeading Target heading in degrees (0-360)
-     * @return TurnInstruction with direction and angle
      */
     fun calculateTurn(targetHeading: Float): TurnInstruction {
         var diff = targetHeading - currentHeading
 
-        // Normalize to -180 to 180
         while (diff > 180) diff -= 360
         while (diff < -180) diff += 360
 
@@ -305,25 +500,16 @@ class CompassManager(context: Context, private val callback: Callback) : SensorE
         fun onHeadingChanged(heading: Float)
     }
 
-    /**
-     * Turn direction enum
-     */
     enum class TurnDirection {
         LEFT,
         RIGHT,
         STRAIGHT
     }
 
-    /**
-     * Data class for turn instruction
-     */
     data class TurnInstruction(
         val direction: TurnDirection,
         val angle: Float
     ) {
-        /**
-         * Get the direction name in Indonesian
-         */
         fun getDirectionText(): String {
             return when (direction) {
                 TurnDirection.LEFT -> "kiri"
@@ -332,14 +518,10 @@ class CompassManager(context: Context, private val callback: Callback) : SensorE
             }
         }
 
-        /**
-         * Convert to Indonesian speech text
-         */
         fun toSpeech(): String {
             return when (direction) {
                 TurnDirection.STRAIGHT -> "Jalan lurus"
                 else -> {
-                    // Round to nearest 15 degrees for clearer instructions
                     var roundedAngle = (Math.round(angle / 15) * 15).toInt()
                     if (roundedAngle < 15) roundedAngle = 15
                     "Putar ke ${getDirectionText()} $roundedAngle derajat"
@@ -347,9 +529,6 @@ class CompassManager(context: Context, private val callback: Callback) : SensorE
             }
         }
 
-        /**
-         * Check if aligned (direction is straight)
-         */
         fun isAligned(): Boolean = direction == TurnDirection.STRAIGHT
     }
 }

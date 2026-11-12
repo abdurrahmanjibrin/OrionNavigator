@@ -7,12 +7,17 @@ package com.orion.app.navigation
  * UUID: 0112233445566778899AABBCCDDEEFF0
  */
 object BeaconRoomMapper {
+
+    /**
+     * Active beacon UUID (can be loaded from JSON)
+     */
+    var beaconUuid: String = "0112233445566778899AABBCCDDEEFF0"
+        private set
     
     /**
-     * Mapping beacon (Major, Minor) ke node ID dalam graph UNESA Rektorat Lantai 1.
-     * Menggunakan Major = 1, Minor = Node ID.
+     * Default mapping beacon (Major, Minor) ke node ID dalam graph UNESA Rektorat Lantai 1.
      */
-    private val beaconToNodeMap = mapOf(
+    private val defaultBeaconMap = mapOf(
         Pair(1, 1)  to 1,   // Toilet Wanita Area Cafe
         Pair(1, 2)  to 2,   // Cafe Unesa
         Pair(1, 3)  to 3,   // Tangga Cafe
@@ -37,11 +42,27 @@ object BeaconRoomMapper {
         Pair(1, 66) to 66,  // Toilet Difabel Sayap Kiri
         Pair(1, 68) to 68   // Information Center
     )
+
+    private var beaconToNodeMap: MutableMap<Pair<Int, Int>, Int> = defaultBeaconMap.toMutableMap()
     
     /**
      * Reverse mapping: node ID ke beacon (Major, Minor)
      */
-    private val nodeToBeaconMap = beaconToNodeMap.entries.associate { (k, v) -> v to k }
+    private var nodeToBeaconMap: MutableMap<Int, Pair<Int, Int>> = 
+        beaconToNodeMap.entries.associate { (k, v) -> v to k }.toMutableMap()
+
+    /**
+     * Update beacon mapping dynamically (e.g. from JSON file)
+     */
+    fun setBeaconMap(newMap: Map<Pair<Int, Int>, Int>, newUuid: String? = null) {
+        if (newMap.isNotEmpty()) {
+            beaconToNodeMap = newMap.toMutableMap()
+            nodeToBeaconMap = beaconToNodeMap.entries.associate { (k, v) -> v to k }.toMutableMap()
+        }
+        if (!newUuid.isNullOrBlank()) {
+            beaconUuid = newUuid
+        }
+    }
     
     /**
      * Get node ID from beacon Major/Minor

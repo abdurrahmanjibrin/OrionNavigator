@@ -55,6 +55,34 @@
         android:layout_gravity="top"
         android:layout_margin="12dp">
 
+        <!-- Row: Lantai / Layer Spinner -->
+        <LinearLayout
+            android:id="@+id/camLlFloor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="6dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_location_modern"
+                app:tint="#FFB300"
+                android:layout_marginEnd="6dp"
+                android:importantForAccessibility="no"
+                android:contentDescription="" />
+
+            <Spinner
+                android:id="@+id/camSpinnerFloor"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_spinner_glass"
+                android:padding="6dp" />
+
+        </LinearLayout>
+
         <!-- Row: Swipe hint (kiri) + Lokasi Awal (Spinner) -->
         <LinearLayout
             android:layout_width="match_parent"
