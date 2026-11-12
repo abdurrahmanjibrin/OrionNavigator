@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="@color/background_card">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🗣️ Kecepatan Suara (TTS)"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_primary" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="Atur kecepatan bicara panduan navigasi dan pembaca layar Orion seperti pengaturan aksesibilitas."
+        android:textSize="13sp"
+        android:textColor="@color/text_secondary" />
+
+    <!-- Current Speed Badge -->
+    <TextView
+        android:id="@+id/tvTtsSpeedValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:padding="12dp"
+        android:gravity="center"
+        android:text="0.9x (Normal)"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/primary_dark"
+        android:background="@color/gradient_end"
+        android:accessibilityLiveRegion="polite" />
+
+    <!-- Slider with Accessible - / + Stepper Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnTtsSlowDown"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
+            android:text="-"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary"
+            android:contentDescription="Perlambat kecepatan suara"
+            app:cornerRadius="12dp"
+            app:strokeColor="@color/primary" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/sliderTtsSpeed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="6dp"
+            android:valueFrom="0.5"
+            android:valueTo="2.0"
+            android:value="0.9"
+            android:stepSize="0.1"
+            android:contentDescription="Penggeser kecepatan suara dari 0.5 kali sampai 2.0 kali"
+            app:thumbColor="@color/primary"
+            app:trackColorActive="@color/primary"
+            app:trackColorInactive="@color/glass_border" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnTtsSpeedUp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
+            android:text="+"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary"
+            android:contentDescription="Percepat kecepatan suara"
+            app:cornerRadius="12dp"
+            app:strokeColor="@color/primary" />
+
+    </LinearLayout>
+
+    <!-- Min / Max Labels -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="2dp"
+        android:paddingHorizontal="54dp"
+        android:importantForAccessibility="noHideDescendants">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="0.5x Lambat"
+            android:textSize="11sp"
+            android:textColor="@color/text_secondary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2.0x Cepat"
+            android:textSize="11sp"
+            android:textColor="@color/text_secondary" />
+
+    </LinearLayout>
+
+    <!-- Quick Presets -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="Pilihan Cepat:"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_secondary" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPresetSlow"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="4dp"
+            android:paddingHorizontal="4dp"
+            android:text="0.7x\nLambat"
+            android:textSize="11sp"
+            android:textColor="@color/text_primary"
+            android:contentDescription="Atur ke 0.7 kali, lambat"
+            app:cornerRadius="10dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPresetNormal"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="2dp"
+            android:paddingHorizontal="4dp"
+            android:text="0.9x\nNormal"
+            android:textSize="11sp"
+            android:textColor="@color/text_primary"
+            android:contentDescription="Atur ke 0.9 kali, normal"
+            app:cornerRadius="10dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPresetFast"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="2dp"
+            android:paddingHorizontal="4dp"
+            android:text="1.3x\nCepat"
+            android:textSize="11sp"
+            android:textColor="@color/text_primary"
+            android:contentDescription="Atur ke 1.3 kali, cepat"
+            app:cornerRadius="10dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPresetVeryFast"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:layout_marginStart="4dp"
+            android:paddingHorizontal="4dp"
+            android:text="1.7x\nKilat"
+            android:textSize="11sp"
+            android:textColor="@color/text_primary"
+            android:contentDescription="Atur ke 1.7 kali, sangat cepat"
+            app:cornerRadius="10dp" />
+
+    </LinearLayout>
+
+    <!-- Test & Reset Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnTestTtsSpeed"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1.5"
+            android:layout_marginEnd="6dp"
+            android:text="🔊 Putar Contoh"
+            android:textSize="13sp"
+            android:textColor="@color/white"
+            android:contentDescription="Putar contoh suara navigasi dengan kecepatan ini"
+            app:backgroundTint="@color/primary"
+            app:cornerRadius="12dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnResetTtsSpeed"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:layout_marginStart="6dp"
+            android:text="↺ Reset"
+            android:textSize="13sp"
+            android:textColor="@color/text_primary"
+            android:contentDescription="Reset kecepatan suara ke bawaan normal 0.9 kali"
+            app:cornerRadius="12dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
+

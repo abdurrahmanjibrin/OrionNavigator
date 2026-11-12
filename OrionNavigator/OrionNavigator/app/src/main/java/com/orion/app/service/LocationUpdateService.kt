@@ -23,6 +23,7 @@ import com.google.android.gms.location.*
 import com.orion.app.R
 import com.orion.app.data.LiveLocationRepository
 import com.orion.app.data.SafeZone
+import com.orion.app.tts.TTSManager
 import com.orion.app.ui.TunanetraActivity
 import kotlinx.coroutines.*
 import java.util.*
@@ -100,6 +101,7 @@ class LocationUpdateService : Service(), TextToSpeech.OnInitListener {
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
             tts?.language = Locale("id", "ID")
+            tts?.setSpeechRate(TTSManager.getSavedSpeechRate(this))
             ttsReady = true
         }
     }

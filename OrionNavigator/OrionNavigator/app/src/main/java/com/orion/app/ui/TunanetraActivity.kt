@@ -31,6 +31,8 @@ import com.orion.app.ble.BleScanner
 import com.orion.app.navigation.BeaconRoomMapper
 import com.orion.app.navigation.GraphData
 import com.orion.app.navigation.MapDataLoader
+import com.orion.app.tts.TTSManager
+import com.orion.app.tts.TtsSettingsDialog
 import com.orion.app.voice.GeminiCommandProcessor
 import com.orion.app.voice.ListeningDialogHelper
 import com.orion.app.voice.VoiceCommandManager
@@ -119,6 +121,9 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     override fun onResume() {
         super.onResume()
+        if (ttsReady) {
+            tts?.setSpeechRate(TTSManager.getSavedSpeechRate(this))
+        }
         if (isWakeWordEnabled && ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
             == PackageManager.PERMISSION_GRANTED) {
             voiceCommandManager?.startWakeWordMode()
@@ -450,6 +455,7 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SPEECH)
                 .build()
             tts?.setAudioAttributes(audioAttributes)
+            tts?.setSpeechRate(TTSManager.getSavedSpeechRate(this))
             
             ttsReady = true
             
@@ -565,7 +571,9 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     }
 
     private fun showSettingsMenuDialog() {
+        val currentTtsRate = TTSManager.getSavedSpeechRate(this)
         val options = arrayOf(
+            "🗣️ Kecepatan Suara (TTS) — ${TTSManager.getSpeechRateLabel(currentTtsRate)}",
             "🏢 Pilih Lantai / Layer Denah",
             "➕ Impor Denah Baru (Tambah Layer)",
             "🗑️ Hapus Layer Denah Kustom",
@@ -579,24 +587,47 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             .setTitle("⚙️ Pengaturan Orion")
             .setItems(options) { _, which ->
                 when (which) {
-                    0 -> showFloorSelectionDialog()
-                    1 -> {
+                    0 -> showTtsSpeedSettingsDialog()
+                    1 -> showFloorSelectionDialog()
+                    2 -> {
                         speak("Pilih file denah JSON dari penyimpanan")
                         jsonPickerLauncher.launch("*/*")
                     }
-                    2 -> showDeleteLayerDialog()
-                    3 -> showCompassSettingsDialog()
-                    4 -> {
+                    3 -> showDeleteLayerDialog()
+                    4 -> showCompassSettingsDialog()
+                    5 -> {
                         startActivity(Intent(this, CompassTestActivity::class.java))
                     }
-                    5 -> resetMapToDefault()
-                    6 -> showActiveMapInfo()
+                    6 -> resetMapToDefault()
+                    7 -> showActiveMapInfo()
                 }
             }
             .setNegativeButton("Tutup") { dialog, _ ->
                 dialog.dismiss()
             }
             .show()
+    }
+
+    private fun showTtsSpeedSettingsDialog() {
+        TtsSettingsDialog.show(
+            context = this,
+            onPreviewSpeak = { text, rate ->
+                if (ttsReady) {
+                    tts?.setSpeechRate(rate)
+                    tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "tts_speed_preview")
+                }
+            },
+            onRestoreRate = { originalRate ->
+                if (ttsReady) {
+                    tts?.setSpeechRate(originalRate)
+                }
+            },
+            onSaved = { newRate ->
+                if (ttsReady) {
+                    tts?.setSpeechRate(newRate)
+                }
+            }
+        )
     }
 
     private fun showFloorSelectionDialog() {

@@ -24,6 +24,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.orion.app.R
 import com.orion.app.data.LiveLocationRepository
 import com.orion.app.data.LocationData
+import com.orion.app.tts.TTSManager
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.osmdroid.config.Configuration
@@ -144,6 +145,7 @@ class PendampingActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SPEECH)
                 .build()
             tts?.setAudioAttributes(audioAttributes)
+            tts?.setSpeechRate(TTSManager.getSavedSpeechRate(this))
             
             tts?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
                 override fun onStart(utteranceId: String?) {}
