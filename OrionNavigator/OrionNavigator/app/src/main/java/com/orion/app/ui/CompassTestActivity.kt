@@ -7,16 +7,15 @@ import android.hardware.SensorManager
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.button.MaterialButton
 import com.orion.app.R
 import kotlin.math.abs
 
 /**
- * CompassTestActivity - Membandingkan heading dari dua metode:
- * 1. LAMA: Accelerometer + Magnetometer (tanpa remap)
- * 2. BARU: Rotation Vector + remapCoordinateSystem
- *
- * Miringkan HP untuk melihat apakah heading baru tetap konsisten.
- * Setelah testing berhasil, activity ini bisa dihapus.
+ * CompassTestActivity - Interactive testing lab for Orion sensor systems:
+ * 1. 🎮 GYRO ONLY (Game Rotation Vector): Tests immunity to tilt up/down (pitch), only responds to left/right body turns.
+ * 2. 🟢 ROTATION VECTOR + REMAP: Magnetic compass with upright compensation.
+ * 3. 🔴 KLASIK: Legacy accelerometer + magnetometer.
  */
 class CompassTestActivity : AppCompatActivity(), SensorEventListener {
 
@@ -26,6 +25,13 @@ class CompassTestActivity : AppCompatActivity(), SensorEventListener {
     private var accelerometer: Sensor? = null
     private var magnetometer: Sensor? = null
     private var rotationVector: Sensor? = null
+    private var gameRotationVector: Sensor? = null
+
+    // Gyro only data
+    private var gyroHeading = 0f
+    private var gyroZeroOffset = 0f
+    private var isGyroZeroCalibrated = false
+    private var lastObservedPitch = 0f
 
     // Old method data
     private val gravity = FloatArray(3)
@@ -45,6 +51,11 @@ class CompassTestActivity : AppCompatActivity(), SensorEventListener {
     private var roll = 0f
 
     // Views
+    private lateinit var tvGyroHeading: TextView
+    private lateinit var tvGyroDirection: TextView
+    private lateinit var tvGyroLiveStatus: TextView
+    private lateinit var btnResetGyroZero: MaterialButton
+
     private lateinit var tvOldHeading: TextView
     private lateinit var tvOldDirection: TextView
     private lateinit var tvNewHeading: TextView
@@ -59,7 +70,18 @@ class CompassTestActivity : AppCompatActivity(), SensorEventListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_compass_test)
 
-        // Init views
+        // Init Gyro views
+        tvGyroHeading = findViewById(R.id.tvGyroHeading)
+        tvGyroDirection = findViewById(R.id.tvGyroDirection)
+        tvGyroLiveStatus = findViewById(R.id.tvGyroLiveStatus)
+        btnResetGyroZero = findViewById(R.id.btnResetGyroZero)
+
+        btnResetGyroZero.setOnClickListener {
+            isGyroZeroCalibrated = false
+            tvGyroLiveStatus.text = "🎯 Arah saat ini dikunci sebagai 0°!"
+        }
+
+        // Init other views
         tvOldHeading = findViewById(R.id.tvOldHeading)
         tvOldDirection = findViewById(R.id.tvOldDirection)
         tvNewHeading = findViewById(R.id.tvNewHeading)
@@ -75,6 +97,7 @@ class CompassTestActivity : AppCompatActivity(), SensorEventListener {
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
         rotationVector = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
+        gameRotationVector = sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR)
     }
 
     override fun onResume() {
@@ -88,6 +111,10 @@ class CompassTestActivity : AppCompatActivity(), SensorEventListener {
         rotationVector?.let {
             sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_GAME)
         }
+        val gyroSensor = gameRotationVector ?: rotationVector
+        gyroSensor?.let {
+            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_GAME)
+        }
     }
 
     override fun onPause() {
@@ -97,8 +124,16 @@ class CompassTestActivity : AppCompatActivity(), SensorEventListener {
 
     override fun onSensorChanged(event: SensorEvent) {
         when (event.sensor.type) {
+            Sensor.TYPE_GAME_ROTATION_VECTOR -> {
+                updateGyroOnlyMethod(event)
+            }
+            Sensor.TYPE_ROTATION_VECTOR -> {
+                if (gameRotationVector == null) {
+                    updateGyroOnlyMethod(event)
+                }
+                updateNewMethod(event)
+            }
             Sensor.TYPE_ACCELEROMETER -> {
-                // Low-pass filter (same as current CompassManager)
                 gravity[0] = ALPHA * event.values[0] + (1 - ALPHA) * gravity[0]
                 gravity[1] = ALPHA * event.values[1] + (1 - ALPHA) * gravity[1]
                 gravity[2] = ALPHA * event.values[2] + (1 - ALPHA) * gravity[2]
@@ -112,15 +147,48 @@ class CompassTestActivity : AppCompatActivity(), SensorEventListener {
                 hasGeomagnetic = true
                 updateOldMethod()
             }
-            Sensor.TYPE_ROTATION_VECTOR -> {
-                updateNewMethod(event)
-            }
         }
     }
 
     /**
-     * METODE LAMA - Sama persis dengan CompassManager.kt saat ini
-     * Tidak ada remapCoordinateSystem - heading berubah saat HP miring
+     * 1. GYRO ONLY (Game Rotation Vector)
+     * Tracks yaw relative to Earth's gravity vector.
+     * Completely ignores pitch (tilt up/down).
+     */
+    private fun updateGyroOnlyMethod(event: SensorEvent) {
+        val rotationMatrix = FloatArray(9)
+        SensorManager.getRotationMatrixFromVector(rotationMatrix, event.values)
+
+        val orientation = FloatArray(3)
+        SensorManager.getOrientation(rotationMatrix, orientation)
+
+        var rawYaw = Math.toDegrees(orientation[0].toDouble()).toFloat()
+        if (rawYaw < 0) rawYaw += 360f
+
+        if (!isGyroZeroCalibrated) {
+            gyroZeroOffset = rawYaw
+            isGyroZeroCalibrated = true
+        }
+
+        var relHeading = (rawYaw - gyroZeroOffset + 360f) % 360f
+        gyroHeading = relHeading
+
+        updateGyroUI()
+    }
+
+    private fun updateGyroUI() {
+        tvGyroHeading.text = String.format("%.0f°", gyroHeading)
+        tvGyroDirection.text = getDirectionName(gyroHeading)
+
+        val pitchDiff = abs(pitch - lastObservedPitch)
+        if (pitchDiff > 10f) {
+            lastObservedPitch = pitch
+            tvGyroLiveStatus.text = String.format("📱 HP condong %.0f° (Atas/Bawah) ➔ Derajat Gyro tetap %.0f° (Stabil! ✅)", abs(pitch), gyroHeading)
+        }
+    }
+
+    /**
+     * 2. METODE LAMA - Accelerometer + Magnetometer tanpa remap
      */
     private fun updateOldMethod() {
         if (!hasGravity || !hasGeomagnetic) return
@@ -135,7 +203,6 @@ class CompassTestActivity : AppCompatActivity(), SensorEventListener {
             var heading = Math.toDegrees(orientation[0].toDouble()).toFloat()
             if (heading < 0) heading += 360f
 
-            // Also get pitch for phone position display
             pitch = Math.toDegrees(orientation[1].toDouble()).toFloat()
             roll = Math.toDegrees(orientation[2].toDouble()).toFloat()
 
@@ -145,46 +212,36 @@ class CompassTestActivity : AppCompatActivity(), SensorEventListener {
     }
 
     /**
-     * METODE BARU - Menggunakan TYPE_ROTATION_VECTOR + remapCoordinateSystem
-     * Heading harus konsisten di semua posisi HP
+     * 3. METODE BARU - TYPE_ROTATION_VECTOR dengan remap saat tegak
      */
     private fun updateNewMethod(event: SensorEvent) {
         val rotationMatrix = FloatArray(9)
         SensorManager.getRotationMatrixFromVector(rotationMatrix, event.values)
 
-        // Detect phone orientation from pitch
-        // Use gravity to determine if phone is flat or upright
-        val absPitch = abs(pitch)
+        val orientation = FloatArray(3)
+        SensorManager.getOrientation(rotationMatrix, orientation)
 
-        val remappedMatrix = FloatArray(9)
+        val pitchDeg = abs(Math.toDegrees(orientation[1].toDouble()).toFloat())
 
-        if (absPitch < 40) {
-            // Phone is mostly FLAT (rata) - standard mapping
-            // World X → Device X, World Y → Device Y
+        val heading: Float = if (pitchDeg > 70f) {
+            val remappedMatrix = FloatArray(9)
             SensorManager.remapCoordinateSystem(
                 rotationMatrix,
                 SensorManager.AXIS_X,
-                SensorManager.AXIS_Y,
+                SensorManager.AXIS_MINUS_Z,
                 remappedMatrix
             )
+            val remappedOrientation = FloatArray(3)
+            SensorManager.getOrientation(remappedMatrix, remappedOrientation)
+            Math.toDegrees(remappedOrientation[0].toDouble()).toFloat()
         } else {
-            // Phone is mostly UPRIGHT (tegak) - remap Z axis
-            // World X → Device X, World Z → Device Y
-            SensorManager.remapCoordinateSystem(
-                rotationMatrix,
-                SensorManager.AXIS_X,
-                SensorManager.AXIS_Z,
-                remappedMatrix
-            )
+            Math.toDegrees(orientation[0].toDouble()).toFloat()
         }
 
-        val orientation = FloatArray(3)
-        SensorManager.getOrientation(remappedMatrix, orientation)
+        var norm = heading
+        if (norm < 0) norm += 360f
+        newHeading = norm
 
-        var heading = Math.toDegrees(orientation[0].toDouble()).toFloat()
-        if (heading < 0) heading += 360f
-
-        newHeading = heading
         updateUI()
     }
 
@@ -200,40 +257,40 @@ class CompassTestActivity : AppCompatActivity(), SensorEventListener {
         // Difference
         var diff = abs(newHeading - oldHeading)
         if (diff > 180) diff = 360 - diff
-        tvDifference.text = String.format("%.0f°", diff)
+        tvDifference.text = String.format("Selisih Kompas Magnet: %.0f°", diff)
 
         // Verdict
         when {
             diff < 5 -> {
-                tvVerdict.text = "✅ Sangat akurat! Heading konsisten."
+                tvVerdict.text = "✅ Kompas stabil di posisi ini."
                 tvVerdict.setTextColor(0xFF4CAF50.toInt())
             }
             diff < 15 -> {
-                tvVerdict.text = "⚠️ Selisih kecil, masih dalam toleransi (15°)"
+                tvVerdict.text = "⚠️ Selisih kecil (masih batas toleransi 15°)"
                 tvVerdict.setTextColor(0xFFFFD740.toInt())
             }
             else -> {
-                tvVerdict.text = "❌ Selisih besar! Metode lama tidak akurat di posisi ini."
+                tvVerdict.text = "❌ Selisih besar pada metode klasik saat miring!"
                 tvVerdict.setTextColor(0xFFFF5252.toInt())
             }
         }
 
         // Phone position
-        tvPitch.text = String.format("Pitch: %.0f°", pitch)
-        tvRoll.text = String.format("Roll: %.0f°", roll)
+        tvPitch.text = String.format("Pitch (Condong Atas/Bawah): %.0f°", pitch)
+        tvRoll.text = String.format("Roll (Miring Kiri/Kanan): %.0f°", roll)
 
         val absPitch = abs(pitch)
         when {
             absPitch < 20 -> {
-                tvPhonePosition.text = "📱 Posisi: RATA (flat)"
+                tvPhonePosition.text = "📱 Posisi: RATA (Flat)"
                 tvPhonePosition.setTextColor(0xFF4CAF50.toInt())
             }
-            absPitch < 50 -> {
-                tvPhonePosition.text = "📱 Posisi: MIRING (~${absPitch.toInt()}°)"
-                tvPhonePosition.setTextColor(0xFFFFD740.toInt())
+            absPitch < 65 -> {
+                tvPhonePosition.text = "📱 Posisi: CONDONG DI DADA (~${absPitch.toInt()}°)"
+                tvPhonePosition.setTextColor(0xFF00E5FF.toInt())
             }
             else -> {
-                tvPhonePosition.text = "📱 Posisi: TEGAK (upright)"
+                tvPhonePosition.text = "📱 Posisi: TEGAK (Upright)"
                 tvPhonePosition.setTextColor(0xFF64B5F6.toInt())
             }
         }
@@ -241,14 +298,14 @@ class CompassTestActivity : AppCompatActivity(), SensorEventListener {
 
     private fun getDirectionName(heading: Float): String {
         return when {
-            heading >= 337.5f || heading < 22.5f -> "Utara"
-            heading >= 22.5f && heading < 67.5f -> "Timur Laut"
-            heading >= 67.5f && heading < 112.5f -> "Timur"
-            heading >= 112.5f && heading < 157.5f -> "Tenggara"
-            heading >= 157.5f && heading < 202.5f -> "Selatan"
-            heading >= 202.5f && heading < 247.5f -> "Barat Daya"
-            heading >= 247.5f && heading < 292.5f -> "Barat"
-            else -> "Barat Laut"
+            heading >= 337.5f || heading < 22.5f -> "Utara (0°)"
+            heading >= 22.5f && heading < 67.5f -> "Timur Laut (45°)"
+            heading >= 67.5f && heading < 112.5f -> "Timur (90°)"
+            heading >= 112.5f && heading < 157.5f -> "Tenggara (135°)"
+            heading >= 157.5f && heading < 202.5f -> "Selatan (180°)"
+            heading >= 202.5f && heading < 247.5f -> "Barat Daya (225°)"
+            heading >= 247.5f && heading < 292.5f -> "Barat (270°)"
+            else -> "Barat Laut (315°)"
         }
     }
 

@@ -10,6 +10,7 @@ import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import androidx.appcompat.app.AppCompatActivity
 import com.orion.app.R
+import com.orion.app.navigation.MapDataLoader
 import java.util.Locale
 
 /**
@@ -31,13 +32,19 @@ class SplashActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         
         // Compass method preference
         const val KEY_COMPASS_METHOD = "compass_method"
-        const val METHOD_OLD = "old"      // Accelerometer + Magnetometer
-        const val METHOD_NEW = "new"      // Rotation Vector + remapCoordinateSystem
+        const val METHOD_HYBRID = "hybrid" // HYBRID: Kompas di awal -> Kunci Gyro saat berjalan (Rekomendasi Utama)
+        const val METHOD_FOP = "fop"      // Google Fused Orientation Provider (Paling akurat & konsisten lintas merk HP)
+        const val METHOD_GYRO = "gyro"    // Gyroscope Only (Game Rotation Vector) - Hanya Kiri/Kanan, Kebal Atas/Bawah
+        const val METHOD_NEW = "new"      // Android Rotation Vector (OS sensor fusion)
+        const val METHOD_OLD = "old"      // Accelerometer + Magnetometer (Legacy)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+
+        // Load indoor navigation map from storage/assets
+        MapDataLoader.loadMap(this)
 
         // Initialize TTS for welcome message
         tts = TextToSpeech(this, this)

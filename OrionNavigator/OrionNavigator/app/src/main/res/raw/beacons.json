@@ -1,39 +1,165 @@
 {
   "beacons": [
     {
-      "uuid": "12345678-1234-1234-1234-123456789012",
+      "uuid": "0112233445566778899AABBCCDDEEFF0",
       "major": 1,
-      "minor": 101,
-      "location": "Ruang Guru",
-      "description": "Gedung A, Lantai 1"
+      "minor": 1,
+      "location": "Toilet Wanita Area Cafe",
+      "description": "Lantai 1 Rektorat UNESA - Area Cafe"
     },
     {
-      "uuid": "12345678-1234-1234-1234-123456789012",
+      "uuid": "0112233445566778899AABBCCDDEEFF0",
       "major": 1,
-      "minor": 102,
-      "location": "Ruang Kelas",
-      "description": "Gedung A, Lantai 1"
+      "minor": 2,
+      "location": "Cafe Unesa",
+      "description": "Lantai 1 Rektorat UNESA"
     },
     {
-      "uuid": "12345678-1234-1234-1234-123456789012",
+      "uuid": "0112233445566778899AABBCCDDEEFF0",
       "major": 1,
-      "minor": 103,
-      "location": "Kantin",
-      "description": "Gedung B, Lantai 1"
+      "minor": 3,
+      "location": "Tangga Cafe",
+      "description": "Lantai 1 Rektorat UNESA - Area Cafe"
     },
     {
-      "uuid": "12345678-1234-1234-1234-123456789012",
+      "uuid": "0112233445566778899AABBCCDDEEFF0",
       "major": 1,
-      "minor": 104,
-      "location": "Perpustakaan",
-      "description": "Gedung A, Lantai 2"
+      "minor": 4,
+      "location": "Toilet Pria Area Cafe",
+      "description": "Lantai 1 Rektorat UNESA - Area Cafe"
     },
     {
-      "uuid": "12345678-1234-1234-1234-123456789012",
+      "uuid": "0112233445566778899AABBCCDDEEFF0",
       "major": 1,
-      "minor": 105,
-      "location": "Toilet",
-      "description": "Gedung A, Lantai 1"
+      "minor": 7,
+      "location": "Co Working Space Cafe",
+      "description": "Lantai 1 Rektorat UNESA - Samping Cafe"
+    },
+    {
+      "uuid": "0112233445566778899AABBCCDDEEFF0",
+      "major": 1,
+      "minor": 12,
+      "location": "Tangga Musholla",
+      "description": "Lantai 1 Rektorat UNESA - Area Musholla"
+    },
+    {
+      "uuid": "0112233445566778899AABBCCDDEEFF0",
+      "major": 1,
+      "minor": 13,
+      "location": "Lift Musholla",
+      "description": "Lantai 1 Rektorat UNESA - Dekat Musholla"
+    },
+    {
+      "uuid": "0112233445566778899AABBCCDDEEFF0",
+      "major": 1,
+      "minor": 16,
+      "location": "Musholla Lantai 1 (Pintu 1)",
+      "description": "Lantai 1 Rektorat UNESA"
+    },
+    {
+      "uuid": "0112233445566778899AABBCCDDEEFF0",
+      "major": 1,
+      "minor": 17,
+      "location": "Musholla Lantai 1 (Pintu 2)",
+      "description": "Lantai 1 Rektorat UNESA"
+    },
+    {
+      "uuid": "0112233445566778899AABBCCDDEEFF0",
+      "major": 1,
+      "minor": 19,
+      "location": "Lift Koridor Utama",
+      "description": "Lantai 1 Rektorat UNESA"
+    },
+    {
+      "uuid": "0112233445566778899AABBCCDDEEFF0",
+      "major": 1,
+      "minor": 24,
+      "location": "Lobby",
+      "description": "Lantai 1 Rektorat UNESA - Depan"
+    },
+    {
+      "uuid": "0112233445566778899AABBCCDDEEFF0",
+      "major": 1,
+      "minor": 26,
+      "location": "Pintu Tengah",
+      "description": "Lantai 1 Rektorat UNESA"
+    },
+    {
+      "uuid": "0112233445566778899AABBCCDDEEFF0",
+      "major": 1,
+      "minor": 50,
+      "location": "Pintu Sayap Kiri",
+      "description": "Lantai 1 Rektorat UNESA - Sayap Barat"
+    },
+    {
+      "uuid": "0112233445566778899AABBCCDDEEFF0",
+      "major": 1,
+      "minor": 51,
+      "location": "Satpam",
+      "description": "Lantai 1 Rektorat UNESA - Pos Sayap Kiri"
+    },
+    {
+      "uuid": "0112233445566778899AABBCCDDEEFF0",
+      "major": 1,
+      "minor": 53,
+      "location": "Absen Perpustakaan",
+      "description": "Lantai 1 Rektorat UNESA - Area Perpustakaan"
+    },
+    {
+      "uuid": "0112233445566778899AABBCCDDEEFF0",
+      "major": 1,
+      "minor": 54,
+      "location": "Tangga Absen Perpustakaan",
+      "description": "Lantai 1 Rektorat UNESA"
+    },
+    {
+      "uuid": "0112233445566778899AABBCCDDEEFF0",
+      "major": 1,
+      "minor": 58,
+      "location": "Tangga Sayap Kiri",
+      "description": "Lantai 1 Rektorat UNESA"
+    },
+    {
+      "uuid": "0112233445566778899AABBCCDDEEFF0",
+      "major": 1,
+      "minor": 59,
+      "location": "Lift Sayap Kiri",
+      "description": "Lantai 1 Rektorat UNESA"
+    },
+    {
+      "uuid": "0112233445566778899AABBCCDDEEFF0",
+      "major": 1,
+      "minor": 60,
+      "location": "Working Space Sayap Kiri",
+      "description": "Lantai 1 Rektorat UNESA"
+    },
+    {
+      "uuid": "0112233445566778899AABBCCDDEEFF0",
+      "major": 1,
+      "minor": 64,
+      "location": "Toilet Pria Sayap Kiri",
+      "description": "Lantai 1 Rektorat UNESA"
+    },
+    {
+      "uuid": "0112233445566778899AABBCCDDEEFF0",
+      "major": 1,
+      "minor": 65,
+      "location": "Toilet Wanita Sayap Kiri",
+      "description": "Lantai 1 Rektorat UNESA"
+    },
+    {
+      "uuid": "0112233445566778899AABBCCDDEEFF0",
+      "major": 1,
+      "minor": 66,
+      "location": "Toilet Difabel Sayap Kiri",
+      "description": "Lantai 1 Rektorat UNESA"
+    },
+    {
+      "uuid": "0112233445566778899AABBCCDDEEFF0",
+      "major": 1,
+      "minor": 68,
+      "location": "Information Center",
+      "description": "Lantai 1 Rektorat UNESA"
     }
   ]
 }

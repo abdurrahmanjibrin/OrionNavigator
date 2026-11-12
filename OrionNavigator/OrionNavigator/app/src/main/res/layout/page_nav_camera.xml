@@ -55,7 +55,35 @@
         android:layout_gravity="top"
         android:layout_margin="12dp">
 
-        <!-- Row: Swipe hint (kiri) + Lokasi (tengah) -->
+        <!-- Row: Lantai / Layer Spinner -->
+        <LinearLayout
+            android:id="@+id/camLlFloor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="6dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_location_modern"
+                app:tint="#FFB300"
+                android:layout_marginEnd="6dp"
+                android:importantForAccessibility="no"
+                android:contentDescription="" />
+
+            <Spinner
+                android:id="@+id/camSpinnerFloor"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_spinner_glass"
+                android:padding="6dp" />
+
+        </LinearLayout>
+
+        <!-- Row: Swipe hint (kiri) + Lokasi Awal (Spinner) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,44 +101,39 @@
                 android:paddingEnd="6dp"
                 android:importantForAccessibility="no" />
 
-            <!-- Pin icon -->
-            <FrameLayout
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:background="@drawable/bg_status_active"
-                android:importantForAccessibility="no">
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_navigation"
-                    app:tint="#FFFFFF"
-                    android:importantForAccessibility="no"
-                    android:contentDescription="" />
-            </FrameLayout>
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_location"
+                app:tint="#4CAF50"
+                android:layout_marginEnd="6dp"
+                android:importantForAccessibility="no"
+                android:contentDescription="" />
 
-            <!-- Lokasi saat ini -->
-            <TextView
-                android:id="@+id/camTvCurrentRoom"
+            <Spinner
+                android:id="@+id/camSpinnerStartLocation"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="44dp"
                 android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:text="Lokasi: Menunggu beacon..."
-                android:textSize="13sp"
-                android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                android:singleLine="true"
-                android:ellipsize="end"
-                android:importantForAccessibility="no" />
+                android:background="@drawable/bg_spinner_glass"
+                android:padding="6dp" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/camTvCurrentRoom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lokasi Awal: Belum dipilih"
+            android:textSize="11sp"
+            android:textColor="#BBFFFFFF"
+            android:visibility="gone" />
 
         <!-- Divider -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginVertical="8dp"
+            android:layout_marginVertical="6dp"
             android:background="#35FFFFFF"
             android:importantForAccessibility="no" />
 
@@ -125,8 +148,8 @@
             <ImageView
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:src="@drawable/ic_compass_arrow"
-                app:tint="#AAFFFFFF"
+                android:src="@drawable/ic_navigation"
+                app:tint="#2196F3"
                 android:layout_marginEnd="6dp"
                 android:importantForAccessibility="no"
                 android:contentDescription="" />

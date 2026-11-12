@@ -2,7 +2,6 @@ package com.orion.app.navigation
 
 /**
  * Dijkstra's Algorithm untuk mencari jalur terpendek
- * Ported from YPAB project
  */
 object Dijkstra {
 

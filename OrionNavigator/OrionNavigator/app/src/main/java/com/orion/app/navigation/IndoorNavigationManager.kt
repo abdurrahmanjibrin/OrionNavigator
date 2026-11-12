@@ -12,8 +12,7 @@ import kotlin.math.roundToInt
 /**
  * IndoorNavigationManager - Manages multi-step indoor navigation with compass guidance.
  * Provides step-by-step directions with alignment detection at each step.
- * 
- * Updated to use graph-based routing with Dijkstra algorithm (merged from YPAB project)
+ * Uses graph-based routing with Dijkstra algorithm.
  */
 class IndoorNavigationManager(
     private val context: Context,
@@ -284,6 +283,11 @@ class IndoorNavigationManager(
         val start = currentRoom ?: return
         val end = destinationRoom ?: return
         
+        if (start == end) {
+            ttsManager.speak("Titik awal dan tujuan sama. Silakan pilih tujuan berbeda.")
+            return
+        }
+
         val path = Dijkstra.shortestPath(start, end)
         
         if (path.isEmpty() || path.size < 2) {
@@ -294,13 +298,8 @@ class IndoorNavigationManager(
         currentPath = path
         currentPathIndex = 0
         
-        // We do NOT set isActivelyNavigating = true here anymore.
-        // It will be set to true when the user explicitly clicks "Mulai Navigasi" in the UI.
-        // (But wait, we need to handle this properly, let's leave recalculateRoute as is for path generation,
-        // but avoid locking BLE yet).
-        
         val totalSteps = path.size - 1
-        ttsManager.speak("Navigasi ke $destinationDisplayName. Total $totalSteps segmen.")
+        ttsManager.speak("Navigasi dari $currentRoomDisplayName ke $destinationDisplayName. Total $totalSteps segmen.")
         
         // Start first step after delay
         handler.postDelayed({ startNextStep() }, STEP_START_DELAY_MS)
@@ -422,11 +421,13 @@ class IndoorNavigationManager(
             }
         } else if (waitingForUserConfirmation) {
             if (!isAligned) {
-                // User berbelok setelah aligned
+                // User berbelok setelah aligned (arah salah)
+                val justLostAlignment = lastAlignedState
                 if (lastAlignedState) {
                     lastAlignedState = false
                 }
-                if (now - lastGuidanceTtsTime >= GUIDANCE_TTS_INTERVAL_MS) {
+                // Jika baru saja berbelok salah arah, SEGERA berikan feedback teks dan TTS tanpa menunggu interval 5 detik!
+                if (justLostAlignment || now - lastGuidanceTtsTime >= GUIDANCE_TTS_INTERVAL_MS) {
                     val warning = ManualNavGuide.getAlignmentGuidance(diff, currentTolerance)
                     ttsManager.speak(warning)
                     callback?.onAlignmentGuidance(warning, abs(diff))
@@ -524,6 +525,31 @@ class IndoorNavigationManager(
     }
 
     /**
+     * Explicitly set the starting room by display name (for beaconless/manual navigation)
+     */
+    fun setStartingRoom(displayName: String) {
+        val nodeId = GraphData.getDestinations().find { 
+            GraphData.getDisplayName(it.id) == displayName 
+        }?.id
+        
+        if (nodeId != null) {
+            setStartingRoomById(nodeId)
+        }
+    }
+
+    /**
+     * Explicitly set the starting room by node ID
+     */
+    fun setStartingRoomById(nodeId: Int) {
+        val displayName = GraphData.getDisplayName(nodeId)
+        currentRoom = nodeId
+        currentRoomDisplayName = displayName
+        callback?.onRoomChanged(displayName)
+    }
+
+    fun getCurrentRoomName(): String? = currentRoomDisplayName
+
+    /**
      * Set navigation destination using display name
      */
     fun setDestination(displayName: String) {
@@ -549,10 +575,10 @@ class IndoorNavigationManager(
         resetNavigationState()
         
         if (currentRoom != null) {
-            // Already at a beacon, calculate route
+            // Already have starting room, calculate route
             recalculateRoute()
         } else {
-            ttsManager.speak("Tujuan: $destinationDisplayName. Jalan menuju beacon terdekat.")
+            ttsManager.speak("Tujuan: $destinationDisplayName. Pilih titik awal untuk memulai rute.")
         }
     }
 

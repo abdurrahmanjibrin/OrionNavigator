@@ -1,0 +1,8 @@
+#!/bin/bash
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"
+export ANDROID_HOME="/home/amirul/Documents/Orion/.android-sdk"
+export ANDROID_USER_HOME="${ANDROID_USER_HOME:-/tmp/.android}"
+export GRADLE_USER_HOME="${GRADLE_USER_HOME:-/tmp/.gradle}"
+mkdir -p "$GRADLE_USER_HOME" "$ANDROID_USER_HOME"
+exec "$JAVA_HOME/bin/java" -Dgradle.user.home="$GRADLE_USER_HOME" -classpath "$DIR/gradle/wrapper/gradle-wrapper.jar" org.gradle.wrapper.GradleWrapperMain "$@"
