@@ -3,141 +3,66 @@
   "beacons": [
     {
       "major": 1,
-      "minor": 1,
-      "roomName": "Toilet Wanita Area Cafe",
-      "arrivalMessage": "Anda berada di Toilet Wanita Area Cafe"
-    },
-    {
-      "major": 1,
-      "minor": 2,
-      "roomName": "Cafe Unesa",
-      "arrivalMessage": "Anda berada di Cafe Unesa"
-    },
-    {
-      "major": 1,
-      "minor": 3,
-      "roomName": "Tangga Cafe",
-      "arrivalMessage": "Anda berada di Tangga Cafe"
-    },
-    {
-      "major": 1,
-      "minor": 4,
-      "roomName": "Toilet Pria Area Cafe",
-      "arrivalMessage": "Anda berada di Toilet Pria Area Cafe"
-    },
-    {
-      "major": 1,
-      "minor": 7,
-      "roomName": "Co Working Space Cafe",
-      "arrivalMessage": "Anda berada di Co Working Space Cafe"
-    },
-    {
-      "major": 1,
-      "minor": 12,
-      "roomName": "Tangga Musholla",
-      "arrivalMessage": "Anda berada di Tangga Musholla"
-    },
-    {
-      "major": 1,
-      "minor": 13,
-      "roomName": "Lift Musholla",
-      "arrivalMessage": "Anda berada di Lift Musholla"
-    },
-    {
-      "major": 1,
-      "minor": 16,
-      "roomName": "Musholla Lantai 1 (Pintu 1)",
-      "arrivalMessage": "Anda berada di Musholla Lantai 1 (Pintu 1)"
-    },
-    {
-      "major": 1,
-      "minor": 17,
-      "roomName": "Musholla Lantai 1 (Pintu 2)",
-      "arrivalMessage": "Anda berada di Musholla Lantai 1 (Pintu 2)"
-    },
-    {
-      "major": 1,
-      "minor": 19,
-      "roomName": "Lift Koridor Utama",
-      "arrivalMessage": "Anda berada di Lift Koridor Utama"
-    },
-    {
-      "major": 1,
-      "minor": 24,
-      "roomName": "Lobby",
-      "arrivalMessage": "Anda berada di Lobby"
+      "minor": 22,
+      "beaconName": "Cafe",
+      "nodeId": 1,
+      "nodeName": "Cafe"
     },
     {
       "major": 1,
       "minor": 26,
-      "roomName": "Pintu Tengah",
-      "arrivalMessage": "Anda berada di Pintu Tengah"
+      "beaconName": "Toilet Cafe",
+      "nodeId": 4,
+      "nodeName": "Toilet Cafe"
     },
     {
       "major": 1,
-      "minor": 50,
-      "roomName": "Pintu Sayap Kiri",
-      "arrivalMessage": "Anda berada di Pintu Sayap Kiri"
+      "minor": 24,
+      "beaconName": "Working Space Cafe",
+      "nodeId": 7,
+      "nodeName": "Working Space Cafe"
     },
     {
       "major": 1,
-      "minor": 51,
-      "roomName": "Satpam",
-      "arrivalMessage": "Anda berada di Satpam"
+      "minor": 21,
+      "beaconName": "Lift Lobby",
+      "nodeId": 55,
+      "nodeName": "Lift Lobby"
     },
     {
       "major": 1,
-      "minor": 53,
-      "roomName": "Absen Perpustakaan",
-      "arrivalMessage": "Anda berada di Absen Perpustakaan"
+      "minor": 7,
+      "beaconName": "Pintu Lobby Tengah",
+      "nodeId": 72,
+      "nodeName": "Pintu Lobby Tengah"
     },
     {
       "major": 1,
-      "minor": 54,
-      "roomName": "Tangga Absen Perpustakaan",
-      "arrivalMessage": "Anda berada di Tangga Absen Perpustakaan"
+      "minor": 23,
+      "beaconName": "Lobby",
+      "nodeId": 61,
+      "nodeName": "Lobby"
     },
     {
       "major": 1,
-      "minor": 58,
-      "roomName": "Tangga Sayap Kiri",
-      "arrivalMessage": "Anda berada di Tangga Sayap Kiri"
+      "minor": 25,
+      "beaconName": "Information Center",
+      "nodeId": 71,
+      "nodeName": "Information Center"
     },
     {
       "major": 1,
-      "minor": 59,
-      "roomName": "Lift Sayap Kiri",
-      "arrivalMessage": "Anda berada di Lift Sayap Kiri"
+      "minor": 4,
+      "beaconName": "Satpam Perpustakaan",
+      "nodeId": 51,
+      "nodeName": "Satpam Perpustakaan"
     },
     {
       "major": 1,
-      "minor": 60,
-      "roomName": "Working Space Sayap Kiri",
-      "arrivalMessage": "Anda berada di Working Space Sayap Kiri"
-    },
-    {
-      "major": 1,
-      "minor": 64,
-      "roomName": "Toilet Pria Sayap Kiri",
-      "arrivalMessage": "Anda berada di Toilet Pria Sayap Kiri"
-    },
-    {
-      "major": 1,
-      "minor": 65,
-      "roomName": "Toilet Wanita Sayap Kiri",
-      "arrivalMessage": "Anda berada di Toilet Wanita Sayap Kiri"
-    },
-    {
-      "major": 1,
-      "minor": 66,
-      "roomName": "Toilet Difabel Sayap Kiri",
-      "arrivalMessage": "Anda berada di Toilet Difabel Sayap Kiri"
-    },
-    {
-      "major": 1,
-      "minor": 68,
-      "roomName": "Information Center",
-      "arrivalMessage": "Anda berada di Information Center"
+      "minor": 6,
+      "beaconName": "Pintu Sayap Perpustakaan",
+      "nodeId": 52,
+      "nodeName": "Pintu Sayap Perpustakaan"
     }
   ]
 }

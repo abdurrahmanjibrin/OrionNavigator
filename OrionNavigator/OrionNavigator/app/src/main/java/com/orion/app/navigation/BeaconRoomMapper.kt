@@ -1,89 +1,170 @@
 package com.orion.app.navigation
 
+import android.content.Context
+import android.util.Log
+import org.json.JSONObject
+
 /**
- * Beacon to Room Mapper for UNESA Rektorat Lantai 1
- * Maps BLE beacon Major/Minor to GraphData node IDs
- * 
- * UUID: 0112233445566778899AABBCCDDEEFF0
+ * Beacon to Room Mapper
+ * Decouples hardware beacon configuration (UUID, Major, Minor, Beacon Name)
+ * from map GraphData node IDs so each can be edited independently.
+ *
+ * Reads configuration from assets/beacons_config.json (or files/beacons_config.json if present).
  */
 object BeaconRoomMapper {
 
+    private const val TAG = "BeaconRoomMapper"
+    private const val CONFIG_FILE = "beacons_config.json"
+
+    data class BeaconEntry(
+        val major: Int,
+        val minor: Int,
+        val name: String,
+        val nodeId: Int? = null,
+        val targetNodeName: String? = null
+    )
+
     /**
-     * Active beacon UUID (can be loaded from JSON)
+     * Active beacon UUID (loaded from beacons_config.json or map JSON)
      */
     var beaconUuid: String = "0112233445566778899AABBCCDDEEFF0"
         private set
-    
-    /**
-     * Default mapping beacon (Major, Minor) ke node ID dalam graph UNESA Rektorat Lantai 1.
-     */
-    private val defaultBeaconMap = mapOf(
-        Pair(1, 1)  to 1,   // Toilet Wanita Area Cafe
-        Pair(1, 2)  to 2,   // Cafe Unesa
-        Pair(1, 3)  to 3,   // Tangga Cafe
-        Pair(1, 4)  to 4,   // Toilet Pria Area Cafe
-        Pair(1, 7)  to 7,   // Co Working Space Cafe
-        Pair(1, 12) to 12,  // Tangga Musholla
-        Pair(1, 13) to 13,  // Lift Musholla
-        Pair(1, 16) to 16,  // Musholla Lantai 1 (Pintu 1)
-        Pair(1, 17) to 17,  // Musholla Lantai 1 (Pintu 2)
-        Pair(1, 19) to 19,  // Lift Koridor Utama
-        Pair(1, 24) to 24,  // Lobby
-        Pair(1, 26) to 26,  // Pintu Tengah
-        Pair(1, 50) to 50,  // Pintu Sayap Kiri
-        Pair(1, 51) to 51,  // Satpam
-        Pair(1, 53) to 53,  // Absen Perpustakaan
-        Pair(1, 54) to 54,  // Tangga Absen Perpustakaan
-        Pair(1, 58) to 58,  // Tangga Sayap Kiri
-        Pair(1, 59) to 59,  // Lift Sayap Kiri
-        Pair(1, 60) to 60,  // Working Space Sayap Kiri
-        Pair(1, 64) to 64,  // Toilet Pria Sayap Kiri
-        Pair(1, 65) to 65,  // Toilet Wanita Sayap Kiri
-        Pair(1, 66) to 66,  // Toilet Difabel Sayap Kiri
-        Pair(1, 68) to 68   // Information Center
-    )
 
-    private var beaconToNodeMap: MutableMap<Pair<Int, Int>, Int> = defaultBeaconMap.toMutableMap()
-    
-    /**
-     * Reverse mapping: node ID ke beacon (Major, Minor)
-     */
-    private var nodeToBeaconMap: MutableMap<Int, Pair<Int, Int>> = 
-        beaconToNodeMap.entries.associate { (k, v) -> v to k }.toMutableMap()
+    private var entriesMap: MutableMap<Pair<Int, Int>, BeaconEntry> = mutableMapOf()
+    private var nodeToBeaconMap: MutableMap<Int, Pair<Int, Int>> = mutableMapOf()
+    private var isConfigLoaded = false
 
     /**
-     * Update beacon mapping dynamically (e.g. from JSON file)
+     * Load decoupled beacon definitions from assets/beacons_config.json
+     * (or internal files/beacons_config.json if customized).
+     */
+    fun loadFromConfigJson(context: Context, forceReload: Boolean = false) {
+        if (isConfigLoaded && !forceReload) return
+
+        try {
+            val customFile = java.io.File(context.filesDir, CONFIG_FILE)
+            val jsonString = if (customFile.exists() && customFile.length() > 0) {
+                customFile.readText(Charsets.UTF_8)
+            } else {
+                context.assets.open(CONFIG_FILE).bufferedReader(Charsets.UTF_8).use { it.readText() }
+            }
+
+            val root = JSONObject(jsonString)
+            val uuid = root.optString("uuid", root.optString("beaconUuid", "")).trim()
+            if (uuid.isNotEmpty()) {
+                beaconUuid = uuid
+            }
+
+            val beaconsArray = root.optJSONArray("beacons")
+            val loadedEntries = mutableMapOf<Pair<Int, Int>, BeaconEntry>()
+            if (beaconsArray != null) {
+                for (i in 0 until beaconsArray.length()) {
+                    val obj = beaconsArray.optJSONObject(i) ?: continue
+                    val major = obj.optInt("major", -1)
+                    val minor = obj.optInt("minor", -1)
+                    if (major < 0 || minor < 0) continue
+
+                    val name = obj.optString("beaconName", obj.optString("roomName", obj.optString("name", "Beacon $major:$minor"))).trim()
+                    val nodeId = if (obj.has("nodeId") && !obj.isNull("nodeId")) obj.optInt("nodeId", -1).takeIf { it > 0 } else null
+                    val targetNodeName = obj.optString("nodeName", obj.optString("roomName", "")).trim().takeIf { it.isNotEmpty() }
+
+                    loadedEntries[Pair(major, minor)] = BeaconEntry(
+                        major = major,
+                        minor = minor,
+                        name = name,
+                        nodeId = nodeId,
+                        targetNodeName = targetNodeName
+                    )
+                }
+            }
+
+            if (loadedEntries.isNotEmpty()) {
+                entriesMap = loadedEntries
+                rebuildReverseIndex()
+                isConfigLoaded = true
+                Log.i(TAG, "Loaded ${entriesMap.size} beacons from $CONFIG_FILE (UUID=$beaconUuid)")
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to load $CONFIG_FILE", e)
+        }
+    }
+
+    private fun rebuildReverseIndex() {
+        val reverse = mutableMapOf<Int, Pair<Int, Int>>()
+        for ((key, entry) in entriesMap) {
+            val resolvedNodeId = resolveNodeId(entry)
+            if (resolvedNodeId != null) {
+                reverse[resolvedNodeId] = key
+            }
+        }
+        nodeToBeaconMap = reverse
+    }
+
+    private fun resolveNodeId(entry: BeaconEntry): Int? {
+        // 1. Explicit nodeId (if valid in current GraphData)
+        if (entry.nodeId != null && GraphData.getNode(entry.nodeId) != null) {
+            return entry.nodeId
+        }
+        // 2. Match by targetNodeName or beacon name in current GraphData
+        val candidateName = entry.targetNodeName ?: entry.name
+        val matched = GraphData.findDestinationByKeyword(candidateName)
+        if (matched != null) {
+            return matched.id
+        }
+        return entry.nodeId
+    }
+
+    /**
+     * Update or merge beacon mapping dynamically (e.g. from imported map JSON)
      */
     fun setBeaconMap(newMap: Map<Pair<Int, Int>, Int>, newUuid: String? = null) {
         if (newMap.isNotEmpty()) {
-            beaconToNodeMap = newMap.toMutableMap()
-            nodeToBeaconMap = beaconToNodeMap.entries.associate { (k, v) -> v to k }.toMutableMap()
+            for ((key, nodeId) in newMap) {
+                val existing = entriesMap[key]
+                entriesMap[key] = BeaconEntry(
+                    major = key.first,
+                    minor = key.second,
+                    name = existing?.name ?: GraphData.getDisplayName(nodeId),
+                    nodeId = nodeId,
+                    targetNodeName = existing?.targetNodeName
+                )
+            }
+            rebuildReverseIndex()
         }
         if (!newUuid.isNullOrBlank()) {
             beaconUuid = newUuid
         }
     }
-    
+
     /**
      * Get node ID from beacon Major/Minor
      * @return Node ID or null if beacon not registered
      */
     fun getNodeIdForBeacon(major: Int, minor: Int): Int? {
-        return beaconToNodeMap[Pair(major, minor)]
+        val entry = entriesMap[Pair(major, minor)] ?: return null
+        return resolveNodeId(entry)
     }
-    
+
     /**
      * Get beacon Major/Minor for a node ID
      * @return Pair(Major, Minor) or null if node doesn't have a beacon
      */
     fun getBeaconForNodeId(nodeId: Int): Pair<Int, Int>? {
+        val direct = nodeToBeaconMap[nodeId]
+        if (direct != null) return direct
+        // Retry resolving in case GraphData changed after config load
+        rebuildReverseIndex()
         return nodeToBeaconMap[nodeId]
     }
-    
+
     /**
-     * Get display name for a beacon
+     * Get display name for a beacon (uses independent beacon name first, falls back to node name)
      */
     fun getDisplayNameForBeacon(major: Int, minor: Int): String {
+        val entry = entriesMap[Pair(major, minor)]
+        if (entry != null && entry.name.isNotBlank()) {
+            return entry.name
+        }
         val nodeId = getNodeIdForBeacon(major, minor)
         return if (nodeId != null) {
             GraphData.getDisplayName(nodeId)
@@ -91,28 +172,29 @@ object BeaconRoomMapper {
             "Unknown (M$major:m$minor)"
         }
     }
-    
+
     /**
      * Check if beacon is registered
      */
     fun isBeaconRegistered(major: Int, minor: Int): Boolean {
-        return beaconToNodeMap.containsKey(Pair(major, minor))
+        return entriesMap.containsKey(Pair(major, minor))
     }
-    
+
     /**
      * Get all registered beacon configs
      */
     fun getAllRegisteredBeacons(): List<BeaconConfig> {
-        return beaconToNodeMap.map { (beacon, nodeId) ->
+        return entriesMap.values.map { entry ->
+            val resolvedId = resolveNodeId(entry) ?: -1
             BeaconConfig(
-                major = beacon.first,
-                minor = beacon.second,
-                nodeId = nodeId,
-                displayName = GraphData.getDisplayName(nodeId)
+                major = entry.major,
+                minor = entry.minor,
+                nodeId = resolvedId,
+                displayName = entry.name.ifBlank { GraphData.getDisplayName(resolvedId) }
             )
         }
     }
-    
+
     /**
      * Beacon configuration data class
      */

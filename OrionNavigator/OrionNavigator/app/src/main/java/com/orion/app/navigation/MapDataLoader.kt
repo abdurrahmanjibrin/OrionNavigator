@@ -101,6 +101,7 @@ object MapDataLoader {
      * Load map on startup or resume. Loads the currently active layer.
      */
     fun loadMap(context: Context): Boolean {
+        BeaconRoomMapper.loadFromConfigJson(context)
         val activeId = getActiveLayerId(context)
         if (activeId == BUILTIN_GROUND_LAYER_ID) {
             if (loadBuiltInGroundMap(context)) return true

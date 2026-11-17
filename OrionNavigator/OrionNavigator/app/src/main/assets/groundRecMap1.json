@@ -1,5 +1,5 @@
 {
-  "buildingName": "New Building",
+  "buildingName": "Gedung Rektorat UNESA",
   "edges": [
     {
       "arrivalDegree": 91.38275909423828,
@@ -154,28 +154,6 @@
       "gyro": 306.58831787109375,
       "steps": 5,
       "to": 7
-    },
-    {
-      "arrivalDegree": 160.56100463867188,
-      "arrivalGyro": 223.14706420898438,
-      "degree": 80.89330291748047,
-      "departureDegree": 80.89330291748047,
-      "departureGyro": 137.81777954101562,
-      "from": 8,
-      "gyro": 137.81777954101562,
-      "steps": 9,
-      "to": 9
-    },
-    {
-      "arrivalDegree": 340.5610046386719,
-      "arrivalGyro": 43.147064208984375,
-      "degree": 260.89330291748047,
-      "departureDegree": 260.89330291748047,
-      "departureGyro": 317.8177795410156,
-      "from": 9,
-      "gyro": 317.8177795410156,
-      "steps": 9,
-      "to": 8
     },
     {
       "arrivalDegree": 182.67202758789062,
@@ -440,6 +418,28 @@
       "gyro": 204.73501586914062,
       "steps": 4,
       "to": 20
+    },
+    {
+      "arrivalDegree": 152.8863983154297,
+      "arrivalGyro": 337.4573974609375,
+      "degree": 159.04727172851562,
+      "departureDegree": 159.04727172851562,
+      "departureGyro": 340.56695556640625,
+      "from": 8,
+      "gyro": 340.56695556640625,
+      "steps": 10,
+      "to": 22
+    },
+    {
+      "arrivalDegree": 332.8863983154297,
+      "arrivalGyro": 157.4573974609375,
+      "degree": 339.0472717285156,
+      "departureDegree": 339.0472717285156,
+      "departureGyro": 160.56695556640625,
+      "from": 22,
+      "gyro": 160.56695556640625,
+      "steps": 10,
+      "to": 8
     }
   ],
   "nodes": [
@@ -482,11 +482,6 @@
       "id": 8,
       "isDestination": false,
       "name": "121"
-    },
-    {
-      "id": 9,
-      "isDestination": false,
-      "name": "122"
     },
     {
       "id": 10,
@@ -547,6 +542,12 @@
       "id": 21,
       "isDestination": false,
       "name": "114"
+    },
+    {
+      "id": 22,
+      "isDestination": false,
+      "name": "122"
     }
-  ]
+  ],
+  "floor": "Lantai Ground"
 }
