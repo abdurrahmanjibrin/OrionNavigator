@@ -102,6 +102,12 @@ class DirectionActivity : AppCompatActivity(),
         
         private const val PAGE_NAVIGATION = 0
         private const val PAGE_CAMERA = 1
+        
+        /**
+         * Threshold RSSI ketat (-75 dBm) untuk memastikan pengguna benar-benar dekat sekali
+         * dengan beacon ruangan sebelum menyatakan posisi berada di sekitar ruangan tersebut.
+         */
+        const val CLOSE_BEACON_RSSI_THRESHOLD = -75
     }
 
     // ===== Core Managers =====
@@ -561,6 +567,24 @@ class DirectionActivity : AppCompatActivity(),
         navViewBeacon3Indicator = v.findViewById(R.id.viewBeacon3Indicator)
         navTvNoBeacons = v.findViewById(R.id.tvNoBeacons)
         
+        // Tap beacon card or current room to check location
+        v.findViewById<View>(R.id.cardBeaconSignal)?.apply {
+            isClickable = true
+            isFocusable = true
+            setOnClickListener {
+                provideHapticFeedback()
+                handleCheckLocation()
+            }
+        }
+        navCurrentRoom?.apply {
+            isClickable = true
+            isFocusable = true
+            setOnClickListener {
+                provideHapticFeedback()
+                handleCheckLocation()
+            }
+        }
+
         // Setup UI for navigation page
         setupNavPageUI()
     }
@@ -591,6 +615,16 @@ class DirectionActivity : AppCompatActivity(),
         camBtnDescribe = v.findViewById(R.id.camBtnDescribe)
         camProgressDescribe = v.findViewById(R.id.camProgressDescribe)
         
+        // Tap current room header in camera mode to check location
+        camTvCurrentRoom?.apply {
+            isClickable = true
+            isFocusable = true
+            setOnClickListener {
+                provideHapticFeedback()
+                handleCheckLocation()
+            }
+        }
+
         // Setup camera page UI (spinner, toggle, buttons)
         setupCamPageUI()
     }
@@ -2292,18 +2326,22 @@ class DirectionActivity : AppCompatActivity(),
         if (detectedBeacons.isEmpty()) {
             val start = navigationManager.getCurrentRoom() ?: (navSpinnerStartLocation?.selectedItem as? String)
             if (start != null) {
-                ttsManager.speak("Titik awal yang dipilih adalah $start. Beacon tidak terdeteksi.")
+                ttsManager.speak("Titik awal yang dipilih adalah $start. Beacon belum terdeteksi.")
             } else {
-                ttsManager.speak("Lokasi belum dipilih. Silakan pilih titik awal pada menu.")
+                ttsManager.speak("Lokasi belum ditemukan, masih mencari sinyal beacon.")
             }
             return
         }
         // Get the beacon with strongest signal (highest RSSI)
         val strongest = detectedBeacons.values.maxByOrNull { it.rssi }
         if (strongest != null) {
-            ttsManager.speak("Anda saat ini berada di dekat ${strongest.name}")
+            if (strongest.rssi >= CLOSE_BEACON_RSSI_THRESHOLD) {
+                ttsManager.speak("Anda di sekitar ${strongest.name}.")
+            } else {
+                ttsManager.speak("Sinyal tempat belum cukup dekat. Silakan mendekat ke ruangan.")
+            }
         } else {
-            ttsManager.speak("Lokasi belum ditemukan, mohon untuk mendekat ke beacon terdekat")
+            ttsManager.speak("Lokasi belum ditemukan, masih mencari sinyal beacon.")
         }
     }
 

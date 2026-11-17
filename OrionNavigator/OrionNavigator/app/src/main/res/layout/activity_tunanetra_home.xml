@@ -163,7 +163,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="4dp"
-        android:importantForAccessibility="no"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:contentDescription="Posisi saat ini. Ketuk untuk mendengar lokasi di sekitar Anda."
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/guideHeaderBottom"
@@ -206,6 +209,14 @@
                 android:textSize="11sp"
                 android:importantForAccessibility="no"
                 tools:text="3 beacon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" • Ketuk untuk Cek"
+                android:textColor="#80FFFFFF"
+                android:textSize="11sp"
+                android:importantForAccessibility="no" />
 
         </LinearLayout>
 

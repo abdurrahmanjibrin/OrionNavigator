@@ -241,7 +241,7 @@ class IndoorNavigationManager(
         
         // Check if arrived at destination (only when NOT in step-by-step mode)
         if (destinationRoom != null && destinationRoom == nodeId) {
-            val message = "Anda berada di $displayName. Selamat, Anda telah sampai di tujuan!"
+            val message = "Anda sampai di sekitar $displayName."
             ttsManager.speak(message)
             resetNavigation()
             callback?.onDestinationReached(displayName)
@@ -464,7 +464,7 @@ class IndoorNavigationManager(
         if (currentPathIndex >= path.size - 1) {
             // All steps completed - announce arrival at destination!
             val destName = destinationDisplayName ?: "tujuan"
-            ttsManager.speak("Selamat, Anda sudah sampai di $destName!")
+            ttsManager.speak("Anda sampai di sekitar $destName.")
             callback?.onDestinationReached(destName)
             callback?.onNavigationComplete()
             resetNavigation()

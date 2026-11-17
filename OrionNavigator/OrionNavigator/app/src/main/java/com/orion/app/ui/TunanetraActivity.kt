@@ -53,6 +53,11 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     
     companion object {
         private const val TAG = "TunanetraActivity"
+        /**
+         * Threshold RSSI ketat (-75 dBm) untuk memastikan pengguna benar-benar dekat sekali
+         * dengan beacon ruangan sebelum menyatakan posisi berada di sekitar ruangan tersebut.
+         */
+        const val CLOSE_BEACON_RSSI_THRESHOLD = -75
     }
 
     private lateinit var cardLiveLocation: MaterialCardView
@@ -110,6 +115,7 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tunanetra_home)
         
+        BeaconRoomMapper.loadFromConfigJson(this)
         initViews()
         setupListeners()
         initTts()
@@ -242,9 +248,37 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         val progress = ((rssi + 100).coerceIn(0, 70) * 100 / 70).coerceIn(0, 100)
 
         tvBeaconName?.text = name
-        tvBeaconName?.contentDescription = "Posisi saat ini: $name"
+        tvBeaconName?.contentDescription = "Posisi saat ini: $name. Ketuk untuk mendengar lokasi di sekitar Anda."
         tvBeaconRssi?.text = "$rssi dBm"
         progressBeaconRssi?.progress = progress
+    }
+
+    /**
+     * Fitur cek lokasi: memberitahukan pengguna berada di sekitar tempat mana
+     * berdasarkan beacon dengan sinyal terkuat (RSSI tertinggi).
+     * Dibatasi threshold CLOSE_BEACON_RSSI_THRESHOLD agar hanya bersuara
+     * jika pengguna benar-benar dekat sekali dengan beacon.
+     */
+    private fun checkCurrentLocation() {
+        if (beaconMap.isEmpty()) {
+            speak("Lokasi belum ditemukan, masih mencari sinyal beacon.")
+            return
+        }
+
+        val strongest = beaconMap.values.maxByOrNull { it.second }
+        if (strongest == null) {
+            speak("Lokasi belum ditemukan, masih mencari sinyal beacon.")
+            return
+        }
+
+        val name = strongest.first
+        val rssi = strongest.second
+
+        if (rssi >= CLOSE_BEACON_RSSI_THRESHOLD) {
+            speak("Anda di sekitar $name.")
+        } else {
+            speak("Sinyal tempat belum cukup dekat. Silakan mendekat ke ruangan.")
+        }
     }
     // -------- End Beacon Panel --------
 
@@ -333,12 +367,7 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 )
             }
             VoiceIntent.CHECK_LOCATION -> {
-                val beaconName = tvBeaconName?.text?.toString() ?: ""
-                if (beaconName == "Mencari sinyal beacon..." || beaconName.isBlank()) {
-                    speak("Lokasi belum ditemukan, masih mencari sinyal.")
-                } else {
-                    speak("Posisi Anda saat ini berada di sekitar $beaconName.")
-                }
+                checkCurrentLocation()
             }
             VoiceIntent.LOGOUT -> {
                 showLogoutDialog()
@@ -495,6 +524,12 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     }
     
     private fun setupListeners() {
+        // Beacon panel card — klik untuk cek lokasi di sekitar
+        cardBeaconPanel?.setOnClickListener {
+            vibrate()
+            checkCurrentLocation()
+        }
+
         // Live Location card
         cardLiveLocation.setOnClickListener {
             vibrate()

@@ -469,7 +469,11 @@
             android:background="@drawable/bg_beacon_panel"
             android:orientation="vertical"
             android:paddingHorizontal="14dp"
-            android:paddingVertical="10dp">
+            android:paddingVertical="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:contentDescription="Sinyal beacon terdeteksi. Ketuk untuk cek lokasi sekitar Anda.">
 
             <!-- Header row -->
             <LinearLayout
@@ -489,12 +493,21 @@
                     android:layout_marginEnd="6dp" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="Sinyal Beacon"
                     android:textSize="11sp"
                     android:textStyle="bold"
                     android:textColor="#AAFFFFFF"
+                    android:importantForAccessibility="no" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ketuk untuk Cek Lokasi"
+                    android:textSize="10sp"
+                    android:textColor="#80FFFFFF"
                     android:importantForAccessibility="no" />
 
             </LinearLayout>
