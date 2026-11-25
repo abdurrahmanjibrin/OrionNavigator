@@ -8,6 +8,6 @@ Node Number | Place Name
 67 | Information Center
 64 | Toilet Perpustakaan
 50 | Working space perpustakaan / pintu sayap perpustakaan
-59 | lift perpustakaan
+59 | Working Space Perpustakaan
 51 | satpam perpustakaan
 66 | Toilet Difabel

@@ -8,7 +8,7 @@ Major | Minor | Place Name
 1 | 25 | Information Center
 1 | 18 | Toilet Perpustakaan
 1 | 13 | Working space perpustakaan
-1 | 11 | lift perpustakaan
+1 | 11 | Working Space Perpustakaan
 1 | 4 | satpam perpustakaan
 1 | 6 | pintu sayap perpustakaan
 1 | 12 | Toilet Difabel

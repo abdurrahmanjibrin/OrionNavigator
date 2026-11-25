@@ -1143,8 +1143,8 @@
     },
     {
       "id": 59,
-      "isDestination": false,
-      "name": "21"
+      "isDestination": true,
+      "name": "Working Space Perpustakaan"
     },
     {
       "id": 61,
