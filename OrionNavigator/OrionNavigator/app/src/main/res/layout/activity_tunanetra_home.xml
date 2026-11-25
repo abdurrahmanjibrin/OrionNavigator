@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.36" />
+        app:layout_constraintGuide_percent="0.40" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideCardsBottom"
@@ -273,6 +273,57 @@
             android:progressDrawable="@drawable/bg_rssi_progress"
             android:importantForAccessibility="no"
             tools:progress="65" />
+
+        <!-- Action Row: Cek Posisi & Detail Tempat -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCheckLocation"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="4dp"
+                android:text="Cek Posisi"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:padding="0dp"
+                app:cornerRadius="8dp"
+                app:backgroundTint="#40FFFFFF"
+                app:icon="@drawable/ic_beacon"
+                app:iconSize="14dp"
+                app:iconTint="#FFFFFF"
+                app:iconGravity="textStart"
+                android:contentDescription="Cek posisi Anda saat ini" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLocationDetail"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:text="Detail Tempat"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:padding="0dp"
+                app:cornerRadius="8dp"
+                app:backgroundTint="#600D47A1"
+                app:strokeColor="#8090CAF9"
+                app:strokeWidth="1dp"
+                app:icon="@android:drawable/ic_dialog_info"
+                app:iconSize="14dp"
+                app:iconTint="#FFFFFF"
+                app:iconGravity="textStart"
+                android:contentDescription="Detail informasi tempat saat ini" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

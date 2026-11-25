@@ -78,6 +78,7 @@ Penjelasan intent:
 - TOGGLE_SOUND_ON: Nyalakan suara
 - TOGGLE_SOUND_OFF: Matikan suara
 - CHECK_LOCATION: Cek lokasi saat ini / tanya di mana posisi saat ini / saya di mana
+- LOCATION_DETAIL: Minta informasi detail tempat saat ini / fasilitas ruangan / penjelasan tempat saat ini
 - SELECT_DESTINATION: Memilih tujuan navigasi, misalnya 'saya ingin ke kantin', 'pergi ke musik', 'arahkan ke toilet'
 - START_NAVIGATION: Mulai navigasi
 - STOP_NAVIGATION: Berhenti navigasi

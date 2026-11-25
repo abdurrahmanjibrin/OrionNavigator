@@ -639,6 +639,15 @@ class VoiceCommandManager(
                 "where am i", "my location", "check location"
             ) to VoiceIntent.CHECK_LOCATION,
 
+            // ---- Location detail info ----
+            listOf(
+                "detail tempat", "informasi tempat", "info tempat", "detail lokasi",
+                "informasi lokasi", "info lokasi", "detail ruangan", "informasi ruangan",
+                "info ruangan", "fasilitas tempat ini", "fasilitas ruangan",
+                "ada apa di sini", "jelaskan tempat ini", "jelaskan ruangan ini",
+                "deskripsi tempat", "deskripsi ruangan", "location detail"
+            ) to VoiceIntent.LOCATION_DETAIL,
+
             // ---- Direction/Navigation: Select destination (uses contains) ----
             listOf(
                 "saya ingin ke", "saya mau ke", "tujuan ke", "pergi ke",

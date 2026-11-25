@@ -43,6 +43,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.button.MaterialButton
+import com.orion.app.data.LocationDetailRepository
 import com.google.android.material.card.MaterialCardView
 import android.widget.ImageButton as AndroidImageButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -574,6 +575,14 @@ class DirectionActivity : AppCompatActivity(),
             setOnClickListener {
                 provideHapticFeedback()
                 handleCheckLocation()
+            }
+        }
+        v.findViewById<View>(R.id.btnNavLocationDetail)?.apply {
+            isClickable = true
+            isFocusable = true
+            setOnClickListener {
+                provideHapticFeedback()
+                handleShowLocationDetail()
             }
         }
         navCurrentRoom?.apply {
@@ -2223,6 +2232,7 @@ class DirectionActivity : AppCompatActivity(),
 
         voiceCommandManager?.setAllowedIntents(setOf(
             VoiceIntent.CHECK_LOCATION,
+            VoiceIntent.LOCATION_DETAIL,
             VoiceIntent.SELECT_DESTINATION,
             VoiceIntent.START_NAVIGATION,
             VoiceIntent.STOP_NAVIGATION,
@@ -2237,6 +2247,9 @@ class DirectionActivity : AppCompatActivity(),
         when (intent) {
             VoiceIntent.CHECK_LOCATION -> {
                 handleCheckLocation()
+            }
+            VoiceIntent.LOCATION_DETAIL -> {
+                handleShowLocationDetail()
             }
             VoiceIntent.SELECT_DESTINATION -> {
                 handleSelectDestination(spokenText)
@@ -2264,6 +2277,7 @@ class DirectionActivity : AppCompatActivity(),
                 ttsManager.speak("Ucapkan Hello Orion diikuti perintah. " +
                         "Perintah yang tersedia: " +
                         "Di mana saya, untuk cek lokasi saat ini. " +
+                        "Detail tempat, untuk informasi detail dan fasilitas ruangan. " +
                         "Saya ingin ke, diikuti nama tujuan untuk memilih tujuan. " +
                         "Mulai navigasi, untuk memulai panduan. " +
                         "Berhenti, untuk menghentikan navigasi. " +
@@ -2339,6 +2353,39 @@ class DirectionActivity : AppCompatActivity(),
                 ttsManager.speak("Anda di sekitar ${strongest.name}.")
             } else {
                 ttsManager.speak("Sinyal tempat belum cukup dekat. Silakan mendekat ke ruangan.")
+            }
+        } else {
+            ttsManager.speak("Lokasi belum ditemukan, masih mencari sinyal beacon.")
+        }
+    }
+
+    private fun handleShowLocationDetail() {
+        if (detectedBeacons.isEmpty()) {
+            val start = navigationManager.getCurrentRoom() ?: (navSpinnerStartLocation?.selectedItem as? String)
+            if (start != null) {
+                val detail = LocationDetailRepository.findDetail(this, start)
+                if (detail != null) {
+                    ttsManager.speak(detail.ttsText)
+                    LocationDetailDialog.show(this, detail)
+                    return
+                }
+            }
+            ttsManager.speak("Lokasi belum ditemukan, masih mencari sinyal beacon.")
+            return
+        }
+
+        val strongest = detectedBeacons.values.maxByOrNull { it.rssi }
+        if (strongest != null) {
+            if (strongest.rssi >= CLOSE_BEACON_RSSI_THRESHOLD) {
+                val detail = LocationDetailRepository.findDetail(this, strongest.name)
+                if (detail != null) {
+                    ttsManager.speak(detail.ttsText)
+                    LocationDetailDialog.show(this, detail)
+                } else {
+                    ttsManager.speak("Anda di sekitar ${strongest.name}. Informasi detail tempat ini belum tersedia.")
+                }
+            } else {
+                ttsManager.speak("Sinyal tempat belum cukup dekat untuk mendengar informasi detail. Silakan mendekat ke ruangan.")
             }
         } else {
             ttsManager.speak("Lokasi belum ditemukan, masih mencari sinyal beacon.")

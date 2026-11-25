@@ -1,0 +1,194 @@
+[
+  {
+    "locationName": "Cafenesa",
+    "shortDescription": "Area kafe yang menyediakan makanan dan minuman serta tempat bagi pengunjung untuk beristirahat.",
+    "detailedDescription": "Cafenesa merupakan area kafe di Gedung Rektorat UNESA yang menyediakan layanan makanan dan minuman bagi pengunjung. Area ini dapat digunakan untuk membeli makanan, minuman, beristirahat, maupun menunggu. Di sekitar Cafenesa terdapat area tempat duduk dan Working Space yang dapat dimanfaatkan untuk belajar atau bekerja.",
+    "facilities": [
+      "Area penjualan makanan dan minuman.",
+      "Area pemesanan.",
+      "Area kasir, jika telah teridentifikasi.",
+      "Tempat duduk.",
+      "Meja.",
+      "Area antrean.",
+      "Akses menuju Working Space Cafenesa.",
+      "Akses menuju Toilet Cafenesa."
+    ],
+    "ttsText": "Anda berada di Cafenesa, area kafe di Gedung Rektorat Universitas Negeri Surabaya. Tempat ini menyediakan makanan dan minuman serta area untuk beristirahat. Di sekitar area ini terdapat tempat duduk dan Working Space yang dapat digunakan untuk belajar, bekerja, atau mengerjakan tugas. Anda juga dapat menemukan akses menuju Toilet Cafenesa di area sekitar."
+  },
+  {
+    "locationName": "Information Center",
+    "shortDescription": "Area pusat informasi bagi pengunjung Gedung Rektorat UNESA.",
+    "detailedDescription": "Information Center merupakan area pusat informasi bagi pengunjung Gedung Rektorat UNESA. Area ini ditujukan untuk membantu pengunjung memperoleh informasi mengenai lingkungan gedung, layanan, maupun kebutuhan administrasi dan kunjungan.",
+    "facilities": [
+      "Area pusat informasi.",
+      "Area pelayanan informasi.",
+      "Tempat untuk bertanya mengenai lingkungan gedung.",
+      "Area meminta bantuan atau arahan.",
+      "Informasi petugas apabila tersedia."
+    ],
+    "ttsText": "Anda berada di Information Center Gedung Rektorat Universitas Negeri Surabaya. Area ini merupakan pusat informasi bagi pengunjung yang membutuhkan informasi mengenai lingkungan gedung, layanan, maupun arah menuju lokasi tertentu. Apabila terdapat petugas, Anda dapat meminta bantuan atau informasi secara langsung."
+  },
+  {
+    "locationName": "Lift Lobby",
+    "shortDescription": "Area untuk menunggu dan mengakses lift guna berpindah lantai.",
+    "detailedDescription": "Lift Lobby merupakan area tempat pengguna menunggu dan mengakses lift untuk berpindah lantai di Gedung Rektorat UNESA. Pada area ini terdapat lift yang berada di sisi kiri dan kanan. Pengguna dapat menunggu lift di area lobby lift dan menggunakan tombol pemanggil yang tersedia.",
+    "facilities": [
+      "Area menunggu lift.",
+      "Lift sisi kiri.",
+      "Lift sisi kanan.",
+      "Pintu lift.",
+      "Tombol pemanggil lift.",
+      "Akses perpindahan lantai."
+    ],
+    "ttsText": "Anda berada di Lift Lobby. Area ini merupakan tempat untuk mengakses lift dan berpindah lantai di Gedung Rektorat. Terdapat lift di sisi kiri dan sisi kanan area ini. Di sekitar pintu lift terdapat tombol pemanggil lift yang dapat digunakan untuk memanggil lift. Pastikan Anda berada di depan pintu lift dan berhati-hati ketika pintu terbuka maupun tertutup."
+  },
+  {
+    "locationName": "Lift Perpustakaan",
+    "shortDescription": "Fasilitas lift pada area akses menuju sayap perpustakaan.",
+    "detailedDescription": "Lift Perpustakaan merupakan fasilitas lift yang berada di area akses menuju sayap perpustakaan. Lift ini dapat digunakan untuk membantu pengunjung berpindah lantai sesuai dengan lantai yang dilayani.",
+    "facilities": [
+      "Lokasi lift.",
+      "Area menunggu lift.",
+      "Pintu lift.",
+      "Tombol pemanggil.",
+      "Akses menuju area perpustakaan.",
+      "Jalur menuju Pintu Sayap Perpustakaan."
+    ],
+    "ttsText": "Anda berada di area Lift Perpustakaan. Lift ini merupakan fasilitas untuk membantu pengunjung berpindah lantai menuju area yang tersedia. Di sekitar lokasi terdapat pintu lift dan area menunggu. Pastikan Anda mengenali posisi pintu lift sebelum masuk dan berhati-hati ketika lift terbuka. Area ini juga terhubung dengan akses menuju sayap perpustakaan."
+  },
+  {
+    "locationName": "Lobby",
+    "shortDescription": "Area utama penerima pengunjung dan akses keluar masuk gedung.",
+    "detailedDescription": "Lobby merupakan area utama yang berfungsi sebagai ruang penerima pengunjung dan akses keluar masuk Gedung Rektorat UNESA. Area ini menjadi salah satu titik orientasi bagi pengunjung untuk mengenali lingkungan gedung dan melanjutkan perjalanan menuju berbagai fasilitas yang tersedia.",
+    "facilities": [
+      "Area penerima pengunjung.",
+      "Akses masuk gedung.",
+      "Akses keluar gedung.",
+      "Area sirkulasi pengunjung.",
+      "Akses menuju Information Center.",
+      "Akses menuju Cafenesa.",
+      "Akses menuju Lift Lobby."
+    ],
+    "ttsText": "Anda berada di Lobby Gedung Rektorat Universitas Negeri Surabaya. Lobby merupakan area utama untuk keluar masuk gedung dan menjadi titik orientasi bagi pengunjung. Dari area ini, Anda dapat mengakses berbagai fasilitas seperti Information Center, Cafenesa, dan Lift Lobby. Perhatikan kondisi sekitar ketika berjalan karena area lobby dapat dilalui banyak pengunjung."
+  },
+  {
+    "locationName": "Pintu Lobby Tengah",
+    "shortDescription": "Salah satu akses pintu pada area lobby.",
+    "detailedDescription": "Pintu Lobby Tengah merupakan salah satu akses pintu yang berada di area lobby Gedung Rektorat. Pintu ini menjadi jalur penghubung antara lobby dengan area lain di sekitarnya.",
+    "facilities": [
+      "Lokasi pintu.",
+      "Area yang terhubung.",
+      "Jalur keluar dan masuk.",
+      "Kondisi area sekitar pintu.",
+      "Potensi hambatan pada jalur akses apabila ditemukan saat mapping."
+    ],
+    "ttsText": "Anda berada di area Pintu Lobby Tengah. Pintu ini merupakan salah satu akses yang menghubungkan area lobby dengan area di sekitarnya. Perhatikan posisi pintu dan kondisi jalur di sekitar Anda ketika melewati area ini. Pastikan jalur berjalan aman dan tidak terdapat hambatan."
+  },
+  {
+    "locationName": "Pintu Sayap Perpustakaan",
+    "shortDescription": "Akses menuju area sayap perpustakaan.",
+    "detailedDescription": "Pintu Sayap Perpustakaan merupakan akses menuju area sayap perpustakaan di Gedung Rektorat. Area ini menjadi titik transisi bagi pengunjung yang akan memasuki atau meninggalkan kawasan perpustakaan.",
+    "facilities": [
+      "Posisi pintu akses.",
+      "Jalur menuju area perpustakaan.",
+      "Area yang terhubung.",
+      "Landmark di sekitar pintu.",
+      "Akses menuju Lift Perpustakaan.",
+      "Akses menuju Toilet Perpustakaan."
+    ],
+    "ttsText": "Anda berada di Pintu Sayap Perpustakaan. Area ini merupakan akses menuju kawasan perpustakaan. Di sekitar area ini terdapat jalur menuju fasilitas perpustakaan, termasuk Lift Perpustakaan dan Toilet Perpustakaan. Ketika melewati pintu, perhatikan kondisi jalur dan posisi pintu agar perjalanan Anda tetap aman."
+  },
+  {
+    "locationName": "Satpam Perpustakaan",
+    "shortDescription": "Area petugas keamanan di sekitar kawasan perpustakaan.",
+    "detailedDescription": "Satpam Perpustakaan merupakan area petugas keamanan yang berada di sekitar kawasan perpustakaan. Lokasi ini dapat menjadi salah satu titik bagi pengunjung untuk memperoleh bantuan ketika mengalami kesulitan, membutuhkan arahan, atau memerlukan bantuan keamanan.",
+    "facilities": [
+      "Area petugas keamanan.",
+      "Lokasi meminta bantuan.",
+      "Informasi petugas apabila tersedia.",
+      "Landmark di sekitar pos.",
+      "Akses menuju area perpustakaan."
+    ],
+    "ttsText": "Anda berada di area Satpam Perpustakaan. Area ini merupakan lokasi petugas keamanan yang dapat menjadi tempat untuk meminta bantuan apabila Anda mengalami kesulitan atau membutuhkan arahan selama berada di lingkungan gedung. Apabila petugas tersedia, Anda dapat menyampaikan kebutuhan bantuan secara langsung."
+  },
+  {
+    "locationName": "Toilet Cafenesa",
+    "shortDescription": "Fasilitas toilet di sekitar area Cafenesa.",
+    "detailedDescription": "Toilet Cafenesa merupakan fasilitas toilet yang berada di sekitar area Cafenesa. Fasilitas ini dapat digunakan oleh pengunjung yang berada di area kafe maupun sekitarnya. ORION memberikan informasi mengenai keberadaan toilet serta membantu pengguna mengenali area akses menuju fasilitas tersebut.",
+    "facilities": [
+      "Lokasi toilet.",
+      "Area akses menuju toilet.",
+      "Posisi pintu.",
+      "Jenis toilet apabila telah teridentifikasi.",
+      "Fasilitas di dalam toilet apabila sudah dipetakan.",
+      "Landmark di sekitar toilet.",
+      "Hubungan lokasi dengan Cafenesa."
+    ],
+    "ttsText": "Anda berada di area Toilet Cafenesa. Fasilitas toilet ini berada di sekitar kawasan Cafenesa dan dapat digunakan oleh pengunjung. Di area ini terdapat akses masuk menuju toilet. Perhatikan posisi pintu dan kondisi jalur di sekitar Anda ketika akan memasuki atau meninggalkan toilet."
+  },
+  {
+    "locationName": "Toilet Difabel",
+    "shortDescription": "Fasilitas toilet yang ditujukan untuk mendukung aksesibilitas pengguna penyandang disabilitas.",
+    "detailedDescription": "Toilet Difabel merupakan fasilitas toilet yang ditujukan untuk mendukung kebutuhan aksesibilitas pengguna penyandang disabilitas. Fasilitas ini diharapkan memberikan akses yang lebih nyaman dan mudah bagi pengguna yang membutuhkan ruang gerak maupun fasilitas pendukung khusus.",
+    "facilities": [
+      "Lokasi toilet difabel.",
+      "Akses menuju toilet.",
+      "Posisi pintu.",
+      "Ruang gerak pengguna.",
+      "Pegangan tangan atau grab bar apabila tersedia.",
+      "Posisi kloset.",
+      "Posisi wastafel apabila tersedia.",
+      "Tombol darurat apabila tersedia.",
+      "Fasilitas aksesibilitas lainnya."
+    ],
+    "ttsText": "Anda berada di area Toilet Difabel. Toilet ini disediakan untuk mendukung kebutuhan aksesibilitas pengguna penyandang disabilitas. Fasilitas dan tata letak di dalam toilet dirancang untuk memberikan kemudahan penggunaan bagi pengguna yang membutuhkan akses khusus. Anda dapat mengenali posisi pintu dan fasilitas yang tersedia melalui informasi detail ORION."
+  },
+  {
+    "locationName": "Toilet Perpustakaan",
+    "shortDescription": "Fasilitas toilet di sekitar area perpustakaan.",
+    "detailedDescription": "Toilet Perpustakaan merupakan fasilitas toilet yang berada di sekitar area perpustakaan. Fasilitas ini dapat digunakan oleh pengunjung yang sedang berada di kawasan perpustakaan maupun area sekitarnya.",
+    "facilities": [
+      "Lokasi toilet.",
+      "Akses menuju toilet.",
+      "Posisi pintu.",
+      "Toilet pria/wanita apabila terpisah.",
+      "Fasilitas toilet apabila telah dipetakan.",
+      "Landmark terdekat.",
+      "Akses menuju Pintu Sayap Perpustakaan."
+    ],
+    "ttsText": "Anda berada di area Toilet Perpustakaan. Fasilitas toilet ini berada di kawasan perpustakaan dan dapat digunakan oleh pengunjung. Di sekitar area ini terdapat akses menuju kawasan perpustakaan. Perhatikan posisi pintu dan kondisi jalur di sekitar Anda ketika memasuki atau meninggalkan toilet."
+  },
+  {
+    "locationName": "Working Space Cafenesa",
+    "shortDescription": "Area untuk belajar, bekerja, mengerjakan tugas, berdiskusi, dan beristirahat.",
+    "detailedDescription": "Working Space Cafenesa merupakan area yang dapat dimanfaatkan oleh pengunjung untuk belajar, mengerjakan tugas, bekerja menggunakan laptop, berdiskusi, maupun beristirahat. Area ini menyediakan fasilitas pendukung aktivitas belajar dan produktivitas, seperti meja, tempat duduk, dan colokan listrik apabila tersedia pada titik yang telah dipetakan.",
+    "facilities": [
+      "Area belajar dan bekerja.",
+      "Meja kerja atau meja belajar.",
+      "Kursi.",
+      "Colokan listrik.",
+      "Area diskusi.",
+      "Area untuk mengerjakan tugas.",
+      "Landmark di sekitar area.",
+      "Akses menuju Cafenesa."
+    ],
+    "ttsText": "Anda berada di Working Space Cafenesa. Area ini dapat digunakan untuk belajar, mengerjakan tugas, bekerja menggunakan laptop, berdiskusi, atau beristirahat. Di area ini tersedia fasilitas pendukung seperti meja, tempat duduk, dan colokan listrik. Working Space ini menjadi pilihan bagi pengunjung yang ingin melakukan aktivitas produktif di lingkungan Gedung Rektorat. Anda dapat menggunakan area yang tersedia sesuai kebutuhan dan tetap memperhatikan kenyamanan pengunjung lainnya."
+  },
+  {
+    "locationName": "Working Space Perpustakaan",
+    "shortDescription": "Area untuk belajar, membaca, mengerjakan tugas, dan bekerja secara mandiri maupun bersama.",
+    "detailedDescription": "Working Space Perpustakaan merupakan area yang dapat dimanfaatkan pengunjung untuk belajar, membaca, mengerjakan tugas, melakukan aktivitas akademik, maupun bekerja menggunakan laptop. Area ini mendukung kegiatan belajar yang membutuhkan suasana relatif kondusif. Pengguna dapat memanfaatkan fasilitas yang tersedia seperti meja, kursi, serta colokan listrik apabila tersedia di area tersebut.",
+    "facilities": [
+      "Area belajar dan membaca.",
+      "Meja belajar atau meja kerja.",
+      "Tempat duduk.",
+      "Colokan listrik (perlu verifikasi mapping).",
+      "Area mengerjakan tugas.",
+      "Area belajar mandiri.",
+      "Area diskusi apabila tersedia.",
+      "Akses menuju area perpustakaan lainnya."
+    ],
+    "ttsText": "Anda berada di Working Space Perpustakaan. Area ini dapat digunakan untuk belajar, membaca, mengerjakan tugas, maupun bekerja menggunakan laptop. Tersedia area belajar dengan fasilitas pendukung seperti meja dan tempat duduk. Colokan listrik dan fasilitas lainnya dapat ditemukan sesuai lokasi yang tersedia. Silakan manfaatkan area ini untuk kegiatan akademik dengan tetap menjaga kenyamanan dan ketenangan lingkungan perpustakaan."
+  }
+]
+

@@ -28,6 +28,7 @@ import com.google.android.material.card.MaterialCardView
 import com.orion.app.R
 import com.orion.app.ble.BeaconSource
 import com.orion.app.ble.BleScanner
+import com.orion.app.data.LocationDetailRepository
 import com.orion.app.navigation.BeaconRoomMapper
 import com.orion.app.navigation.GraphData
 import com.orion.app.navigation.MapDataLoader
@@ -74,6 +75,8 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var tvBeaconCount: TextView? = null
     private var progressBeaconRssi: ProgressBar? = null
     private var cardBeaconPanel: LinearLayout? = null
+    private var btnCheckLocation: com.google.android.material.button.MaterialButton? = null
+    private var btnLocationDetail: com.google.android.material.button.MaterialButton? = null
 
     // BLE Scanner for beacon panel
     private var bleScanner: BleScanner? = null
@@ -167,6 +170,8 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         tvBeaconRssi = findViewById(R.id.tvBeaconRssi)
         tvBeaconCount = findViewById(R.id.tvBeaconCount)
         progressBeaconRssi = findViewById(R.id.progressBeaconRssi)
+        btnCheckLocation = findViewById(R.id.btnCheckLocation)
+        btnLocationDetail = findViewById(R.id.btnLocationDetail)
 
         // Setup pulse animation for mic button
         pulseAnimation = AlphaAnimation(1f, 0.4f).apply {
@@ -280,6 +285,38 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             speak("Sinyal tempat belum cukup dekat. Silakan mendekat ke ruangan.")
         }
     }
+
+    /**
+     * Fitur detail tempat: membacakan informasi detail dan fasilitas tempat saat ini
+     * berdasarkan beacon dengan sinyal terkuat. Dibatasi threshold CLOSE_BEACON_RSSI_THRESHOLD.
+     */
+    private fun showCurrentLocationDetail() {
+        if (beaconMap.isEmpty()) {
+            speak("Lokasi belum ditemukan, masih mencari sinyal beacon.")
+            return
+        }
+
+        val strongest = beaconMap.values.maxByOrNull { it.second }
+        if (strongest == null) {
+            speak("Lokasi belum ditemukan, masih mencari sinyal beacon.")
+            return
+        }
+
+        val name = strongest.first
+        val rssi = strongest.second
+
+        if (rssi >= CLOSE_BEACON_RSSI_THRESHOLD) {
+            val detail = LocationDetailRepository.findDetail(this, name)
+            if (detail != null) {
+                speak(detail.ttsText)
+                LocationDetailDialog.show(this, detail)
+            } else {
+                speak("Anda di sekitar $name. Informasi detail tempat ini belum tersedia.")
+            }
+        } else {
+            speak("Sinyal tempat belum cukup dekat untuk mendengar informasi detail. Silakan mendekat ke ruangan.")
+        }
+    }
     // -------- End Beacon Panel --------
 
     private var listeningDialog: ListeningDialogHelper? = null
@@ -339,6 +376,7 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             VoiceIntent.OPEN_NAVIGATION,
             VoiceIntent.OPEN_CAMERA,
             VoiceIntent.CHECK_LOCATION,
+            VoiceIntent.LOCATION_DETAIL,
             VoiceIntent.LOGOUT,
             VoiceIntent.GO_BACK,
             VoiceIntent.HELP
@@ -368,6 +406,9 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             }
             VoiceIntent.CHECK_LOCATION -> {
                 checkCurrentLocation()
+            }
+            VoiceIntent.LOCATION_DETAIL -> {
+                showCurrentLocationDetail()
             }
             VoiceIntent.LOGOUT -> {
                 showLogoutDialog()
@@ -432,6 +473,7 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 "Buka navigasi, untuk navigasi kompas. " +
                 "Buka lokasi, untuk berbagi lokasi. " +
                 "Di mana saya, untuk cek lokasi saat ini. " +
+                "Detail tempat, untuk informasi detail dan fasilitas ruangan. " +
                 "Keluar, untuk logout.")
     }
 
@@ -524,10 +566,20 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     }
     
     private fun setupListeners() {
-        // Beacon panel card — klik untuk cek lokasi di sekitar
+        // Beacon panel card & tombol cek posisi
         cardBeaconPanel?.setOnClickListener {
             vibrate()
             checkCurrentLocation()
+        }
+        btnCheckLocation?.setOnClickListener {
+            vibrate()
+            checkCurrentLocation()
+        }
+
+        // Tombol detail tempat berdasarkan beacon terdekat
+        btnLocationDetail?.setOnClickListener {
+            vibrate()
+            showCurrentLocationDetail()
         }
 
         // Live Location card

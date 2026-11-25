@@ -18,6 +18,7 @@ enum class VoiceIntent {
 
     // Direction/Navigation commands
     CHECK_LOCATION,
+    LOCATION_DETAIL,
     SELECT_DESTINATION,
     START_NAVIGATION,
     STOP_NAVIGATION,

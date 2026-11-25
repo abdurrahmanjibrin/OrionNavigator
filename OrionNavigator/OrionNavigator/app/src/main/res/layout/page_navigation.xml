@@ -642,6 +642,23 @@
 
             </LinearLayout>
 
+            <!-- Tombol Detail Informasi Tempat Terdekat -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnNavLocationDetail"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_marginTop="8dp"
+                android:text="ℹ️ Detail Informasi Tempat"
+                android:textSize="12sp"
+                android:textColor="#FFFFFF"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:cornerRadius="8dp"
+                app:backgroundTint="#40FFFFFF"
+                app:strokeColor="#60FFFFFF"
+                app:strokeWidth="1dp"
+                android:contentDescription="Tekan untuk mendengar informasi detail tempat terdekat" />
+
         </LinearLayout>
 
         <!-- Hentikan Navigasi -->
