@@ -13,13 +13,16 @@
   },
   {
     "locationName": "Information Center",
-    "shortDescription": "Pusat informasi pengunjung Gedung Rektorat UNESA.",
-    "detailedDescription": "Information Center merupakan meja layanan informasi bagi pengunjung Gedung Rektorat UNESA untuk menanyakan arah ruangan, layanan gedung, maupun administrasi.",
+    "shortDescription": "Pusat Unit Layanan Terpadu (ULT) satu pintu Gedung Rektorat UNESA.",
+    "detailedDescription": "Information Center atau Unit Layanan Terpadu (ULT) UNESA di Lobby Lantai 1 Gedung Rektorat berfungsi sebagai pusat layanan satu pintu bagi mahasiswa, dosen, dan masyarakat umum dengan cakupan: layanan akademik dan kemahasiswaan (informasi perkuliahan, pengambilan KTM, surat mutasi), legalisasi dokumen (ijazah, transkrip nilai, sertifikat akreditasi), beasiswa dan keuangan (pengajuan beasiswa, permohonan keringanan UKT), serta informasi publik dan persuratan (layanan PPID UNESA, peminjaman ruangan/fasilitas kampus, penyampaian pengaduan dan aspirasi).\n\nJam Operasional:\n• Senin – Kamis: 07.30 – 16.00 WIB (Istirahat 12.00 – 13.00 WIB)\n• Jumat: 07.30 – 16.30 WIB (Istirahat 11.30 – 13.00 WIB)\n• Sabtu, Minggu, dan Hari Libur Nasional: Tutup",
     "facilities": [
-      "Meja layanan informasi.",
-      "Petugas informasi gedung."
+      "Layanan akademik dan kemahasiswaan (KTM, surat mutasi, info perkuliahan).",
+      "Legalisasi dokumen (ijazah, transkrip nilai akademik, sertifikat akreditasi).",
+      "Beasiswa dan keuangan (pengajuan beasiswa, keringanan UKT).",
+      "Informasi publik dan persuratan (PPID UNESA, peminjaman ruangan/fasilitas, pengaduan aspirasi).",
+      "Jam operasional: Senin–Kamis 07.30–16.00 WIB, Jumat 07.30–16.30 WIB."
     ],
-    "ttsText": "Anda berada di Information Center Gedung Rektorat UNESA. Area ini melayani informasi lingkungan gedung dan arah lokasi. Anda dapat bertanya langsung kepada petugas yang bertugas."
+    "ttsText": "Anda berada di Information Center atau Unit Layanan Terpadu UNESA di Lobby Lantai 1. Area ini melayani administrasi perkuliahan, legalisasi dokumen, beasiswa, keringanan UKT, serta informasi publik PPID. Jam operasional hari Senin sampai Kamis pukul 07.30 sampai 16.00 WIB, dan hari Jumat pukul 07.30 sampai 16.30 WIB. Anda dapat berkonsultasi langsung dengan petugas di meja layanan."
   },
   {
     "locationName": "Lift Lobby",
@@ -99,14 +102,15 @@
   },
   {
     "locationName": "Toilet Difabel",
-    "shortDescription": "Fasilitas toilet khusus pengguna disabilitas.",
-    "detailedDescription": "Toilet Difabel merupakan fasilitas toilet khusus disabilitas di Lantai 1 Gedung Rektorat UNESA dengan area ruang gerak yang disesuaikan.",
+    "shortDescription": "Fasilitas toilet di koridor sisi barat Lantai 1 Gedung Rektorat.",
+    "detailedDescription": "Toilet Difabel terletak di koridor sisi barat Lantai 1 Gedung Rektorat UNESA. Dilengkapi pegangan tangan (handrail), kloset, wastafel, serta ruang gerak yang luas.",
     "facilities": [
-      "Pintu masuk toilet difabel.",
-      "Ruang gerak toilet.",
-      "Kloset dan fasilitas sanitasi."
+      "Pegangan tangan (handrail).",
+      "Ruang gerak luas.",
+      "Kloset dan wastafel sanitasi.",
+      "Pintu akses toilet."
     ],
-    "ttsText": "Anda berada di area Toilet Difabel Lantai 1 Gedung Rektorat. Area ini merupakan toilet khusus bagi penyandang disabilitas. Perhatikan posisi pintu saat hendak masuk atau keluar."
+    "ttsText": "Anda berada di area Toilet Difabel Lantai 1 Gedung Rektorat. Area ini dilengkapi pegangan tangan, ruang gerak luas, serta fasilitas sanitasi. Perhatikan posisi pintu saat hendak masuk atau keluar."
   },
   {
     "locationName": "Toilet Perpustakaan",
@@ -130,12 +134,13 @@
   },
   {
     "locationName": "Working Space Perpustakaan",
-    "shortDescription": "Area meja baca dan tempat duduk di kawasan perpustakaan.",
-    "detailedDescription": "Working Space Perpustakaan merupakan area meja dan kursi baca yang terletak di kawasan perpustakaan untuk membaca atau belajar.",
+    "shortDescription": "Area meja baca, tempat duduk, dan colokan listrik di kawasan perpustakaan.",
+    "detailedDescription": "Working Space Perpustakaan merupakan area meja dan kursi baca di kawasan perpustakaan yang dilengkapi colokan listrik (stopkontak) untuk laptop atau perangkat elektronik pengunjung.",
     "facilities": [
-      "Meja dan tempat duduk.",
+      "Meja dan kursi baca.",
+      "Colokan listrik / stopkontak.",
       "Akses menuju area perpustakaan."
     ],
-    "ttsText": "Anda berada di Working Space Perpustakaan. Area ini menyediakan meja dan tempat duduk untuk membaca atau belajar di kawasan perpustakaan."
+    "ttsText": "Anda berada di Working Space Perpustakaan. Area ini menyediakan meja, tempat duduk, dan colokan listrik untuk membaca atau belajar di kawasan perpustakaan."
   }
 ]
