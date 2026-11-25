@@ -684,7 +684,14 @@ class VoiceCommandManager(
                 "hentikan lokasi", "berhenti lacak"
             ) to VoiceIntent.TOGGLE_LOCATION_OFF,
 
-            // ---- Global ----
+            // ---- Global & Settings ----
+            listOf(
+                "kecepatan suara", "atur kecepatan suara", "ubah kecepatan suara",
+                "ganti kecepatan suara", "atur suara", "setting kecepatan",
+                "kecepatan tts", "speed tts", "atur tts", "ubah suara",
+                "kecepatan bicara", "atur kecepatan bicara", "atur kecepatan"
+            ) to VoiceIntent.SET_TTS_SPEED,
+
             listOf(
                 "kembali", "balik", "tutup", "back", "ke belakang",
                 "mundur", "kembali ke belakang", "go back"

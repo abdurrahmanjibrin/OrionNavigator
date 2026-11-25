@@ -64,6 +64,8 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private lateinit var cardLiveLocation: MaterialCardView
     private lateinit var cardNavigation: MaterialCardView
     private lateinit var cardCameraAI: MaterialCardView
+    private var cardTtsSpeed: MaterialCardView? = null
+    private var tvHomeTtsSpeedBadge: TextView? = null
     private lateinit var btnLogout: ImageButton
     private lateinit var btnSettings: ImageButton
     private lateinit var btnMic: ImageButton
@@ -133,6 +135,7 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         if (ttsReady) {
             tts?.setSpeechRate(TTSManager.getSavedSpeechRate(this))
         }
+        updateTtsSpeedBadge()
         if (isWakeWordEnabled && ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
             == PackageManager.PERMISSION_GRANTED) {
             voiceCommandManager?.startWakeWordMode()
@@ -159,6 +162,8 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         cardLiveLocation = findViewById(R.id.cardLiveLocation)
         cardNavigation = findViewById(R.id.cardNavigation)
         cardCameraAI = findViewById(R.id.cardCameraAI)
+        cardTtsSpeed = findViewById(R.id.cardTtsSpeed)
+        tvHomeTtsSpeedBadge = findViewById(R.id.tvHomeTtsSpeedBadge)
         btnLogout = findViewById(R.id.btnLogout)
         btnSettings = findViewById(R.id.btnSettings)
         btnMic = findViewById(R.id.btnMic)
@@ -377,6 +382,7 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             VoiceIntent.OPEN_CAMERA,
             VoiceIntent.CHECK_LOCATION,
             VoiceIntent.LOCATION_DETAIL,
+            VoiceIntent.SET_TTS_SPEED,
             VoiceIntent.LOGOUT,
             VoiceIntent.GO_BACK,
             VoiceIntent.HELP
@@ -409,6 +415,9 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             }
             VoiceIntent.LOCATION_DETAIL -> {
                 showCurrentLocationDetail()
+            }
+            VoiceIntent.SET_TTS_SPEED -> {
+                showTtsSpeedSettingsDialog()
             }
             VoiceIntent.LOGOUT -> {
                 showLogoutDialog()
@@ -474,6 +483,7 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 "Buka lokasi, untuk berbagi lokasi. " +
                 "Di mana saya, untuk cek lokasi saat ini. " +
                 "Detail tempat, untuk informasi detail dan fasilitas ruangan. " +
+                "Kecepatan suara, untuk mengatur kecepatan bicara. " +
                 "Keluar, untuk logout.")
     }
 
@@ -527,6 +537,7 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 .build()
             tts?.setAudioAttributes(audioAttributes)
             tts?.setSpeechRate(TTSManager.getSavedSpeechRate(this))
+            updateTtsSpeedBadge()
             
             ttsReady = true
             
@@ -616,6 +627,12 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             )
         }
         
+        // TTS Speed Setting card (Pengaturan Kecepatan Suara Global)
+        cardTtsSpeed?.setOnClickListener {
+            vibrate()
+            showTtsSpeedSettingsDialog()
+        }
+        
         // Logout button
         btnLogout.setOnClickListener {
             vibrate()
@@ -695,6 +712,14 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             .show()
     }
 
+    private fun updateTtsSpeedBadge() {
+        val rate = TTSManager.getSavedSpeechRate(this)
+        val label = TTSManager.getSpeechRateLabel(rate)
+        tvHomeTtsSpeedBadge?.text = "$label • Ketuk untuk Mengatur"
+        cardTtsSpeed?.contentDescription =
+            "Pengaturan Kecepatan Suara. Kecepatan saat ini $label. Ketuk untuk mengatur kecepatan suara."
+    }
+
     private fun showTtsSpeedSettingsDialog() {
         TtsSettingsDialog.show(
             context = this,
@@ -713,6 +738,8 @@ class TunanetraActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 if (ttsReady) {
                     tts?.setSpeechRate(newRate)
                 }
+                updateTtsSpeedBadge()
+                speak("Kecepatan suara diatur ke ${TTSManager.getSpeechRateLabel(newRate)}. Berlaku untuk seluruh fitur.")
             }
         )
     }

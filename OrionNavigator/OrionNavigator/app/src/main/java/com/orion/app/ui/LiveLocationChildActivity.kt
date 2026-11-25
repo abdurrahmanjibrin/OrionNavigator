@@ -118,6 +118,7 @@ class LiveLocationChildActivity : AppCompatActivity(), TextToSpeech.OnInitListen
 
     override fun onResume() {
         super.onResume()
+        tts?.setSpeechRate(TTSManager.getSavedSpeechRate(this))
         if (isWakeWordEnabled && ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
             == PackageManager.PERMISSION_GRANTED) {
             voiceCommandManager?.startWakeWordMode()

@@ -330,27 +330,34 @@
     <!-- ============================================================
          FEATURE CARDS — mengisi sisa layar secara proporsional
          ============================================================ -->
-    <LinearLayout
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        android:overScrollMode="never"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="4dp"
         android:importantForAccessibility="no"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/guideBeaconBottom"
-        app:layout_constraintBottom_toTopOf="@id/guideCardsBottom"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintBottom_toTopOf="@id/guideCardsBottom">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:importantForAccessibility="no">
 
         <!-- CARD: Live Lokasi -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardLiveLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="72dp"
-            android:layout_marginBottom="10dp"
+            android:minHeight="68dp"
+            android:layout_marginBottom="8dp"
             android:clickable="true"
             android:focusable="true"
             app:cardCornerRadius="18dp"
@@ -366,8 +373,8 @@
                 android:orientation="horizontal"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
-                android:paddingTop="14dp"
-                android:paddingBottom="14dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
                 android:gravity="center_vertical"
                 android:importantForAccessibility="no">
 
@@ -428,8 +435,8 @@
             android:id="@+id/cardNavigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="72dp"
-            android:layout_marginBottom="10dp"
+            android:minHeight="68dp"
+            android:layout_marginBottom="8dp"
             android:clickable="true"
             android:focusable="true"
             app:cardCornerRadius="18dp"
@@ -445,8 +452,8 @@
                 android:orientation="horizontal"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
-                android:paddingTop="14dp"
-                android:paddingBottom="14dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
                 android:gravity="center_vertical"
                 android:importantForAccessibility="no">
 
@@ -507,7 +514,8 @@
             android:id="@+id/cardCameraAI"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="72dp"
+            android:minHeight="68dp"
+            android:layout_marginBottom="8dp"
             android:clickable="true"
             android:focusable="true"
             app:cardCornerRadius="18dp"
@@ -523,8 +531,8 @@
                 android:orientation="horizontal"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
-                android:paddingTop="14dp"
-                android:paddingBottom="14dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
                 android:gravity="center_vertical"
                 android:importantForAccessibility="no">
 
@@ -580,7 +588,88 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-    </LinearLayout>
+        <!-- CARD: Kecepatan Suara -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardTtsSpeed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="68dp"
+            android:layout_marginBottom="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="#DDFFFFFF"
+            app:strokeColor="#50FFFFFF"
+            app:strokeWidth="1dp"
+            android:contentDescription="Pengaturan Kecepatan Suara. Ketuk untuk mengatur kecepatan suara aplikasi">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:gravity="center_vertical"
+                android:importantForAccessibility="no">
+
+                <FrameLayout
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_status_active"
+                    android:layout_marginEnd="16dp"
+                    android:importantForAccessibility="no">
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_volume_on"
+                        android:contentDescription=""
+                        android:importantForAccessibility="no"
+                        app:tint="#FFFFFF" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:importantForAccessibility="no">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Kecepatan Suara"
+                        android:textColor="#1565C0"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        android:importantForAccessibility="no" />
+                    <TextView
+                        android:id="@+id/tvHomeTtsSpeedBadge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="0.9x (Normal) • Ketuk untuk Mengatur"
+                        android:textColor="#666666"
+                        android:textSize="12sp"
+                        android:importantForAccessibility="no" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_back"
+                    android:contentDescription=""
+                    android:importantForAccessibility="no"
+                    android:rotation="180"
+                    app:tint="#CCCCCC" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </ScrollView>
 
     <!-- ============================================================
          BOTTOM HINT — label kecil bawah layar

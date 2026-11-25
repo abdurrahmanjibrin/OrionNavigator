@@ -232,7 +232,7 @@
 
             </LinearLayout>
 
-            <!-- TTS Speed Setting -->
+            <!-- TTS Speed Setting (Dipindahkan ke luar fitur navigasi / layar beranda) -->
             <LinearLayout
                 android:id="@+id/llTtsSpeedSetting"
                 android:layout_width="match_parent"
@@ -241,6 +241,7 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:layout_marginTop="4dp"
+                android:visibility="gone"
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?attr/selectableItemBackground"

@@ -27,7 +27,8 @@ enum class VoiceIntent {
     TOGGLE_LOCATION_ON,
     TOGGLE_LOCATION_OFF,
 
-    // Global commands
+    // Global / Settings commands
+    SET_TTS_SPEED,
     GO_BACK,
     HELP,
 
